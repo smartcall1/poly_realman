@@ -196,12 +196,12 @@ class EVStrategy:
                     fee_rate=config.FEE_RATE, kelly_fraction=config.KELLY_FRACTION * k_mult
                 )
                 
-                # 강제 금액: 기본 $20, 뱅크롤 1% (최소)
-                force_min = max(20.0, self.bankroll * 0.01)
+                # 강제 금액: 기본 $10, 뱅크롤 1% (적당한 긴장감)
+                force_min = max(10.0, self.bankroll * 0.01)
                 bet_size = max(bet_size, force_min)
                 
-                # [안전장치] 사용자의 심리적 안정을 위해 최대 베팅을 $100로 제한
-                bet_size = min(bet_size, 100.0) 
+                # [안전장치] 실전 투입용 쫄보 모드 ($30 제한)
+                bet_size = min(bet_size, 30.0) 
 
                 if bet_size >= config.MIN_BET_USDC:
                     self._place_bet(
