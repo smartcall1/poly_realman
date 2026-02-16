@@ -1,6 +1,7 @@
 # Environment Variables (Secrets)
 .env
 .env.local
+clob_extractor.py
 
 # Node.js (if any)
 node_modules/

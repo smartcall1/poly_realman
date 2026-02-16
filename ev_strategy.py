@@ -45,7 +45,20 @@ class EVStrategy:
         self.binance = BinancePriceFeed()
 
         # 뱅크롤 관리
-        self.initial_bankroll = config.INITIAL_BANKROLL
+        if config.PAPER_TRADING:
+            self.initial_bankroll = config.INITIAL_BANKROLL
+            print(f"  [Paper] 초기 자본금 설정: ${self.initial_bankroll:.2f}")
+        else:
+            # 실전 모드: 실제 지갑 잔액 조회 시도
+            real_bal = self.client.get_usdc_balance() if self.client else 0.0
+            if real_bal > 0.05: # 최소 5센트 이상이어야 유효
+                self.initial_bankroll = real_bal
+                print(f"  [Live] 💰 지갑 잔액 연동 완료: ${self.initial_bankroll:.2f}")
+            else:
+                # 잔액 조회 실패 or 0원인 경우 → 설정값 사용 (봇 중단 방지)
+                self.initial_bankroll = config.INITIAL_BANKROLL
+                print(f"  [Live] ⚠️ 잔액 조회 실패 (또는 0원). 설정된 초기값(${self.initial_bankroll:.2f})으로 시작합니다.")
+
         self.bankroll = self.initial_bankroll
 
         # 활성 포지션: {tid: {entry_price, size_usdc, fair_prob, edge, coin, question, entry_time, end_time}}

@@ -13,30 +13,71 @@ import time
 import math
 import json
 
+# Try importing types safely
+try:
+    from py_clob_client.client import ClobClient
+    from py_clob_client.clob_types import BalanceAllowanceParams, AssetType, ApiCreds
+except ImportError:
+    ClobClient = None
+    BalanceAllowanceParams = None
+    AssetType = None
+    ApiCreds = None
+
 
 class PolymarketClient:
     def __init__(self):
         self.gamma_url = "https://gamma-api.polymarket.com"
         self.clob_url = "https://clob.polymarket.com"
+        
+        # Check if keys are valid (not default placeholders)
         self.authenticated = (
             config.CLOB_API_KEY is not None
-            and config.CLOB_API_KEY != "dummy"
+            and "YOUR_" not in config.CLOB_API_KEY
             and config.CLOB_API_KEY != ""
         )
         self.client = None
 
-        if self.authenticated:
+        if self.authenticated and ClobClient and ApiCreds:
             try:
-                from py_clob_client.client import ClobClient
+                # Create credentials object
+                creds = ApiCreds(
+                    api_key=config.CLOB_API_KEY,
+                    api_secret=config.CLOB_API_SECRET,
+                    api_passphrase=config.CLOB_API_PASSPHRASE
+                )
+                
+                # Initialize client with correct arguments
                 self.client = ClobClient(
                     host=self.clob_url,
-                    key=config.CLOB_API_KEY,
-                    secret=config.CLOB_API_SECRET,
-                    passphrase=config.CLOB_API_PASSPHRASE,
-                    private_key=config.PK,
+                    key=config.PK,  # Private Key
+                    chain_id=137,   # Polygon Mainnet
+                    creds=creds,    # API Credentials
+                    signature_type=1 # EOA (Externally Owned Account)
                 )
             except Exception as e:
-                print(f"[Client] Auth init failed: {e}")
+                print(f"[Client] Init failed: {e}")
+                self.client = None
+
+    def get_usdc_balance(self) -> float:
+        """지갑의 USDC 잔액 조회 (실패 시 0.0 반환)"""
+        if not self.client or not BalanceAllowanceParams:
+            return 0.0
+            
+        try:
+            # AssetType.COLLATERAL = USDC
+            params = BalanceAllowanceParams(asset_type=AssetType.COLLATERAL)
+            res = self.client.get_balance_allowance(params)
+            
+            # 응답 구조에 따라 파싱 (balance가 포함된 경우)
+            # 보통 {'balance': '123456789', 'allowance': ...} 형태 (str)
+            if isinstance(res, dict):
+                bal_str = res.get('balance', '0')
+                return float(bal_str) / 1_000_000  # USDC 6 decimals
+            
+            return 0.0
+        except Exception as e:
+            print(f"[Balance] Fetch error: {e}")
+            return 0.0
 
     def get_order_book(self, market_id: str) -> dict:
         """실시간 호가창 데이터 조회"""
