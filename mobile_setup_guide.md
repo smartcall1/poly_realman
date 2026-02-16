@@ -1,102 +1,153 @@
-# 📱 모바일(Termux) 구동 가이드 (Git 버전)
+# 📱 POLYMARKET HATEBOT - 모바일(Termux) 완벽 구동 가이드
 
-이 가이드는 PC에서 작업한 봇 코드를 안드로이드 폰(Termux)으로 가져와서 실행하는 방법입니다.
-**파일 복사나 USB 연결 없이, GitHub를 통해 아주 쉽게 이동할 수 있습니다!**
+> **"지상 최강 트레이더를 내 주머니 속에."**
+> 이 가이드는 안드로이드 폰(Termux)에서 봇을 완벽하게 구동하기 위한 **All-in-One** 매뉴얼입니다.
 
-## 1. 사전 준비 (폰에서)
+---
 
-### Termux 앱 설치
-1.  구글 플레이스토어 또는 F-Droid에서 **Termux** 앱을 다운로드 및 설치합니다.
-2.  앱을 실행하고 다음 명령어를 순서대로 입력하여 기본 패키지를 업데이트합니다.
-    ```bash
-    pkg update && pkg upgrade -y
-    ```
+## 🚀 1. Termux 기초 공사 (필수)
 
-### 필수 프로그램 설치 (Python, Git)
-봇을 돌리는 데 필요한 Python과 코드를 가져올 Git을 설치합니다.
+Termux를 처음 설치했다면, 봇이 돌아갈 수 있는 '기초 체력'을 길러줘야 합니다.  
+아래 명령어들을 **한 줄씩 복사**해서 Termux에 붙여넣고 엔터(Enter)를 치세요. 중간에 `Example... [Y/n]` 처럼 물어보면 무조건 **`y`** 를 누르고 엔터!
+
+### 1️⃣ 패키지 업데이트 & 권한 설정
 ```bash
-pkg install python git nano -y
+# 저장소 접근 권한 허용 (필수)
+termux-setup-storage
+
+# 패키지 목록 최신화 및 업그레이드
+pkg update -y && pkg upgrade -y
 ```
 
----
+### 2️⃣ 필수 시스템 패키지 설치 (중요 ⭐)
+암호화 라이브러리(`py-clob-client`) 구동을 위해 컴파일러와 라이브러리가 꼭 필요합니다.  
+**이 단계가 누락되면 설치 도중 에러가 납니다!**
 
-## 2. 코드 가져오기 (GitHub에서) ☁️
-
-PC에서 `git push`로 올린 코드를 폰으로 내려받습니다.
-
-1.  **깃 클론 (내 봇 가져오기)**
-    *   아래 `[당신의_깃허브_아이디]` 부분을 실제 아이디로 바꿔서 입력하세요.
-    ```bash
-    git clone https://github.com/[당신의_깃허브_아이디]/polymarket_bot.git
-    ```
-
-2.  **폴더로 이동**
-    ```bash
-    cd polymarket_bot
-    ```
+```bash
+# 빌드 도구 및 라이브러리 일괄 설치
+pkg install python git clang make libffi openssl rust binutils requests -y
+```
+*(설치 시간이 3~5분 정도 걸릴 수 있습니다. 인내심을 가지세요!)*
 
 ---
 
-## 3. 가상환경 세팅 및 실행 🚀
+## ☁️ 2. 소스 코드 가져오기
 
-폰에서도 컴퓨터처럼 '가상환경(Virtual Environment)'을 만들어줘야 오류 없이 깔끔하게 돌아갑니다.
+PC에서 작업한 최신 코드를 폰으로 가져옵니다.
 
-### 1) 가상환경 생성 (한 번만)
+1. **깃 클론 (내 저장소 복제)**
+   * `[당신의_깃허브_아이디]`를 본인 ID로 바꿔주세요. (예: `smartcall1`)
+   ```bash
+   git clone https://github.com/[당신의_깃허브_아이디]/polymarket_bot.git
+   ```
+
+2. **폴더로 이동**
+   ```bash
+   cd polymarket_bot
+   ```
+
+---
+
+## ⚡ 3. 파이썬 가상환경 세팅
+
+시스템 파이썬을 더럽히지 않고 깔끔하게 돌리기 위해 가상환경을 만듭니다.
+
+### 1️⃣ 가상환경 생성 (최초 1회)
 ```bash
 python -m venv venv
 ```
 
-### 2) 가상환경 켜기 (매번)
-봇을 켤 때마다 이 명령어를 먼저 쳐야 합니다. (괄호 `(venv)`가 뜨면 성공!)
+### 2️⃣ 가상환경 켜기 (매번)
+봇을 켤 때마다 이 명령어를 먼저 입력해야 합니다. 프롬프트 앞에 `(venv)`가 뜨면 성공!
 ```bash
 source venv/bin/activate
 ```
 
-### 3) 필수 재료 설치 (한 번만)
-`requirements.txt`에 적힌 목록대로 라이브러리를 설치합니다.
+### 3️⃣ 라이브러리 설치 (최초 1회)
+방금 설치한 시스템 패키지 덕분에 에러 없이 잘 깔릴 겁니다.
 ```bash
+# 최신 pip 업그레이드
+pip install --upgrade pip
+
+# 봇 구동 라이브러리 설치
 pip install -r requirements.txt
 ```
 
-### 4) API 키 설정 (.env 파일 생성) 🔑
-보안상 깃허브에는 API 키가 올라가지 않았으므로, 폰에서 직접 만들어줘야 합니다.
+---
 
-1.  에디터 열기:
-    ```bash
-    nano .env
-    ```
-2.  **내용 붙여넣기**: PC에 있는 `.env` 파일 내용을 복사해서 여기 붙여넣으세요.
-    *   화면을 꾹 누르면 'Paste(붙여넣기)' 메뉴가 뜹니다.
-3.  **저장하고 나가기**:
-    *   `Ctrl` + `o` 누르고 `Enter` (저장)
-    *   `Ctrl` + `x` (나가기)
+## 🔑 4. API 키 설정 (보안 필수)
 
-> [!IMPORTANT]
-> **가상 매매(Simulation) 확인**: `.env` 파일 안에 `PAPER_TRADING=True` 라고 되어 있는지 꼭 확인하세요! (기본값은 True지만 확실한 게 좋으니까요!)
+GitHub에는 비밀번호(`.env`)가 없으므로 폰에서 직접 만들어줘야 합니다.
+
+1. **에디터 열기**
+   ```bash
+   nano .env
+   ```
+
+2. **내용 붙여넣기**
+   - PC에 있는 `.env` 내용을 전부 복사하세요.
+   - Termux 화면을 **길게 꾹 누르고** `Paste`를 선택합니다.
+
+3. **저장하고 나오기**
+   - 키보드 위 `CTRL` 버튼을 누른 상태에서 `o` (저장) -> `Enter`
+   - 키보드 위 `CTRL` 버튼을 누른 상태에서 `x` (종료)
 
 ---
 
-## 4. 봇 실행! 🔥
+## 🔥 5. 지상 최강 트레이더 실행!
 
-준비가 끝났습니다. 이제 돈 벌러 가봅시다!
+준비는 끝났습니다. 이제 24시간 자동 사냥을 시작합니다.
 
+### 1️⃣ 화면 꺼짐 방지 (필수)
+폰 화면이 꺼져도 봇이 죽지 않게 락을 겁니다.
+```bash
+termux-wake-lock
+```
+*(알림바에 'Termux Wake lock held'라고 뜨면 성공)*
+
+### 2️⃣ 봇 실행
 ```bash
 python main.py
 ```
 
 ---
 
-### 💡 꿀팁: 다음에 다시 실행할 때는?
+## 💡 요약: 나중에 다시 켤 때는?
 
-다음에 앱을 껐다 켰을 때는 이것만 기억하세요:
+앱을 껐다가 다시 켤 때는 **이것만 기억하세요!**
 
 ```bash
-# 1. 폴더 이동
+# 1. 방해 금지 모드 (Wake Lock)
+termux-wake-lock
+
+# 2. 폴더 이동
 cd polymarket_bot
 
-# 2. 가상환경 켜기
+# 3. 가상환경 켜기
 source venv/bin/activate
 
-# 3. 실행
+# 4. 봇 실행
 python main.py
+```
+
+
+---
+
+## ❓ 자주 묻는 질문 (Troubleshooting)
+
+### Q. 'ModuleNotFoundError: No module named requests' 에러가 떠요!
+설치 도중 인터넷이 끊겼거나 일부 패키지 설치가 실패해서 그럴 수 있습니다. 당황하지 말고 아래 명령어를 입력하세요.
+
+```bash
+# requests 모듈 수동 설치
+pip install requests
+
+# 전체 의존성 다시 확실하게 설치
+pip install -r requirements.txt
+```
+
+### Q. 'Rust'나 'Cargo' 관련 에러가 빨간색으로 떠요!
+암호화 라이브러리 빌드에 필요한 도구가 없는 경우입니다. 1번 단계의 **필수 시스템 패키지 설치**를 다시 한 번 실행해주세요.
+```bash
+pkg install rust binutils libffi openssl -y
 ```

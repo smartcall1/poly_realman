@@ -419,9 +419,9 @@ class EVStrategy:
             for tid, pos in self.positions.items():
                 ttl = max(0, pos['end_time'] - now)
                 s_icon = "🟢" if pos['side'] == 'YES' else "🔴"
-                k = self.extract_strike_price(pos['question'])
-                strike_str = f"${k:,.0f}" if k > 10 else f"${k:.2f}"
-                print(f" {s_icon}{pos['coin']:3s} {pos['side']:3s} ({strike_str}) | Prob:{pos['fair_prob']:3.0%} / {ttl:3.0f}s left")
+                # 사용자가 헷갈려하므로 Strike Price 대신 Size를 명확히 표시
+                sz = pos['size_usdc']
+                print(f" {s_icon}{pos['coin']:3s} {pos['side']:3s} Sz:${sz:3.0f} | Prob:{pos['fair_prob']:3.0%} / {ttl:3.0f}s left")
             print("-" * 48)
 
         # 시장 분석 결과
