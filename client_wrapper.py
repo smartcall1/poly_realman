@@ -53,7 +53,8 @@ class PolymarketClient:
                     key=config.PK,  # Private Key
                     chain_id=137,   # Polygon Mainnet
                     creds=creds,    # API Credentials
-                    signature_type=1 # EOA (Externally Owned Account)
+                    signature_type=1,  # Polymarket Proxy Wallet
+                    funder=config.POLYMARKET_PROXY_ADDRESS,  # Proxy 지갑 주소 (maker)
                 )
                 print("[Client] Polymarket Client Initialized Successfully (Live Mode Ready)")
             except Exception as e:
@@ -75,25 +76,33 @@ class PolymarketClient:
             raise RuntimeError("Live Trading Aborted: No API Client")
 
     def get_usdc_balance(self) -> float:
-        """지갑의 USDC 잔액 조회 (실패 시 0.0 반환)"""
+        """지갑의 USDC 잔액 조회 (실패 시 0.0 반환, 재시도 로직 포함)"""
         if not self.client or not BalanceAllowanceParams:
             return 0.0
             
-        try:
-            # AssetType.COLLATERAL = USDC
-            params = BalanceAllowanceParams(asset_type=AssetType.COLLATERAL)
-            res = self.client.get_balance_allowance(params)
+        # [Retry Logic] 네트워크 불안정 대비 3회 시도
+        for attempt in range(3):
+            try:
+                # AssetType.COLLATERAL = USDC
+                params = BalanceAllowanceParams(asset_type=AssetType.COLLATERAL)
+                res = self.client.get_balance_allowance(params)
+                
+                # 응답 구조에 따라 파싱 (balance가 포함된 경우)
+                if isinstance(res, dict):
+                    bal_str = res.get('balance', '0')
+                    return float(bal_str) / 1_000_000  # USDC 6 decimals
+                
+                # 응답 포맷이 다를 경우도 있을 수 있으므로 로깅
+                # print(f"[DEBUG] Balance Response: {res}")
+                return 0.0
             
-            # 응답 구조에 따라 파싱 (balance가 포함된 경우)
-            # 보통 {'balance': '123456789', 'allowance': ...} 형태 (str)
-            if isinstance(res, dict):
-                bal_str = res.get('balance', '0')
-                return float(bal_str) / 1_000_000  # USDC 6 decimals
-            
-            return 0.0
-        except Exception as e:
-            print(f"[Balance] Fetch error: {e}")
-            return 0.0
+            except Exception as e:
+                if attempt < 2:
+                    time.sleep(1) # 1초 대기 후 재시도
+                    continue
+                print(f"[Balance] Fetch error (final): {e}")
+                return 0.0
+        return 0.0
 
     def get_order_book(self, market_id: str) -> dict:
         """실시간 호가창 데이터 조회"""
@@ -176,10 +185,18 @@ class PolymarketClient:
             from py_clob_client.order_builder.constants import BUY, SELL
             order_side = BUY if side.upper() == 'BUY' else SELL
 
-            # Create OrderArgs object instead of raw dict
+            # [Rounding Fix] EIP-712 서명 오류 방지를 위한 정밀도 제한
+            # 가격은 소수점 2자리(또는 마켓 틱 사이즈), 사이즈는 소수점 2자리로 반올림
+            safe_price = round(price, 2)
+            safe_size = round(size, 2)
+
+            # 0이 되면 최소값으로 보정
+            if safe_price <= 0: safe_price = 0.01
+            if safe_size <= 0: safe_size = 0.01
+
             order_args = OrderArgs(
-                price=price,
-                size=size,
+                price=safe_price,
+                size=safe_size,
                 side=order_side,
                 token_id=token_id,
             )

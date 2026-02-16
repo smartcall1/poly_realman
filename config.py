@@ -19,6 +19,7 @@ class Config:
     CLOB_API_KEY = os.getenv("CLOB_API_KEY")
     CLOB_API_SECRET = os.getenv("CLOB_API_SECRET")
     CLOB_API_PASSPHRASE = os.getenv("CLOB_API_PASSPHRASE")
+    POLYMARKET_PROXY_ADDRESS = os.getenv("POLYMARKET_PROXY_ADDRESS")  # Proxy Wallet 주소
 
     # === +EV 전략 핵심 파라미터 ===
     MIN_EDGE = float(os.getenv("MIN_EDGE", "0.03"))           # 진입 최소 엣지 (3%)

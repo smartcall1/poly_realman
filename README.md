@@ -38,16 +38,23 @@ pip install -r requirements.txt
 ### 2. 환경 변수 (.env)
 `.env` 파일 생성 후 클럽(CLOB) API 키 입력할 것.
 ```ini
-# Polymarket Proxy Key (필수)
-PK=YOUR_PRIVATE_KEY_HERE
-CLOB_API_KEY=YOUR_API_KEY
-CLOB_API_SECRET=YOUR_API_SECRET
-CLOB_API_PASSPHRASE=YOUR_PASSPHRASE
+# === Polymarket API Configuration ===
+PK=0x...                     # 본인의 Private Key
+CLOB_API_KEY=...             # API Key
+CLOB_API_SECRET=...          # API Secret
+CLOB_API_PASSPHRASE=...      # API Passphrase
+POLYMARKET_PROXY_ADDRESS=0x... # (실전 필수) Polymarket 프록시 지갑 주소 (돈 들어있는 지갑)
 
-# 기본 운영 설정
-PAPER_TRADING=False      # True: 모의 투자, False: 실전(Real Money)
-INITIAL_BANKROLL=1100.0  # 시작 자본금 (API 연결 실패 시 사용됨)
+# === 기본 운영 설정 ===
+PAPER_TRADING=False      # True: 모의 투자, False: 실전 거래
+INITIAL_BANKROLL=100.0   # 잔액 조회 실패 시 사용할 초기 자본금
 DEBUG_MODE=True          # True: 상세 로그 출력
+```
+
+### 💡 중요: 지갑 주소 관련 (EOA vs Proxy)
+*   **PK (Private Key):** 주문에 서명하는 용도입니다. 이 키에 대응하는 주소가 **Signer(EOA)** 주소입니다.
+*   **POLYMARKET_PROXY_ADDRESS:** 실제 USDC가 들어있고 Polymarket에서 체결을 담당하는 **스마트 컨트랙트 지갑 주소**입니다. 
+    *   실전 거래 시 이 주소를 정확히 입력해야 `invalid signature` 에러가 나지 않습니다.
 
 # 전략 튜닝 (고급 사용자용)
 MIN_EDGE=0.03            # 최소 우위 (Edge) 3% 이상일 때만 진입
