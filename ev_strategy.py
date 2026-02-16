@@ -256,6 +256,9 @@ class EVStrategy:
             except Exception as e:
                 print(f"  ❌ [LIVE] Order FAILED: {e}")
                 print(f"  ⚠️  주문 실패로 인해 장부에 기록하지 않습니다. (No Phantom Trade)")
+                # [DEBUG] 에러 메시지 확인용 대기
+                print(f"  ⏳ 에러 확인을 위해 10초간 대기합니다...")
+                time.sleep(10)
                 return  # <--- 여기서 함수 종료! (장부 기록 안 함)
 
         # 2. 페이퍼 트레이딩 or (실전 성공 후)

@@ -16,12 +16,13 @@ import json
 # Try importing types safely
 try:
     from py_clob_client.client import ClobClient
-    from py_clob_client.clob_types import BalanceAllowanceParams, AssetType, ApiCreds
+    from py_clob_client.clob_types import BalanceAllowanceParams, AssetType, ApiCreds, OrderArgs
 except ImportError:
     ClobClient = None
     BalanceAllowanceParams = None
     AssetType = None
     ApiCreds = None
+    OrderArgs = None
 
 
 class PolymarketClient:
@@ -175,12 +176,15 @@ class PolymarketClient:
             from py_clob_client.order_builder.constants import BUY, SELL
             order_side = BUY if side.upper() == 'BUY' else SELL
 
-            order = self.client.create_and_post_order({
-                'tokenID': token_id,
-                'price': price,
-                'size': size,
-                'side': order_side,
-            })
+            # Create OrderArgs object instead of raw dict
+            order_args = OrderArgs(
+                price=price,
+                size=size,
+                side=order_side,
+                token_id=token_id,
+            )
+            
+            order = self.client.create_and_post_order(order_args)
             return order
         except Exception as e:
             raise RuntimeError(f"Order failed: {e}")
