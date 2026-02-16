@@ -54,9 +54,24 @@ class PolymarketClient:
                     creds=creds,    # API Credentials
                     signature_type=1 # EOA (Externally Owned Account)
                 )
+                print("[Client] Polymarket Client Initialized Successfully (Live Mode Ready)")
             except Exception as e:
                 print(f"[Client] Init failed: {e}")
                 self.client = None
+        
+        # [CRITICAL CHECK] If Live Mode is on but client failed, we MUST stop.
+        if not config.PAPER_TRADING and self.client is None:
+            print("\n" + "="*60)
+            print("🚨 CRITICAL ERROR: Live Trading is ENABLED but API Client failed to load.")
+            print("Possible causes:")
+            print("1. 'py-clob-client' library is not installed.")
+            print("2. API Keys in .env are invalid or missing.")
+            print("3. System packages (build-essential) missing on mobile (Termux).")
+            print("="*60 + "\n")
+            if not ClobClient:
+                print("⚠️  'py-clob-client' is NOT detected. Please install it:")
+                print("   pip install py-clob-client")
+            raise RuntimeError("Live Trading Aborted: No API Client")
 
     def get_usdc_balance(self) -> float:
         """지갑의 USDC 잔액 조회 (실패 시 0.0 반환)"""

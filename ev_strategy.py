@@ -230,12 +230,37 @@ class EVStrategy:
     # ─── 주문 실행 ────────────────────────────────────────────
 
     def _place_bet(self, tid, coin, question, entry_price, size_usdc, fair_prob, edge, end_time, side='YES'):
-        """베팅 실행 (HATEBOT 모드)"""
+        """베팅 실행 (Live Execution First Logic)"""
+        # [Safety Check] 뱅크롤 초과 방지
         if size_usdc > self.bankroll:
             size_usdc = self.bankroll * 0.95
-
+            
         shares = size_usdc / entry_price
 
+        # === [CRITICAL UPDATE] 주문 집행 로직 ===
+        # 1. 실전 모드(Live)인 경우:
+        #    - 먼저 주문을 넣고 (API Call)
+        #    - 성공하면 장부에 기록 (State Update)
+        #    - 실패하면 기록하지 않음 (Rollback)
+        
+        if not config.PAPER_TRADING:
+            if not self.client:
+                print(f"\n❌ [SKIP] Client not ready. Cannot place LIVE bet on {coin}.")
+                return
+
+            print(f"\n📡 [LIVE] Placing Order: {coin} {side} ${size_usdc:.2f} (@ {entry_price:.3f})...")
+            try:
+                # 주문 실행
+                self.client.place_limit_order(tid, entry_price, shares, 'BUY')
+                print(f"  ✅ [LIVE] Order Filled/Placed Successfully!")
+            except Exception as e:
+                print(f"  ❌ [LIVE] Order FAILED: {e}")
+                print(f"  ⚠️  주문 실패로 인해 장부에 기록하지 않습니다. (No Phantom Trade)")
+                return  # <--- 여기서 함수 종료! (장부 기록 안 함)
+
+        # 2. 페이퍼 트레이딩 or (실전 성공 후)
+        #    - 내부 상태(장부) 업데이트
+        
         self.positions[tid] = {
             'coin': coin, 'question': question,
             'entry_price': entry_price, 'size_usdc': size_usdc,
@@ -248,16 +273,12 @@ class EVStrategy:
         self.stats['total_wagered'] += size_usdc
 
         side_icon = "🟢BUY YES" if side == 'YES' else "🔴BUY NO"
-        print(f"\n  [{side_icon}] {coin} ${size_usdc:.1f}")
+        mode_str = "[LIVE]" if not config.PAPER_TRADING else "[PAPER]"
+        
+        print(f"\n  {mode_str} {side_icon} {coin} ${size_usdc:.1f}")
         print(f"  Prob:{fair_prob:.0%} Edge:{edge:+.1%} TTL:{end_time - time.time():.0f}s")
         print(f"  Bankroll: ${self.bankroll:.2f}")
         time.sleep(0.5)
-
-        if not config.PAPER_TRADING and self.client:
-            try:
-                self.client.place_limit_order(tid, entry_price, shares, 'BUY')
-            except Exception as e:
-                print(f"  [Order Error] {e}")
 
     # ─── 만기 정산 ────────────────────────────────────────────
 
