@@ -43,6 +43,9 @@ class EVStrategy:
     def __init__(self, client):
         self.client = client
         self.binance = BinancePriceFeed()
+        
+        # [Risk Control] 설정 확인 로그
+        print(f"  💰 [Risk Control] 1회 최대 베팅 한도: ${config.MAX_BET_AMOUNT:.2f}")
 
         # 뱅크롤 관리
         if config.PAPER_TRADING:
@@ -235,7 +238,8 @@ class EVStrategy:
                 coin_best_pick[coin] = {
                     'tid': tid, 'coin': coin, 'side': side, 'question': question,
                     'price': best_ask, 'prob': final_prob, 'edge': edge,
-                    'end_time': end_time, 'strength': sig_str, 'alpha_log': alpha_log
+                    'end_time': end_time, 'strength': sig_str, 'alpha_log': alpha_log,
+                    'marketId': data.get('marketId', ''), 'conditionId': data.get('conditionId', '')
                 }
 
             # 분석 기록 (UI 표시용)
@@ -273,7 +277,8 @@ class EVStrategy:
                         tid=pick['tid'], coin=pick['coin'], question=pick['question'],
                         entry_price=pick['price'], size_usdc=bet_size,
                         fair_prob=pick['prob'], edge=pick['edge'],
-                        end_time=pick['end_time'], side=pick['side']
+                        end_time=pick['end_time'], side=pick['side'],
+                        market_id=pick.get('marketId', '')
                     )
 
         # === 대시보드 렌더링 ===
@@ -281,7 +286,7 @@ class EVStrategy:
 
     # ─── 주문 실행 ────────────────────────────────────────────
 
-    def _place_bet(self, tid, coin, question, entry_price, size_usdc, fair_prob, edge, end_time, side='YES'):
+    def _place_bet(self, tid, coin, question, entry_price, size_usdc, fair_prob, edge, end_time, side='YES', market_id=''):
         """베팅 실행 (Live Execution First Logic)"""
         
         # [CRITICAL FIX] 양방 배팅 방지 (Anti-Hedging)
@@ -295,6 +300,15 @@ class EVStrategy:
         # [Safety Check] 뱅크롤 초과 방지
         if size_usdc > self.bankroll:
             size_usdc = self.bankroll * 0.95
+            
+        # [ACCURACY FIX] Live 모드와 동일한 정밀도(Round) 적용
+        # ClientWrapper.place_limit_order 로직과 일치시킴
+        # Safe Price/Size = round(x, 2)
+        entry_price = round(entry_price, 2)
+        if entry_price <= 0: entry_price = 0.01
+            
+        size_usdc = round(size_usdc, 2)
+        if size_usdc <= 0: size_usdc = 0.01
             
         shares = size_usdc / entry_price
 
@@ -334,12 +348,25 @@ class EVStrategy:
             'entry_price': entry_price, 'size_usdc': size_usdc,
             'shares': shares, 'fair_prob': fair_prob, 'edge': edge,
             'entry_time': time.time(), 'end_time': end_time, 'side': side,
+            'market_id': market_id
         }
 
         if config.PAPER_TRADING:
-            # Paper 모드: 가상 잔액 차감
-            self.bankroll -= size_usdc
+            # [REALITY CHECK] Paper Mode Slippage Simulation
+            # 가상 매매는 "항상 최선가 체결"이라는 환상을 줍니다.
+            # 이를 방지하기 위해 강제로 'Slippage(체결 오차)'를 부여합니다.
+            
+            # 1. 0.5% 가격 불리하게 체결 (시장가 긁을 때의 현실 반영)
+            slippage_rate = 0.005 
+            actual_price = entry_price * (1.0 + slippage_rate)
+            
+            # 2. 미세하게 잔액 더 차감 (수수료 외의 숨겨진 비용)
+            slippage_cost = size_usdc * slippage_rate
+            
+            self.bankroll -= (size_usdc + slippage_cost)
             self.stats['total_wagered'] += size_usdc
+            
+            print(f"  📉 [Paper] Reality Slippage applied: Order @ {entry_price:.3f} -> Filled @ {actual_price:.3f} (-${slippage_cost:.3f})")
         else:
             # [FACT-ONLY] Live 모드: 주문 후 실제 잔액 동기화
             # (주문 체결로 인한 잔액 감소를 반영)
@@ -372,60 +399,42 @@ class EVStrategy:
             if now >= pos['end_time']:
                 # === [FACT-ONLY] Live 모드: 자체 판정 절대 금지 ===
                 if not config.PAPER_TRADING:
-                    # [Live Mode] 가상 채점 (Virtual Settlement) 로직 추가
-                    # 실제 잔액(Bankroll)은 건드리지 않고, 승패 통계(Stats)만 업데이트함.
-                    
-                    coin = pos['coin']
-                    spot_final = self.binance.get_price_at_time(coin, pos['end_time'])
-                    strike = self.extract_strike_price(pos['question'])
-                    
-                    if spot_final > 0 and strike > 0:
-                        is_above = self.is_above_market(pos['question'])
-                        won = (spot_final > strike) if is_above else (spot_final < strike)
-                        
-                        from datetime import datetime
-                        time_str = datetime.fromtimestamp(pos['end_time']).strftime('%H:%M:%S')
-                        
-                        if won:
-                            print(f"  ⌛ [LIVE 가상판정] ✅ WIN {pos['coin']} (Est. +${pos['size_usdc']:.1f}) @ {time_str}")
-                            self.stats['wins'] += 1
-                        else:
-                            print(f"  ⌛ [LIVE 가상판정] ❌ LOSS {pos['coin']} (Est. -${pos['size_usdc']:.1f}) @ {time_str}")
-                            self.stats['losses'] += 1
-                            
-                    # 실제 결과는 Polymarket이 판정하고, 잔액에 자동 반영됨
-                    self._log_trade(tid, pos['coin'], pos.get('side','?'), pos['question'], 0, pos['size_usdc'], "EXPIRED")
+                    # [Live Mode] 라이브 모드에서는 봇이 승패를 판단하지 않습니다.
+                    # 오직 지갑 잔액(Real Balance)의 변화로만 성과를 측정합니다.
+                    # 따라서 만기된 포지션은 리스트에서 제거만 하고, 로그는 남기지 않습니다.
                     to_remove.append(tid)
                     continue
 
-                # === Paper 모드만: Binance 가격으로 가상 판정 ===
+                # === Paper 모드만: Real Resolution (Gamma API) 대기 ===
                 coin = pos['coin']
                 
-                # [FIX]: 현재 가격이 아니라 '만기 시점'의 가격으로 판정해야 함 (미래 참조 방지)
-                spot_final = self.binance.get_price_at_time(coin, pos['end_time'])
-                strike = self.extract_strike_price(pos['question'])
-
-                if strike <= 0:
-                    # 스트라이크 파싱 모델 없으면 정산 불가 -> Loss 처리 (보수적)
-                    self._settle_as_loss(tid, pos)
-                    to_remove.append(tid)
+                # [REALITY PATCH] 봇의 자체 추정(Binance) 대신 실제 폴리마켓 심판 결과를 기다림
+                # API 호출 빈도 조절: 10초에 한 번만 체크
+                last_check = pos.get('last_resolution_check', 0)
+                if now - last_check < 10:
                     continue
-
-                if spot_final <= 0:
-                    # 아직 캔들 데이터가 도착 안 했을 수 있음 (만기 직후)
-                    # 30초 정도 더 기다려보고, 너무 오래되면(5분) 그냥 현재가로 처리
-                    if now - pos['end_time'] > 300: 
-                        spot_final = self.binance.get_spot_price(coin) # Fallback
-                    else:
-                        continue # 다음 루프에 다시 시도 (캔들 기다림)
-
-                is_above = self.is_above_market(pos['question'])
-
-                # 결과 판정
-                if is_above:
-                    won = spot_final > strike
-                else:
-                    won = spot_final < strike
+                
+                # Check resolution
+                pos['last_resolution_check'] = now
+                m_id = pos.get('market_id', tid) # Fallback to tid if market_id missing
+                winner = self.client.get_market_winner(m_id)
+                
+                # [DEBUG] 정산 상태 출력 (사용자 확인용)
+                print(f"  🔍 Checking {coin} Result... API says: {winner}")
+                
+                if winner == 'WAITING':
+                    # 아직 결과 안 나옴 -> 기다림
+                    continue
+                
+                if winner is None:
+                    # API 에러 등 -> 다음 루프에 재시도
+                    continue
+                    
+                # 결과 확정 (YES or NO)
+                my_side = pos.get('side', 'YES')
+                won = (winner == my_side)
+                
+                print(f"  ⚖️ [Oracle] 결과 확정: {winner} (My Side: {my_side})")
 
                 if won:
                     self._settle_as_win(tid, pos)
@@ -447,6 +456,9 @@ class EVStrategy:
         self.bankroll += net_payout
         self.stats['wins'] += 1
         self.stats['total_pnl'] += profit
+        
+        # [FIX] 승리 기록 누락 수정
+        self._log_trade(tid, pos['coin'], pos.get('side', 'YES'), pos['question'], 1.0, payout, "WIN")
 
         if self.bankroll > self.stats['peak_bankroll']:
             self.stats['peak_bankroll'] = self.bankroll
@@ -577,7 +589,10 @@ class EVStrategy:
         elapsed = int(now - self.start_time)
         h, m, s = elapsed // 3600, (elapsed % 3600) // 60, elapsed % 60
         total, wins, losses = self.stats['total_bets'], self.stats['wins'], self.stats['losses']
-        win_rate = (wins / total * 100) if total > 0 else 0
+        
+        # [FIX] 승률 계산: 아직 결과 안 나온(Active) 베팅은 분모에서 제외
+        settled = wins + losses
+        win_rate = (wins / settled * 100) if settled > 0 else 0.0
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -585,35 +600,31 @@ class EVStrategy:
         print(f"Mode: {'PAPER' if config.PAPER_TRADING else '💰 LIVE'} | Targets: btc/eth/sol/xrp | Scn:{market_count}")
         print("-" * 48)
 
-        if config.PAPER_TRADING:
-            # Paper 모드: 가상 통계 표시 (OK)
-            unrealized_pnl = 0.0
-            for pos in self.positions.values():
-                curr = pos.get('current_price', pos['entry_price'])
-                val = curr * pos['shares']
-                cost = pos['size_usdc']
-                unrealized_pnl += (val - cost)
-            print(f"BANKROLL: ${self.bankroll:8.2f} | PnL: {self.stats['total_pnl']:+8.2f} (Unreal: {unrealized_pnl:+8.2f})")
-            print(f"STATS: {total:3d} Bets ({wins}W {losses}L) | Win: {win_rate:4.1f}%")
-        else:
-            # [FACT-ONLY] Live 모드: 오직 진실만 표시
-            # Net Equity = Real Balance (현금) + Active Positions Value (주식 평가금)
-            active_value = 0.0
-            for p in self.positions.values():
-                curr = p.get('current_price', 0.0)
-                # 만약 현재가가 없으면 진입가 사용 (보수적 접근) -> 아니, 0이 나음?
-                # 아니, run_ev_step에서 bid를 업데이트 해주므로 0이면 진짜 못 파는 거임.
-                active_value += (curr * p['shares'])
+        # [UI FIX] Paper/Live 구분 없이 동일한 "FACT-ONLY" 대시보드 사용
+        # Net Equity = Balance (Cash) + Active Positions Value (시장가 평가)
+        active_value = 0.0
+        for p in self.positions.values():
+            # Paper 모드여도 현재가(Market Price) 기반으로 평가가치 산출
+            curr = p.get('current_price', 0.0)
+            if curr == 0 and config.PAPER_TRADING:
+                # Paper 모드 초기 진입 시 current_price가 없을 수 있음 -> entry_price로 대체 (임시)
+                curr = p.get('entry_price', 0.0)
+            active_value += (curr * p['shares'])
 
-            net_equity = self.bankroll + active_value
-            real_pnl = net_equity - self.real_balance_start
-            
-            print(f"💰 REAL BALANCE:  ${self.bankroll:8.2f} (Cash)")
-            print(f"📈 ACTIVE VALUE:  ${active_value:8.2f} (Positions)")
-            print(f"💎 NET EQUITY:    ${net_equity:8.2f} (Total Asset)")
-            print(f"📊 REAL PnL:      ${real_pnl:+8.2f} (Return: {real_pnl/self.real_balance_start*100:+.1f}%)")
-            print(f"🎯 Bets Placed:   {total:3d} | Active: {len(self.positions)}")
-            print(f"📝 STATS (Est.):  {wins}W {losses}L | Win: {win_rate:4.1f}%")
+        net_equity = self.bankroll + active_value
+        
+        # 시작 자본금 대비 수익금 (Paper는 initial_bankroll이 기준, Live는 real_balance_start가 기준)
+        start_cap = self.initial_bankroll if config.PAPER_TRADING else self.real_balance_start
+        real_pnl = net_equity - start_cap
+        
+        # 수익률 (0으로 나누기 방지)
+        roi = (real_pnl / start_cap * 100) if start_cap > 0 else 0.0
+        
+        print(f"💰 BALANCE:       ${self.bankroll:8.2f} (Cash)")
+        print(f"📈 ACTIVE VALUE:  ${active_value:8.2f} (Positions)")
+        print(f"💎 NET EQUITY:    ${net_equity:8.2f} (Total Asset)")
+        print(f"📊 REAL PnL:      ${real_pnl:+8.2f} (Return: {roi:+.1f}%)")
+        print(f"🎯 BETS {total} | activate : {len(self.positions)} | W {wins} L {losses}")
         print("-" * 48)
 
         # 전문가 직관 분석 (Pure Alpha)
@@ -633,7 +644,23 @@ class EVStrategy:
                 s_icon = "🟢" if pos['side'] == 'YES' else "🔴"
                 # 사용자가 헷갈려하므로 Strike Price 대신 Size를 명확히 표시
                 sz = pos['size_usdc']
-                print(f" {s_icon}{pos['coin']:3s} {pos['side']:3s} Sz:${sz:3.0f} | Prob:{pos['fair_prob']:3.0%} / {ttl:3.0f}s left")
+                
+                status_msg = ""
+                price_info = ""
+                
+                # 순수익률 계산 (Current / Entry - 1)
+                curr = pos.get('current_price', pos['entry_price'])
+                entry = pos['entry_price']
+                ret = (curr / entry - 1) * 100 if entry > 0 else 0.0
+                
+                price_info = f"${entry:.2f}→${curr:.2f}({ret:+.0f}%)"
+
+                if now >= pos['end_time']:
+                    status_msg = " [WAIT]"
+                else:
+                    status_msg = f"{ttl:3.0f}s"
+                    
+                print(f" {s_icon}{pos['coin']:3s} {pos['side']:3s} {price_info} Sz:${sz:3.0f} | P:{pos['fair_prob']:3.0%} / {status_msg}")
             print("-" * 48)
 
         # 시장 분석 결과

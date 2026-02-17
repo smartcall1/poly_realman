@@ -119,6 +119,92 @@ class PolymarketClient:
         except Exception:
             return None
 
+    def get_market_winner(self, market_id: str) -> str:
+        """
+        Gamma API를 통해 마켓의 승자(Winner) 조회.
+        Args:
+            market_id: Gamma Market ID (e.g., "239826")
+        Return: 'YES', 'NO', 'WAITING' or None (Error)
+        """
+        try:
+            # Market ID로 직접 조회 (가장 정확)
+            url = f"{self.gamma_url}/markets/{market_id}"
+            headers = {"Accept": "application/json"}
+            r = requests.get(url, headers=headers, timeout=5)
+            
+            if r.status_code == 200:
+                m = r.json()
+                
+                # 결과 도출 (가격 1.0 = 승자)
+                outcomes_raw = m.get('outcomes')
+                prices_raw = m.get('outcomePrices')
+                
+                # [Deep Parsing] Gamma API는 가끔 JSON 속에 JSON 문자열을 넣음 (예: "[\"0\", \"1\"]")
+                def robust_json_load(data):
+                    if not isinstance(data, str): return data
+                    try:
+                        parsed = json.loads(data)
+                        if isinstance(parsed, str):
+                            try: return json.loads(parsed)
+                            except: return parsed
+                        return parsed
+                    except: return data
+
+                outcomes = robust_json_load(m.get('outcomes'))
+                prices = robust_json_load(m.get('outcomePrices'))
+
+                # 1. outcomePrices 분석 (1.0 근접 정산 확인) - 가장 빠르고 정확
+                if isinstance(outcomes, list) and isinstance(prices, list):
+                    for i, p_str in enumerate(prices):
+                        try:
+                            if float(p_str) > 0.99 and i < len(outcomes):
+                                res = str(outcomes[i]).upper()
+                                if 'YES' in res: return 'YES'
+                                if 'NO' in res: return 'NO'
+                                return res
+                        except: pass
+
+                # 2. 개별 winner 필드 (루트 레벨) 확인
+                # 가끔 마켓 루트에 winnerOutcome 필드가 직접 있을 수 있음
+                winner_outcome = m.get('winnerOutcome') or m.get('winner_outcome')
+                if winner_outcome:
+                    res = str(winner_outcome).upper()
+                    if 'YES' in res: return 'YES'
+                    if 'NO' in res: return 'NO'
+                    return res
+
+                # 3. tokens 배열 분석 (기존 로직 유지)
+                tokens = m.get('tokens', [])
+                if isinstance(tokens, str): tokens = robust_json_load(tokens)
+                
+                if isinstance(tokens, list):
+                    for t in tokens:
+                        if t.get('winner') is True:
+                            res = str(t.get('outcome', '')).upper()
+                            if 'YES' in res: return 'YES'
+                            if 'NO' in res: return 'NO'
+                            return res
+                        try:
+                            p = t.get('price') or t.get('outcomePrice')
+                            if p and float(p) > 0.99:
+                                res = str(t.get('outcome', '')).upper()
+                                if 'YES' in res: return 'YES'
+                                if 'NO' in res: return 'NO'
+                                return res
+                        except: pass
+                
+                # 3. resolved 필드가 True인데 위에서 안 걸린 경우 (드문 케이스)
+                if m.get('resolved') is True:
+                    # outcome 필드가 'Yes'나 'No'면 그걸 그대로 믿음 (단, 가격 확인이 안 될 때만)
+                    # 하지만 WAITING이 더 안전함
+                    pass
+
+                return "WAITING"
+            return None
+        except Exception as e:
+            # print(f"[Resolution] Error: {e}") 
+            return None
+
     def find_active_markets(self) -> list:
         """
         BTC(5m/15m) 및 ETH/SOL/XRP(15m) 타겟 UPDOWN 마켓 저격 탐색.
@@ -161,6 +247,8 @@ class PolymarketClient:
                             if tids_raw:
                                 found_markets.append({
                                     'question': m.get('question', ''),
+                                    'marketId': m.get('id', ''),
+                                    'conditionId': m.get('conditionId', ''),
                                     'clobTokenIds': tids_raw,
                                     'slug': slug,
                                     'end_time': ts + interval,

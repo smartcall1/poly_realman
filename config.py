@@ -44,7 +44,7 @@ class Config:
     BINANCE_KLINE_INTERVAL = 60  # 캔들 데이터 갱신 간격 (초)
 
     # === 리스크 관리 ===
-    MAX_CONCURRENT_BETS = 5     # 동시 최대 포지션 수
+    MAX_CONCURRENT_BETS = int(os.getenv("MAX_CONCURRENT_BETS", "5"))     # 동시 최대 포지션 수
     DRAWDOWN_HALT_PCT = 0.50    # 뱅크롤 50% 손실 시 봇 정지
 
     # === 시스템 ===

@@ -76,6 +76,8 @@ def main():
                                 'question': m.get('question', '?'),
                                 'slug': m.get('slug', ''),
                                 'end_time': m.get('end_time', 0),
+                                'marketId': m.get('marketId', ''),
+                                'conditionId': m.get('conditionId', ''),
                             })
                             # NO 토큰 (보통 인덱스 1) - 하락 베팅용
                             if len(tids) > 1:
@@ -85,6 +87,8 @@ def main():
                                     'question': m.get('question', '?'),
                                     'slug': m.get('slug', ''),
                                     'end_time': m.get('end_time', 0),
+                                    'marketId': m.get('marketId', ''),
+                                    'conditionId': m.get('conditionId', ''),
                                 })
                     last_search = now
 
@@ -104,6 +108,8 @@ def main():
                             'question': item['question'],
                             'order_book': order_book,
                             'end_time': item.get('end_time', 0),
+                            'marketId': item.get('marketId', ''),
+                            'conditionId': item.get('conditionId', ''),
                         })
 
                 # === +EV 전략 실행 ===
