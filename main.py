@@ -124,9 +124,18 @@ def main():
             time.sleep(config.MAIN_LOOP_INTERVAL)
 
     except KeyboardInterrupt:
-        print("\n=== HATEBOT STOPPED ===")
-        print(f"  Bets: {strategy.stats['total_bets']} | W:{strategy.stats['wins']} / L:{strategy.stats['losses']}")
-        print(f"  PnL: ${strategy.stats['total_pnl']:+.2f} | Bankroll: ${strategy.bankroll:.2f}")
+        print("\n=== HATEBOT STOPPED (User Interrupted) ===")
+    except Exception as e:
+        print(f"\n=== HATEBOT CRASHED ===")
+        print(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
+    finally:
+        # 종료 시 통계 출력
+        if 'strategy' in locals():
+            print(f"  Bets: {strategy.stats['total_bets']} | W:{strategy.stats['wins']} / L:{strategy.stats['losses']}")
+            print(f"  PnL: ${strategy.stats['total_pnl']:+.2f} | Bankroll: ${strategy.bankroll:.2f}")
+
 
 
 if __name__ == "__main__":

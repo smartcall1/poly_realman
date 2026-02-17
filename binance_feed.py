@@ -69,6 +69,26 @@ class BinancePriceFeed:
         self.fetch_spot_prices()
         return self._spot_cache.get(coin, 0.0)
 
+    def get_price_at_time(self, coin: str, target_ts: float) -> float:
+        """특정 시점(과거)의 종가 반환 (Paper Trading 정산용)"""
+        with self.lock:
+            candles = list(self.candles.get(coin, []))
+        
+        if not candles: return 0.0
+        
+        # target_ts와 가장 가까운 캔들 찾기 (오차 2분 이내)
+        best_price = 0.0
+        min_diff = 120 # 2분 (120초)
+        
+        for c in candles:
+            # c['close_time']은 캔들이 닫힌 시각
+            diff = abs(c['close_time'] - target_ts)
+            if diff < min_diff:
+                min_diff = diff
+                best_price = c['close']
+        
+        return best_price
+
     # ─── 1분봉 캔들 수집 ──────────────────────────────────────
 
     def fetch_candles(self, coin: str, limit: int = 60):

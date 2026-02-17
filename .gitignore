@@ -48,3 +48,6 @@ Thumbs.db
 
 # Logs
 *.log
+trade_history.jsonl
+debug_stats.txt
+debug_runner.py

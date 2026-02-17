@@ -25,6 +25,7 @@ class Config:
     MIN_EDGE = float(os.getenv("MIN_EDGE", "0.03"))           # 진입 최소 엣지 (3%)
     KELLY_FRACTION = float(os.getenv("KELLY_FRACTION", "0.25"))  # 켈리 25% 적용 (보수적)
     MAX_BET_FRACTION = float(os.getenv("MAX_BET_FRACTION", "0.10"))  # 1회 최대 뱅크롤의 10%
+    MAX_BET_AMOUNT = float(os.getenv("MAX_BET_AMOUNT", "50.0"))      # [NEW] 1회 최대 베팅 금액 (절대값)
     MIN_BET_USDC = float(os.getenv("MIN_BET_USDC", "1.0"))    # 최소 베팅 $1
     INITIAL_BANKROLL = float(os.getenv("INITIAL_BANKROLL", "4000.0"))  # 시작 뱅크롤
 

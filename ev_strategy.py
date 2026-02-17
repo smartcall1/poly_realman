@@ -50,21 +50,38 @@ class EVStrategy:
             print(f"  [Paper] 초기 자본금 설정: ${self.initial_bankroll:.2f}")
         else:
             # 실전 모드: 실제 지갑 잔액 조회 시도
-            real_bal = self.client.get_usdc_balance() if self.client else 0.0
-            if real_bal > 0.05: # 최소 5센트 이상이어야 유효
+            try:
+                real_bal = self.client.get_usdc_balance() if self.client else 0.0
+            except Exception as e:
+                print(f"  ⚠️ [Init] 잔액 조회 실패 (네트워크 지연): {e}")
+                real_bal = 0.0
+            
+            # [DEBUG] 디버그 모드이거나 잔액이 충분할 경우
+            if real_bal > 0.05: 
                 self.initial_bankroll = real_bal
                 print(f"  [Live] 💰 지갑 잔액 연동 완료: ${self.initial_bankroll:.2f}")
             else:
-                # 잔액 조회 실패 or 0원인 경우 → 설정값 사용 (봇 중단 방지)
-                self.initial_bankroll = config.INITIAL_BANKROLL
-                print(f"  [Live] ⚠️ 잔액 조회 실패 (또는 0원). 설정된 초기값(${self.initial_bankroll:.2f})으로 시작합니다.")
+                # 잔액 조회 실패 or 0원인 경우
+                if config.DEBUG_MODE:
+                    # 디버그 모드에서는 0원으로 시작해도 됨 (나중에 싱크 맞춤)
+                    self.initial_bankroll = real_bal if real_bal > 0 else 0.0
+                    if real_bal == 0:
+                        print(f"  [Debug] 잔액 정보 없음. 0원으로 시작 (루프에서 재시도)")
+                else:
+                    self.initial_bankroll = config.INITIAL_BANKROLL
+                    print(f"  [Live] ⚠️ 잔액 조회 실패 (또는 0원). 설정된 초기값(${self.initial_bankroll:.2f})으로 시작합니다.")
 
         self.bankroll = self.initial_bankroll
+
+        # [FACT-ONLY] Live 모드용 실제 잔액 추적
+        self.real_balance_start = self.initial_bankroll  # 시작 잔액 (진짜)
+        self._last_balance_sync = 0  # 마지막 잔액 동기화 시점
+        self._balance_sync_interval = 30  # 30초마다 잔액 동기화
 
         # 활성 포지션: {tid: {entry_price, size_usdc, fair_prob, edge, coin, question, entry_time, end_time}}
         self.positions = {}
 
-        # 누적 통계
+        # 누적 통계 (Paper 모드에서만 의미 있음)
         self.stats = {
             'total_bets': 0,
             'wins': 0,
@@ -77,6 +94,9 @@ class EVStrategy:
 
         self.start_time = time.time()
         self._last_render = 0
+        
+        # 거래 로그 파일 경로
+        self.trade_log_path = os.path.join(os.path.dirname(__file__), "trade_history.jsonl")
 
     # ─── 마켓 파싱 ────────────────────────────────────────────
 
@@ -123,8 +143,19 @@ class EVStrategy:
         """지상 최강 트레이더(Universal Best) 무조건 택일 및 진입 루프"""
         now = time.time()
 
-        # [필수] 가격 갱신 및 정산 (상남자는 기본에 충실함)
+        # [필수] 가격 갱신 및 정산
         self.binance.fetch_spot_prices()
+        
+        # [FACT-ONLY] Live 모드: 주기적으로 실제 잔액 동기화
+        if not config.PAPER_TRADING and self.client:
+            if now - self._last_balance_sync > self._balance_sync_interval:
+                try:
+                    real_bal = self.client.get_usdc_balance()
+                    if real_bal > 0:
+                        self.bankroll = real_bal
+                        self._last_balance_sync = now
+                except: pass
+        
         if self._check_drawdown_halt(): return
         self._settle_expired_positions(now)
 
@@ -178,7 +209,7 @@ class EVStrategy:
             final_prob, alpha_log = adjust_prob_by_expert_signals(actual_prob, expert_signals)
 
             best_ask = self._get_best_ask(order_book)
-            if best_ask <= 0: best_ask = 0.50 # 보수적 중간값
+            if best_ask <= 0: continue # [SAFETY] 가격 정보 없으면 진입 금지
             
             edge = calculate_edge(final_prob, best_ask, config.FEE_RATE)
             sig_str = expert_signals.get('strength', 0.0)
@@ -197,24 +228,29 @@ class EVStrategy:
                 'price': best_ask, 'edge': edge, 'strength': sig_str, 'alpha_log': alpha_log
             })
 
-        # === 지상 최강의 사냥: 선택된 마켓 강제 집행 ===
         for coin, pick in coin_best_pick.items():
-            if len(self.positions) >= (config.MAX_CONCURRENT_BETS + 25): break
+            if len(self.positions) >= config.MAX_CONCURRENT_BETS: break
 
-            # 엣지가 -30% 이상이면(사실상 모든 판) 상남자의 직관으로 진입
-            if pick['edge'] >= -0.30:
-                k_mult = 4.0 if pick['strength'] > 0.7 else 2.0
+            # [CRITICAL FIX] +EV(양의 기대값)일 때만 진입!
+            # 이전 코드는 edge >= -0.30으로 마이너스에서도 진입 → 손실 원인이었음!
+            if pick['edge'] >= config.MIN_EDGE:
                 bet_size = kelly_bet_size(
                     bankroll=self.bankroll, win_prob=pick['prob'], market_price=pick['price'],
-                    fee_rate=config.FEE_RATE, kelly_fraction=config.KELLY_FRACTION * k_mult
+                    fee_rate=config.FEE_RATE, kelly_fraction=config.KELLY_FRACTION
                 )
                 
-                # 강제 금액: 기본 $10, 뱅크롤 1% (적당한 긴장감)
-                force_min = max(10.0, self.bankroll * 0.01)
-                bet_size = max(bet_size, force_min)
+                # [수정] 강제 하드코딩 제거 및 Config 기반 유연한 베팅 사이즈 설정
                 
-                # [안전장치] 실전 투입용 쫄보 모드 ($30 제한)
-                bet_size = min(bet_size, 30.0) 
+                # 1. 최대 베팅 금액 제한 (Config 따름)
+                max_bet = self.bankroll * config.MAX_BET_FRACTION
+                
+                # [NEW] 절대 금액 한도 적용 (예: 최대 $50)
+                max_bet = min(max_bet, config.MAX_BET_AMOUNT)
+                
+                bet_size = min(bet_size, max_bet)
+
+                # 2. 최소 베팅 금액 보장 (최소 주문 가능 금액)
+                bet_size = max(bet_size, config.MIN_BET_USDC) 
 
                 if bet_size >= config.MIN_BET_USDC:
                     self._place_bet(
@@ -231,6 +267,15 @@ class EVStrategy:
 
     def _place_bet(self, tid, coin, question, entry_price, size_usdc, fair_prob, edge, end_time, side='YES'):
         """베팅 실행 (Live Execution First Logic)"""
+        
+        # [CRITICAL FIX] 양방 배팅 방지 (Anti-Hedging)
+        # 이미 같은 질문(Question)에 대한 포지션이 있으면 진입 금지
+        for existing_tid, pos in self.positions.items():
+            if pos['question'] == question:
+                if existing_tid != tid: # 다른 토큰 ID인데 같은 질문 = 반대 포지션 (YES vs NO)
+                    print(f"\n🚫 [SKIP] 양방 배팅 방지: 이미 진입한 마켓입니다. ({pos['side']} 보유 중)")
+                    return
+
         # [Safety Check] 뱅크롤 초과 방지
         if size_usdc > self.bankroll:
             size_usdc = self.bankroll * 0.95
@@ -253,6 +298,10 @@ class EVStrategy:
                 # 주문 실행
                 self.client.place_limit_order(tid, entry_price, shares, 'BUY')
                 print(f"  ✅ [LIVE] Order Filled/Placed Successfully!")
+                
+                # [LOG] 거래 로그 기록
+                self._log_trade(tid, coin, side, question, entry_price, size_usdc, "OPEN")
+                
             except Exception as e:
                 print(f"  ❌ [LIVE] Order FAILED: {e}")
                 print(f"  ⚠️  주문 실패로 인해 장부에 기록하지 않습니다. (No Phantom Trade)")
@@ -271,11 +320,25 @@ class EVStrategy:
             'entry_time': time.time(), 'end_time': end_time, 'side': side,
         }
 
-        self.bankroll -= size_usdc
+        if config.PAPER_TRADING:
+            # Paper 모드: 가상 잔액 차감
+            self.bankroll -= size_usdc
+            self.stats['total_wagered'] += size_usdc
+        else:
+            # [FACT-ONLY] Live 모드: 주문 후 실제 잔액 동기화
+            # (주문 체결로 인한 잔액 감소를 반영)
+            if self.client:
+                time.sleep(1.0) # 체결 대기
+                try:
+                    real_bal = self.client.get_usdc_balance()
+                    if real_bal > 0:
+                        self.bankroll = real_bal
+                except: pass
+        
         self.stats['total_bets'] += 1
-        self.stats['total_wagered'] += size_usdc
 
         side_icon = "🟢BUY YES" if side == 'YES' else "🔴BUY NO"
+
         mode_str = "[LIVE]" if not config.PAPER_TRADING else "[PAPER]"
         
         print(f"\n  {mode_str} {side_icon} {coin} ${size_usdc:.1f}")
@@ -286,32 +349,48 @@ class EVStrategy:
     # ─── 만기 정산 ────────────────────────────────────────────
 
     def _settle_expired_positions(self, now: float):
-        """만기 도달 포지션 자동 정산"""
+        """만기 도달 포지션 처리"""
         to_remove = []
 
         for tid, pos in self.positions.items():
             if now >= pos['end_time']:
-                # Paper Trading: 현재 스팟과 스트라이크 비교로 결과 판정
+                # === [FACT-ONLY] Live 모드: 자체 판정 절대 금지 ===
+                if not config.PAPER_TRADING:
+                    # 만기 도달 → 포지션 목록에서 제거만 함
+                    # 실제 결과는 Polymarket이 판정하고, 잔액에 자동 반영됨
+                    print(f"  ⌛ [만기] {pos['coin']} {pos['side']} ${pos['size_usdc']:.0f} — 결과 대기 중")
+                    self._log_trade(tid, pos['coin'], pos.get('side','?'), pos['question'], 0, pos['size_usdc'], "EXPIRED")
+                    to_remove.append(tid)
+                    continue
+                
+                # === Paper 모드만: Binance 가격으로 가상 판정 ===
                 coin = pos['coin']
-                spot_now = self.binance.get_spot_price(coin)
+                
+                # [FIX]: 현재 가격이 아니라 '만기 시점'의 가격으로 판정해야 함 (미래 참조 방지)
+                spot_final = self.binance.get_price_at_time(coin, pos['end_time'])
                 strike = self.extract_strike_price(pos['question'])
 
-                if strike <= 0 or spot_now <= 0:
-                    # 가격 데이터 없으면 다음 루프에서 재시도
-                    # 만기 후 10초까지만 대기
-                    if now - pos['end_time'] > 10:
-                        # 타임아웃 → 패배로 처리 (보수적)
-                        self._settle_as_loss(tid, pos)
-                        to_remove.append(tid)
+                if strike <= 0:
+                    # 스트라이크 파싱 모델 없으면 정산 불가 -> Loss 처리 (보수적)
+                    self._settle_as_loss(tid, pos)
+                    to_remove.append(tid)
                     continue
+
+                if spot_final <= 0:
+                    # 아직 캔들 데이터가 도착 안 했을 수 있음 (만기 직후)
+                    # 30초 정도 더 기다려보고, 너무 오래되면(5분) 그냥 현재가로 처리
+                    if now - pos['end_time'] > 300: 
+                        spot_final = self.binance.get_spot_price(coin) # Fallback
+                    else:
+                        continue # 다음 루프에 다시 시도 (캔들 기다림)
 
                 is_above = self.is_above_market(pos['question'])
 
                 # 결과 판정
                 if is_above:
-                    won = spot_now > strike
+                    won = spot_final > strike
                 else:
-                    won = spot_now < strike
+                    won = spot_final < strike
 
                 if won:
                     self._settle_as_win(tid, pos)
@@ -338,8 +417,16 @@ class EVStrategy:
             self.stats['peak_bankroll'] = self.bankroll
 
         s = pos.get('side', '?')
+        strike = self.extract_strike_price(pos['question'])
+        spot_final = self.binance.get_price_at_time(pos['coin'], pos['end_time'])
+        
         print(f"\n  ✅ WIN {pos['coin']} {s} +${profit:.1f}")
+        if config.PAPER_TRADING:
+             print(f"     [판정] {pos['coin']} ${spot_final:.2f} vs Strike ${strike:.2f} (End: {time.ctime(pos['end_time'])})")
         print(f"  Bankroll: ${self.bankroll:.2f}")
+        
+        # [LOG] 승리 기록
+        self._log_trade(tid, pos['coin'], s, pos['question'], 1.0, net_payout, "WIN")
 
     def _settle_as_loss(self, tid, pos):
         """패배 정산"""
@@ -353,9 +440,17 @@ class EVStrategy:
             self.stats['max_drawdown'] = dd
 
         s = pos.get('side', '?')
+        strike = self.extract_strike_price(pos['question'])
+        spot_final = self.binance.get_price_at_time(pos['coin'], pos['end_time'])
+
         print(f"\n  ❌ LOSS {pos['coin']} {s} -${pos['size_usdc']:.1f}")
+        if config.PAPER_TRADING:
+             print(f"     [판정] {pos['coin']} ${spot_final:.2f} vs Strike ${strike:.2f} (End: {time.ctime(pos['end_time'])})")
         print(f"  뱅크롤: ${self.bankroll:.2f}")
         print(f"{'='*60}")
+        
+        # [LOG] 패배 기록
+        self._log_trade(tid, pos['coin'], s, pos['question'], 0.0, 0.0, "LOSS")
 
     # ─── 리스크 관리 ──────────────────────────────────────────
 
@@ -407,6 +502,31 @@ class EVStrategy:
         except (ValueError, KeyError):
             return 0.0
 
+    # ─── 로깅 시스템 ──────────────────────────────────────────
+
+    def _log_trade(self, tid, coin, side, question, price, size, action):
+        """거래 내역을 JSONL 파일로 저장"""
+        import json
+        from datetime import datetime
+        
+        record = {
+            "timestamp": datetime.now().isoformat(),
+            "action": action, # OPEN / WIN / LOSS
+            "coin": coin,
+            "side": side,
+            "size_usdc": round(size, 2),
+            "price": round(price, 3),
+            "question": question,
+            "tid": tid,
+            "bankroll_after": round(self.bankroll, 2)
+        }
+        
+        try:
+            with open(self.trade_log_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        except Exception as e:
+            print(f"Failed to write trade log: {e}")
+
     # ─── 상태 렌더링 ──────────────────────────────────────────
 
     def _render(self, analysis_results: list, market_count: int = 0):
@@ -423,22 +543,27 @@ class EVStrategy:
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        print(f"== [ POLYMARKET HATEBOT v2.1 ] ({h:02d}:{m:02d}:{s:02d}) ==")
-        print(f"Mode: {'PAPER' if config.PAPER_TRADING else 'LIVE'} | Targets: btc/eth/sol/xrp | Scn:{market_count}")
+        print(f"== [ POLYMARKET HATEBOT v3.0 — FACT ONLY ] ({h:02d}:{m:02d}:{s:02d}) ==")
+        print(f"Mode: {'PAPER' if config.PAPER_TRADING else '💰 LIVE'} | Targets: btc/eth/sol/xrp | Scn:{market_count}")
         print("-" * 48)
-        
-        
-        # 미확정 수익 계산
-        unrealized_pnl = 0.0
-        for pos in self.positions.values():
-            # 현재가 없으면 진입가로 가정 (손익 0)
-            curr = pos.get('current_price', pos['entry_price'])
-            val = curr * pos['shares']
-            cost = pos['size_usdc']
-            unrealized_pnl += (val - cost)
 
-        print(f"BANKROLL: ${self.bankroll:8.2f} | PnL: {self.stats['total_pnl']:+8.2f} (Unreal: {unrealized_pnl:+8.2f})")
-        print(f"STATS: {total:3d} Bets ({wins}W {losses}L) | Win: {win_rate:4.1f}%")
+        if config.PAPER_TRADING:
+            # Paper 모드: 가상 통계 표시 (OK)
+            unrealized_pnl = 0.0
+            for pos in self.positions.values():
+                curr = pos.get('current_price', pos['entry_price'])
+                val = curr * pos['shares']
+                cost = pos['size_usdc']
+                unrealized_pnl += (val - cost)
+            print(f"BANKROLL: ${self.bankroll:8.2f} | PnL: {self.stats['total_pnl']:+8.2f} (Unreal: {unrealized_pnl:+8.2f})")
+            print(f"STATS: {total:3d} Bets ({wins}W {losses}L) | Win: {win_rate:4.1f}%")
+        else:
+            # [FACT-ONLY] Live 모드: 오직 진실만 표시
+            real_pnl = self.bankroll - self.real_balance_start
+            invested = sum(p['size_usdc'] for p in self.positions.values())
+            print(f"💰 REAL BALANCE: ${self.bankroll:8.2f}")
+            print(f"📊 REAL PnL:     ${real_pnl:+8.2f} (시작: ${self.real_balance_start:.2f})")
+            print(f"🎯 Bets Placed:  {total:3d} | Active: {len(self.positions)} | Invested: ${invested:.0f}")
         print("-" * 48)
 
         # 전문가 직관 분석 (Pure Alpha)
