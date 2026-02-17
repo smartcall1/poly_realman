@@ -114,16 +114,32 @@ class EVStrategy:
         dollar_matches = re.findall(r'\$\s*([\d,]+(?:\.\d+)?)', question)
         if dollar_matches:
             try:
-                return float(dollar_matches[0].replace(',', ''))
+                # 여러 $ 숫자가 있을 경우, 가장 큰 값을 Strike Price로 간주 (Safe Bet)
+                candidates = []
+                for m in dollar_matches:
+                    val = float(m.replace(',', ''))
+                    if val > 0: candidates.append(val)
+                if candidates: return max(candidates)
             except Exception: pass
 
         # 2. 숫자만 있는 패턴 (예: "XRP ... 0.65 ...")
-        num_matches = re.findall(r'(\d+\.\d+|\d+)', question)
-        if num_matches:
-            # 5분 마켓의 경우 큰 숫자는 시간일 수 있으므로 적절한 값 필터링
-            for n in num_matches:
+        # 날짜(2026, 17, 30 등) 필터링이 핵심
+        num_matches = re.findall(r'(\d+(?:,\d{3})*(?:\.\d+)?)', question)
+        
+        candidates = []
+        for n in num_matches:
+            try:
                 val = float(n.replace(',', ''))
-                if val > 10: return val # 가격으로 추정
+                # 연도 필터링 (2025~2030)
+                if 2024 <= val <= 2030 and val.is_integer(): continue
+                # 날짜 및 작은 정수 필터링 (BTC/ETH는 확실히 큼)
+                # 단, SOL/XRP 같은 작은 가격 코인 고려해야 함.
+                # 여기서는 후보군에 넣고 max()로 큰 값 선택 전략 사용 (날짜 < 가격 가정)
+                candidates.append(val)
+            except: continue
+            
+        if candidates:
+            return max(candidates)
 
         return 0.0
 
@@ -420,13 +436,13 @@ class EVStrategy:
         strike = self.extract_strike_price(pos['question'])
         spot_final = self.binance.get_price_at_time(pos['coin'], pos['end_time'])
         
+        from datetime import datetime
+        time_str = datetime.fromtimestamp(pos['end_time']).strftime('%H:%M:%S')
+
         print(f"\n  ✅ WIN {pos['coin']} {s} +${profit:.1f}")
         if config.PAPER_TRADING:
-             print(f"     [판정] {pos['coin']} ${spot_final:.2f} vs Strike ${strike:.2f} (End: {time.ctime(pos['end_time'])})")
+             print(f"     ⚖️ {pos['coin']} ${spot_final:,.2f} vs ${strike:,.2f} (@ {time_str})")
         print(f"  Bankroll: ${self.bankroll:.2f}")
-        
-        # [LOG] 승리 기록
-        self._log_trade(tid, pos['coin'], s, pos['question'], 1.0, net_payout, "WIN")
 
     def _settle_as_loss(self, tid, pos):
         """패배 정산"""
@@ -443,11 +459,14 @@ class EVStrategy:
         strike = self.extract_strike_price(pos['question'])
         spot_final = self.binance.get_price_at_time(pos['coin'], pos['end_time'])
 
+        from datetime import datetime
+        time_str = datetime.fromtimestamp(pos['end_time']).strftime('%H:%M:%S')
+
         print(f"\n  ❌ LOSS {pos['coin']} {s} -${pos['size_usdc']:.1f}")
         if config.PAPER_TRADING:
-             print(f"     [판정] {pos['coin']} ${spot_final:.2f} vs Strike ${strike:.2f} (End: {time.ctime(pos['end_time'])})")
+             print(f"     ⚖️ {pos['coin']} ${spot_final:,.2f} vs ${strike:,.2f} (@ {time_str})")
         print(f"  뱅크롤: ${self.bankroll:.2f}")
-        print(f"{'='*60}")
+        print(f"{'='*48}")
         
         # [LOG] 패배 기록
         self._log_trade(tid, pos['coin'], s, pos['question'], 0.0, 0.0, "LOSS")
