@@ -596,7 +596,7 @@ class EVStrategy:
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        print(f"== [ POLYMARKET HATEBOT v3.0 — FACT ONLY ] ({h:02d}:{m:02d}:{s:02d}) ==")
+        print(f"== [ POLYMARKET HATEBOT v3.0 ] ({h:02d}:{m:02d}:{s:02d}) ==")
         print(f"Mode: {'PAPER' if config.PAPER_TRADING else '💰 LIVE'} | Targets: btc/eth/sol/xrp | Scn:{market_count}")
         print("-" * 48)
 

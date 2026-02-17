@@ -16,7 +16,7 @@ from config import config
 
 
 def main():
-    print("=== POLYMARKET HATEBOT v2.1 ===")
+    print("=== POLYMARKET HATEBOT v3.0 ===")
     print("Core: Pure Alpha Sniper (YES/NO Mode)")
     print()
     print(f"  모드: {'📋 PAPER TRADING (가상)' if config.PAPER_TRADING else '💰 LIVE TRADING (실전)'}")
