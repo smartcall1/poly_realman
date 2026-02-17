@@ -9,6 +9,8 @@ Polymarket CLOB 클라이언트 래퍼
 
 from config import config
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 import time
 import math
 import json
@@ -58,9 +60,25 @@ class PolymarketClient:
                 )
                 print("[Client] Polymarket Client Initialized Successfully (Live Mode Ready)")
             except Exception as e:
-                print(f"[Client] Init failed: {e}")
+                print(f"[Client] Authentication failed: {e}")
                 self.client = None
         
+        # === [Network Optimization] Session & Retry Strategy ===
+        self.session = requests.Session()
+        retry_strategy = Retry(
+            total=5,
+            backoff_factor=1,
+            status_forcelist=[429, 500, 502, 503, 504],
+            allowed_methods=["GET"]
+        )
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        self.session.mount("https://", adapter)
+        self.session.mount("http://", adapter)
+        self.session.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) HATEBOT/3.0",
+            "Accept": "application/json",
+        })
+
         # [CRITICAL CHECK] If Live Mode is on but client failed, we MUST stop.
         if not config.PAPER_TRADING and self.client is None:
             print("\n" + "="*60)
@@ -70,9 +88,6 @@ class PolymarketClient:
             print("2. API Keys in .env are invalid or missing.")
             print("3. System packages (build-essential) missing on mobile (Termux).")
             print("="*60 + "\n")
-            if not ClobClient:
-                print("⚠️  'py-clob-client' is NOT detected. Please install it:")
-                print("   pip install py-clob-client")
             raise RuntimeError("Live Trading Aborted: No API Client")
 
     def get_usdc_balance(self) -> float:
@@ -105,14 +120,10 @@ class PolymarketClient:
         return 0.0
 
     def get_order_book(self, market_id: str) -> dict:
-        """실시간 호가창 데이터 조회"""
-        headers = {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "application/json",
-        }
+        """실시간 호가창 데이터 조회 (세션 재사용)"""
         try:
             url = f"{self.clob_url}/book?token_id={market_id}"
-            response = requests.get(url, headers=headers, timeout=20)
+            response = self.session.get(url, timeout=15)
             if response.status_code == 200:
                 return response.json()
             return None
@@ -129,8 +140,7 @@ class PolymarketClient:
         try:
             # Market ID로 직접 조회 (가장 정확)
             url = f"{self.gamma_url}/markets/{market_id}"
-            headers = {"Accept": "application/json"}
-            r = requests.get(url, headers=headers, timeout=5)
+            r = self.session.get(url, timeout=10)
             
             if r.status_code == 200:
                 m = r.json()
@@ -207,8 +217,7 @@ class PolymarketClient:
 
     def find_active_markets(self) -> list:
         """
-        BTC(5m/15m) 및 ETH/SOL/XRP(15m) 타겟 UPDOWN 마켓 저격 탐색.
-        Gamma API의 /events 엔드포인트를 사용하여 특정 슬러그를 직접 조회합니다.
+        BTC(5m/15m) 및 ETH/SOL(15m) 타켓 UPDOWN 마켓 저격 탐색.
         """
         now = int(time.time())
         hunt_list = [
@@ -216,47 +225,82 @@ class PolymarketClient:
             ("btc-updown-15m", 900),    # BTC 15분
             ("eth-updown-15m", 900),    # ETH 15분
             ("sol-updown-15m", 900),    # SOL 15분
-            ("xrp-updown-15m", 900),    # XRP 15분
         ]
 
         found_markets = []
-        headers = {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "application/json",
-        }
+        # session의 headers를 사용하되 개별 요청 시 추가 가능
+        
+        from config import config
+        if config.DEBUG_MODE:
+            print(f"  [Gamma] Contacting {self.gamma_url}...", flush=True)
 
         for slug_prefix, interval in hunt_list:
-            # 현재 블록과 다음 블록 시도
+            # surgical hunt는 아주 짧게만 시도 (2초)
             current_block = math.floor(now / interval) * interval
-            next_block = current_block + interval
+            slug = f"{slug_prefix}-{current_block}"
+            
+            try:
+                url = f"{self.gamma_url}/events?slug={slug}"
+                r = self.session.get(url, timeout=(15, 30)) # 대폭 인상
+                events = r.json()
+                if events and len(events) > 0:
+                    ev = events[0]
+                    markets_in_ev = ev.get('markets', [])
+                    if config.DEBUG_MODE and markets_in_ev:
+                        print(f"    Found! : {slug}", flush=True)
+                    
+                    for m in markets_in_ev:
+                        tids_raw = m.get('clobTokenIds', [])
+                        if isinstance(tids_raw, str): tids_raw = json.loads(tids_raw)
+                        if tids_raw:
+                            found_markets.append({
+                                'question': m.get('question', ''),
+                                'marketId': m.get('id', ''),
+                                'conditionId': m.get('conditionId', ''),
+                                'clobTokenIds': tids_raw,
+                                'slug': slug,
+                                'end_time': current_block + interval,
+                            })
+            except:
+                continue
 
-            for ts in [current_block, next_block]:
-                slug = f"{slug_prefix}-{ts}"
-                try:
-                    url = f"{self.gamma_url}/events?slug={slug}"
-                    r = requests.get(url, headers=headers, timeout=10)
-                    events = r.json()
-                    if events and len(events) > 0:
-                        ev = events[0]
-                        # 이벤트 내의 모든 마켓(상승/하락 등) 수집
-                        for m in ev.get('markets', []):
-                            tids_raw = m.get('clobTokenIds', [])
-                            if isinstance(tids_raw, str):
-                                tids_raw = json.loads(tids_raw)
-                            
-                            if tids_raw:
-                                found_markets.append({
-                                    'question': m.get('question', ''),
-                                    'marketId': m.get('id', ''),
-                                    'conditionId': m.get('conditionId', ''),
-                                    'clobTokenIds': tids_raw,
-                                    'slug': slug,
-                                    'end_time': ts + interval,
-                                })
-                except Exception:
-                    continue
+        # Surgical hunt로 못 찾았거나 부족하면 전체 목록 조회 (Fallback)
+        if len(found_markets) < 2:
+             if config.DEBUG_MODE:
+                print("  [Scan] Specific hunt slow/failed. Trying ultimate global scan...", flush=True)
+             
+             # 서버 부하 방지를 위해 살짝 대기
+             time.sleep(2)
+             
+             try:
+                 url = f"{self.gamma_url}/events?active=true&limit=50&sort=volume24h:desc"
+                 r = self.session.get(url, timeout=(20, 60)) # 최후의 수단: 60초까지 기다림
+                 all_events = r.json()
+                 for ev in all_events:
+                     q_title = str(ev.get('title', '')).upper()
+                     if any(k in q_title for k in ['BTC', 'ETH', 'SOL']):
+                         for m in ev.get('markets', []):
+                             # 이미 찾은 건 제외
+                             if any(fm['marketId'] == m.get('id') for fm in found_markets): continue
+                             
+                             tids_raw = m.get('clobTokenIds', [])
+                             if isinstance(tids_raw, str): tids_raw = json.loads(tids_raw)
+                             if tids_raw:
+                                 found_markets.append({
+                                     'question': m.get('question', ''),
+                                     'marketId': m.get('id', ''),
+                                     'conditionId': m.get('conditionId', ''),
+                                     'clobTokenIds': tids_raw,
+                                     'slug': ev.get('slug', 'match'),
+                                     'end_time': m.get('end_time', 0),
+                                 })
+                 if config.DEBUG_MODE and found_markets:
+                     print(f"    ✅ Global Scan Success! Found {len(found_markets)} markets.", flush=True)
+             except Exception as fe:
+                 if config.DEBUG_MODE: print(f"    [Global Scan Error] {fe}")
 
         return found_markets
+
 
     def place_limit_order(self, token_id: str, price: float, size: float, side: str = 'BUY'):
         """

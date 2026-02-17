@@ -224,7 +224,10 @@ class EVStrategy:
             drift = self.binance.get_drift(coin)
 
             # 확률 및 엣지 계산
-            base_prob = calculate_binary_probability(spot, strike, vol, time_to_expiry, drift)
+            base_prob = calculate_binary_probability(
+                spot, strike, vol, time_to_expiry, drift,
+                vol_scale=config.VOL_SCALE_FACTOR
+            )
             
             actual_prob = base_prob if side == 'YES' else (1.0 - base_prob)
             if not is_above: actual_prob = 1.0 - actual_prob
@@ -462,8 +465,8 @@ class EVStrategy:
         self.stats['wins'] += 1
         self.stats['total_pnl'] += profit
         
-        # [FIX] 승리 기록 누락 수정
-        self._log_trade(tid, pos['coin'], pos.get('side', 'YES'), pos['question'], 1.0, payout, "WIN")
+        # [LOG] 승리 기록 (PnL 명시)
+        self._log_trade(tid, pos['coin'], pos.get('side', 'YES'), pos['question'], 1.0, payout, "WIN", pnl=profit)
 
         if self.bankroll > self.stats['peak_bankroll']:
             self.stats['peak_bankroll'] = self.bankroll
@@ -504,8 +507,8 @@ class EVStrategy:
         print(f"  뱅크롤: ${self.bankroll:.2f}")
         print(f"{'='*48}")
         
-        # [LOG] 패배 기록
-        self._log_trade(tid, pos['coin'], s, pos['question'], 0.0, 0.0, "LOSS")
+        # [LOG] 패배 기록 (PnL 명시)
+        self._log_trade(tid, pos['coin'], s, pos['question'], 0.0, 0.0, "LOSS", pnl=loss)
 
     # ─── 리스크 관리 ──────────────────────────────────────────
 
@@ -559,17 +562,19 @@ class EVStrategy:
 
     # ─── 로깅 시스템 ──────────────────────────────────────────
 
-    def _log_trade(self, tid, coin, side, question, price, size, action):
+    def _log_trade(self, tid, coin, side, question, price, size, action, **kwargs):
         """거래 내역을 JSONL 파일로 저장"""
         import json
         from datetime import datetime
         
         record = {
+            "strategy": config.STRATEGY_NAME,
             "timestamp": datetime.now().isoformat(),
             "action": action, # OPEN / WIN / LOSS
             "coin": coin,
             "side": side,
             "size_usdc": round(size, 2),
+            "pnl": round(kwargs.get('pnl', 0.0), 2), # 명시적 PnL 기록
             "price": round(price, 3),
             "question": question,
             "tid": tid,
@@ -579,6 +584,7 @@ class EVStrategy:
         try:
             with open(self.trade_log_path, "a", encoding="utf-8") as f:
                 f.write(json.dumps(record, ensure_ascii=False) + "\n")
+                f.flush() # 즉시 파일에 쓰기 (대시보드 실시간 반영용)
         except Exception as e:
             print(f"Failed to write trade log: {e}")
 
@@ -601,8 +607,8 @@ class EVStrategy:
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        print(f"== [ POLYMARKET HATEBOT v3.0 ] ({h:02d}:{m:02d}:{s:02d}) ==")
-        print(f"Mode: {'PAPER' if config.PAPER_TRADING else '💰 LIVE'} | Targets: btc/eth/sol/xrp | Scn:{market_count}")
+        print(f"== [ {config.STRATEGY_NAME} v3.0 ] ({h:02d}:{m:02d}:{s:02d}) ==")
+        print(f"Mode: {'PAPER' if config.PAPER_TRADING else '💰 LIVE'} | Targets: btc/eth/sol | Scn:{market_count}")
         print("-" * 48)
 
         # [UI FIX] Paper/Live 구분 없이 동일한 "FACT-ONLY" 대시보드 사용
@@ -634,7 +640,7 @@ class EVStrategy:
 
         # 전문가 직관 분석 (Pure Alpha)
         print("[ALPHA SIGNALS]")
-        for coin in ['BTC', 'ETH', 'SOL', 'XRP']:
+        for coin in ['BTC', 'ETH', 'SOL']:
             sig = self.binance.get_expert_signals(coin)
             t_icon = "🚀" if sig['trend'] == 'bull' else "📉" if sig['trend'] == 'bear' else "↔️"
             e_icon = "!" if sig['strength'] > 0.7 else ""

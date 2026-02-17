@@ -34,22 +34,27 @@ def main():
     try:
         client = PolymarketClient()
     except Exception as e:
-        if config.PAPER_TRADING:
-            print("[주의] API 클라이언트 초기화 실패 (Paper 모드로 계속)")
-            client = None
-        else:
-            print(f"[에러] 클라이언트 초기화 실패: {e}")
-            return
+        print(f"[경고] 클라이언트 초기화 중 오류: {e}")
+        # 세션 초기화 버그 수정으로 인해 여기서 client = None 일 확률은 낮음
+        # 하지만 방어적으로 대비
+        if not vars().get('client'):
+            try: client = PolymarketClient() 
+            except: client = None
+    
+    if client is None:
+        print("🚨 치명적 에러: API 클라이언트를 생성할 수 없습니다. 실행을 중단합니다.")
+        return
 
     strategy = EVStrategy(client)
 
     print("  🚀 봇 시작! Binance 데이터 수집 중...\n")
 
     # 초기 캔들 데이터 로딩 (첫 루프 전 변동성 계산용)
-    print("  ⏳ 초기 변동성 데이터 수집 중...", end="", flush=True)
-    for coin in ['BTC', 'ETH', 'SOL', 'XRP']:
+    print(f"  ⏳ [{config.STRATEGY_NAME}] 초기 데이터 수집 중...", end="", flush=True)
+    # XRP 제거
+    for coin in ['BTC', 'ETH', 'SOL']:
         strategy.binance.fetch_candles(coin, limit=60)
-        time.sleep(0.5)  # API 부하 방지
+        time.sleep(1.0)  # API 부하 방지 지연 확대
     print(" 완료!")
 
     try:
@@ -62,6 +67,16 @@ def main():
 
                 # === 시장 탐색 ===
                 if not active_tokens or (now - last_search) > config.MARKET_SCAN_INTERVAL:
+                    if config.DEBUG_MODE:
+                        print(f"\n  [Loop] Starting market search... (last search: {int(now - last_search)}s ago)")
+                    
+                    # [JITTER] 12개 봇이 동시에 쏘지 않도록 대폭 분산 (1~15초)
+                    import random
+                    jitter = random.uniform(1.0, 15.0)
+                    if config.DEBUG_MODE:
+                        print(f"  [Jitter] Spreading out... waiting {jitter:.2f}s for API slot...")
+                    time.sleep(jitter) 
+                    
                     markets = client.find_active_markets() if client else []
                     active_tokens = []
                     for m in markets:
@@ -93,8 +108,8 @@ def main():
                     last_search = now
 
                     if not active_tokens:
-                        strategy.show_status("시장 탐색 중...")
-                        time.sleep(10)
+                        strategy.show_status("진행 중인 UPDOWN 마켓 없음 — 재탐색 대기 (30s)...")
+                        time.sleep(30)
                         continue
 
                 # === 각 마켓 데이터 수집 ===

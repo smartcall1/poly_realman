@@ -210,16 +210,17 @@ def adjust_prob_by_expert_signals(
     strength = signals.get('strength', 0.0)
     state = signals.get('state', 'normal')
     
-    # 1. 추세 추종 (CORE ALPHA - 상남자의 직관)
-    # 추세가 조금이라도 보이면 파격적으로 밀어줌 (최대 25~30%)
+    # 1. 추세 추종 (CORE ALPHA)
+    from config import config
+    # ALPHA_BOOST_WEIGHT가 양수면 추세 추종, 음수면 반전 매매
     if trend == 'bull':
-        boost = strength * 0.25
+        boost = strength * config.ALPHA_BOOST_WEIGHT
         adj_prob += boost
-        reasons.append(f"PURE BULL (+{boost:.1%})")
+        reasons.append(f"PURE BULL ({boost:+.1%})")
     elif trend == 'bear':
-        boost = strength * 0.25
+        boost = strength * config.ALPHA_BOOST_WEIGHT
         adj_prob -= boost
-        reasons.append(f"PURE BEAR (-{boost:.1%})")
+        reasons.append(f"PURE BEAR ({-boost:+.1%})")
 
     # 2. RSI 모멘텀 (추가 가속)
     if state == 'strong_trend_up':

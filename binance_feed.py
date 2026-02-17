@@ -29,7 +29,6 @@ class BinancePriceFeed:
             'BTC': 'BTCUSDT',
             'ETH': 'ETHUSDT',
             'SOL': 'SOLUSDT',
-            'XRP': 'XRPUSDT',
         }
 
         # 1분봉 캔들 히스토리 (close, high, low, open, volume)
