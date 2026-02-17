@@ -372,13 +372,32 @@ class EVStrategy:
             if now >= pos['end_time']:
                 # === [FACT-ONLY] Live 모드: 자체 판정 절대 금지 ===
                 if not config.PAPER_TRADING:
-                    # 만기 도달 → 포지션 목록에서 제거만 함
+                    # [Live Mode] 가상 채점 (Virtual Settlement) 로직 추가
+                    # 실제 잔액(Bankroll)은 건드리지 않고, 승패 통계(Stats)만 업데이트함.
+                    
+                    coin = pos['coin']
+                    spot_final = self.binance.get_price_at_time(coin, pos['end_time'])
+                    strike = self.extract_strike_price(pos['question'])
+                    
+                    if spot_final > 0 and strike > 0:
+                        is_above = self.is_above_market(pos['question'])
+                        won = (spot_final > strike) if is_above else (spot_final < strike)
+                        
+                        from datetime import datetime
+                        time_str = datetime.fromtimestamp(pos['end_time']).strftime('%H:%M:%S')
+                        
+                        if won:
+                            print(f"  ⌛ [LIVE 가상판정] ✅ WIN {pos['coin']} (Est. +${pos['size_usdc']:.1f}) @ {time_str}")
+                            self.stats['wins'] += 1
+                        else:
+                            print(f"  ⌛ [LIVE 가상판정] ❌ LOSS {pos['coin']} (Est. -${pos['size_usdc']:.1f}) @ {time_str}")
+                            self.stats['losses'] += 1
+                            
                     # 실제 결과는 Polymarket이 판정하고, 잔액에 자동 반영됨
-                    print(f"  ⌛ [만기] {pos['coin']} {pos['side']} ${pos['size_usdc']:.0f} — 결과 대기 중")
                     self._log_trade(tid, pos['coin'], pos.get('side','?'), pos['question'], 0, pos['size_usdc'], "EXPIRED")
                     to_remove.append(tid)
                     continue
-                
+
                 # === Paper 모드만: Binance 가격으로 가상 판정 ===
                 coin = pos['coin']
                 
@@ -578,11 +597,23 @@ class EVStrategy:
             print(f"STATS: {total:3d} Bets ({wins}W {losses}L) | Win: {win_rate:4.1f}%")
         else:
             # [FACT-ONLY] Live 모드: 오직 진실만 표시
-            real_pnl = self.bankroll - self.real_balance_start
-            invested = sum(p['size_usdc'] for p in self.positions.values())
-            print(f"💰 REAL BALANCE: ${self.bankroll:8.2f}")
-            print(f"📊 REAL PnL:     ${real_pnl:+8.2f} (시작: ${self.real_balance_start:.2f})")
-            print(f"🎯 Bets Placed:  {total:3d} | Active: {len(self.positions)} | Invested: ${invested:.0f}")
+            # Net Equity = Real Balance (현금) + Active Positions Value (주식 평가금)
+            active_value = 0.0
+            for p in self.positions.values():
+                curr = p.get('current_price', 0.0)
+                # 만약 현재가가 없으면 진입가 사용 (보수적 접근) -> 아니, 0이 나음?
+                # 아니, run_ev_step에서 bid를 업데이트 해주므로 0이면 진짜 못 파는 거임.
+                active_value += (curr * p['shares'])
+
+            net_equity = self.bankroll + active_value
+            real_pnl = net_equity - self.real_balance_start
+            
+            print(f"💰 REAL BALANCE:  ${self.bankroll:8.2f} (Cash)")
+            print(f"📈 ACTIVE VALUE:  ${active_value:8.2f} (Positions)")
+            print(f"💎 NET EQUITY:    ${net_equity:8.2f} (Total Asset)")
+            print(f"📊 REAL PnL:      ${real_pnl:+8.2f} (Return: {real_pnl/self.real_balance_start*100:+.1f}%)")
+            print(f"🎯 Bets Placed:   {total:3d} | Active: {len(self.positions)}")
+            print(f"📝 STATS (Est.):  {wins}W {losses}L | Win: {win_rate:4.1f}%")
         print("-" * 48)
 
         # 전문가 직관 분석 (Pure Alpha)
