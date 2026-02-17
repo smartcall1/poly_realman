@@ -169,8 +169,8 @@ class PolymarketClient:
                 winner_outcome = m.get('winnerOutcome') or m.get('winner_outcome')
                 if winner_outcome:
                     res = str(winner_outcome).upper()
-                    if 'YES' in res: return 'YES'
-                    if 'NO' in res: return 'NO'
+                    if 'YES' in res or 'UP' == res: return 'YES'
+                    if 'NO' in res or 'DOWN' == res: return 'NO'
                     return res
 
                 # 3. tokens 배열 분석 (기존 로직 유지)
@@ -181,15 +181,15 @@ class PolymarketClient:
                     for t in tokens:
                         if t.get('winner') is True:
                             res = str(t.get('outcome', '')).upper()
-                            if 'YES' in res: return 'YES'
-                            if 'NO' in res: return 'NO'
+                            if 'YES' in res or 'UP' == res: return 'YES'
+                            if 'NO' in res or 'DOWN' == res: return 'NO'
                             return res
                         try:
                             p = t.get('price') or t.get('outcomePrice')
                             if p and float(p) > 0.99:
                                 res = str(t.get('outcome', '')).upper()
-                                if 'YES' in res: return 'YES'
-                                if 'NO' in res: return 'NO'
+                                if 'YES' in res or 'UP' == res: return 'YES'
+                                if 'NO' in res or 'DOWN' == res: return 'NO'
                                 return res
                         except: pass
                 

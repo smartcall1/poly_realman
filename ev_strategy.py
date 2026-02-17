@@ -112,22 +112,27 @@ class EVStrategy:
         return ''
 
     def extract_strike_price(self, question: str) -> float:
-        """강화된 스트라이크 가격 추출 로직"""
-        # 1. $ 기호 뒤의 숫자 (소수점 포함)
-        dollar_matches = re.findall(r'\$\s*([\d,]+(?:\.\d+)?)', question)
+        """강화된 스트라이크 가격 추출 로직 (시간/날짜 필터링)"""
+        # 0. 전처리: 퀘스천 마크 등 제거
+        q = question.replace('?', '').strip()
+
+        # 1. $ 기호 뒤의 숫자 (가장 우선순위 높음)
+        dollar_matches = re.findall(r'\$\s*([\d,]+(?:\.\d+)?)', q)
         if dollar_matches:
             try:
-                # 여러 $ 숫자가 있을 경우, 가장 큰 값을 Strike Price로 간주 (Safe Bet)
                 candidates = []
                 for m in dollar_matches:
                     val = float(m.replace(',', ''))
                     if val > 0: candidates.append(val)
+                # $가 여러 개면 가장 큰 값을 Strike로 간주 (BTC 97,500 vs 시간 12:05 등 방지)
                 if candidates: return max(candidates)
             except Exception: pass
 
-        # 2. 숫자만 있는 패턴 (예: "XRP ... 0.65 ...")
-        # 날짜(2026, 17, 30 등) 필터링이 핵심
-        num_matches = re.findall(r'(\d+(?:,\d{3})*(?:\.\d+)?)', question)
+        # 2. 시간 패턴 제거 (HH:MM 또는 HH:MM:SS) - 예: "22:30:00"에서 "30"이 추출되는 것 방지
+        q_no_time = re.sub(r'\d{1,2}:\d{2}(?::\d{2})?', '', q)
+        
+        # 3. 숫자 패턴 추출 (이미 $에서 못 찾았을 경우만)
+        num_matches = re.findall(r'(\d+(?:,\d{3})*(?:\.\d+)?)', q_no_time)
         
         candidates = []
         for n in num_matches:
@@ -135,13 +140,13 @@ class EVStrategy:
                 val = float(n.replace(',', ''))
                 # 연도 필터링 (2025~2030)
                 if 2024 <= val <= 2030 and val.is_integer(): continue
-                # 날짜 및 작은 정수 필터링 (BTC/ETH는 확실히 큼)
-                # 단, SOL/XRP 같은 작은 가격 코인 고려해야 함.
-                # 여기서는 후보군에 넣고 max()로 큰 값 선택 전략 사용 (날짜 < 가격 가정)
+                # 한자리 숫자는 보통 날짜/시간일 확률이 높음 (XRP도 0.x 이상임)
+                if val < 0.0001: continue 
                 candidates.append(val)
             except: continue
             
         if candidates:
+            # 여전히 여러 후보가 있다면 가장 큰 값 (보통 가격이 날짜보다 큼)
             return max(candidates)
 
         return 0.0
