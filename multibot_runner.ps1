@@ -16,13 +16,23 @@ $Strategies = @(
 
 Write-Host "🚀 트레이딩 군단출격" -ForegroundColor Cyan
 
+# [NEW] 거래 내역 리셋 (기존 로그 백업)
+$HistoryFile = "trade_history.jsonl"
+if (Test-Path $HistoryFile) {
+    $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $BackupFile = "trade_history_backup_$Timestamp.jsonl"
+    Move-Item -Path $HistoryFile -Destination $BackupFile
+    Write-Host "  📦 기존 거래 내역을 백업했습니다: $BackupFile" -ForegroundColor Gray
+}
+
 foreach ($S in $Strategies) {
     $command = "python main.py"
     
     # 환경변수 세팅과 함께 새 터미널 창(start)에서 실행
     $env_args = "`$env:STRATEGY_NAME='$($S.Name)'; `$env:MIN_EDGE=$($S.Edge); `$env:KELLY_FRACTION=$($S.Kelly); `$env:VOL_SCALE_FACTOR=$($S.Vol); `$env:ALPHA_BOOST_WEIGHT=$($S.Alpha); $command"
     
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "$env_args"
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", "$env_args" -WindowStyle Minimized
+
     
     Write-Host "  ✅ [$($S.Name)] 마스터 출격 완료!" -ForegroundColor Green
     Write-Host "  ⏳ 다음 정예요원 출격까지 60초 대기 중..." -ForegroundColor Gray

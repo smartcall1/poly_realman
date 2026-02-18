@@ -7,13 +7,17 @@ from collections import defaultdict
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def format_currency(value):
+def format_currency(value, width=0):
+    formatted = f"${value:,.2f}"
+    padded = f"{formatted:>{width}}" if width > 0 else formatted
     color = "\033[92m" if value > 0 else "\033[91m" if value < 0 else ""
     reset = "\033[0m"
-    return f"{color}${value:,.2f}{reset}"
+    return f"{color}{padded}{reset}"
 
 def run_dashboard():
     history_file = 'trade_history.jsonl'
+    
+    start_time = time.time()
     
     while True:
         stats = defaultdict(lambda: {
@@ -55,12 +59,18 @@ def run_dashboard():
                         except:
                             continue
             
+            # 소요 시간 계산
+            elapsed = int(time.time() - start_time)
+            hours, rem = divmod(elapsed, 3600)
+            minutes, seconds = divmod(rem, 60)
+            running_time = f"{hours:02}:{minutes:02}:{seconds:02}"
+            
             clear_console()
             print("="*85)
-            print(f" 🚀 [POLYMARKET HATEBOT v3.0] UNIFIED PERFORMANCE DASHBOARD ({datetime.now().strftime('%H:%M:%S')})")
+            print(f" 🚀 [POLYMARKET HATEBOT v3.0] UNIFIED PERFORMANCE DASHBOARD (Run: {running_time})")
             print("="*85)
-            print(f"{'PERSONA':<15} | {'PnL':<12} | {'Win%':<8} | {'Trades':<8} | {'Total Bet':<12} | {'Last Action'}")
-            print("-"*85)
+            print(f"{'PERSONA':<15} | {'PnL':>12} | {'Win%':>8} | {'Trades':>8} | {'Total Bet':>12} | {'Last Action'}")
+            print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 12 + 3 + 19))
             
             # PnL 순으로 정렬
             sorted_stats = sorted(stats.items(), key=lambda x: x[1]['pnl'], reverse=True)
@@ -70,11 +80,11 @@ def run_dashboard():
                 win_rate = (s['wins'] / s['trades'] * 100) if s['trades'] > 0 else 0
                 total_global_pnl += s['pnl']
                 
-                print(f"{name:<15} | {format_currency(s['pnl']):<21} | {win_rate:>6.1f}% | {s['trades']:>8} | ${s['total_bet']:>10.1f} | {s['last_trade']}")
+                print(f"{name:<15} | {format_currency(s['pnl'], 12)} | {win_rate:>7.1f}% | {s['trades']:>8} | ${s['total_bet']:>10.1f} | {s['last_trade']}")
             
-            print("-"*85)
-            print(f"{'TOTAL PROFIT':<15} | {format_currency(total_global_pnl):<21}")
-            print("="*85)
+            print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 12 + 3 + 19))
+            print(f"{'TOTAL PROFIT':<15} | {format_currency(total_global_pnl, 12)}")
+            print("="*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 12 + 3 + 19))
             print("\n [Tip] 이 화면은 5초마다 자동 갱신됩니다. (Ctrl+C로 종료)")
             
         except Exception as e:

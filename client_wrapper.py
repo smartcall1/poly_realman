@@ -138,81 +138,59 @@ class PolymarketClient:
         Return: 'YES', 'NO', 'WAITING' or None (Error)
         """
         try:
-            # Market ID로 직접 조회 (가장 정확)
             url = f"{self.gamma_url}/markets/{market_id}"
             r = self.session.get(url, timeout=10)
             
             if r.status_code == 200:
                 m = r.json()
                 
-                # 결과 도출 (가격 1.0 = 승자)
-                outcomes_raw = m.get('outcomes')
+                def normalize_outcome(res_str):
+                    if not res_str: return None
+                    res = str(res_str).upper()
+                    if any(k in res for k in ['YES', 'UP', 'ABOVE', 'HIGH']): return 'YES'
+                    if any(k in res for k in ['NO', 'DOWN', 'BELOW', 'LOW']): return 'NO'
+                    return res
+
+                # 1. outcomePrices 분석 (1.0 근접 정산 확인)
                 prices_raw = m.get('outcomePrices')
+                outcomes_raw = m.get('outcomes')
                 
-                # [Deep Parsing] Gamma API는 가끔 JSON 속에 JSON 문자열을 넣음 (예: "[\"0\", \"1\"]")
+                # [Deep Parsing] JSON 문자열 대응
                 def robust_json_load(data):
                     if not isinstance(data, str): return data
-                    try:
-                        parsed = json.loads(data)
-                        if isinstance(parsed, str):
-                            try: return json.loads(parsed)
-                            except: return parsed
-                        return parsed
+                    try: return json.loads(data)
                     except: return data
 
-                outcomes = robust_json_load(m.get('outcomes'))
-                prices = robust_json_load(m.get('outcomePrices'))
+                prices = robust_json_load(prices_raw)
+                outcomes = robust_json_load(outcomes_raw)
 
-                # 1. outcomePrices 분석 (1.0 근접 정산 확인) - 가장 빠르고 정확
-                if isinstance(outcomes, list) and isinstance(prices, list):
+                if isinstance(prices, list) and isinstance(outcomes, list):
                     for i, p_str in enumerate(prices):
                         try:
                             if float(p_str) > 0.99 and i < len(outcomes):
-                                res = str(outcomes[i]).upper()
-                                if 'YES' in res: return 'YES'
-                                if 'NO' in res: return 'NO'
-                                return res
+                                return normalize_outcome(outcomes[i])
                         except: pass
 
-                # 2. 개별 winner 필드 (루트 레벨) 확인
-                # 가끔 마켓 루트에 winnerOutcome 필드가 직접 있을 수 있음
+                # 2. winnerOutcome 필드 확인
                 winner_outcome = m.get('winnerOutcome') or m.get('winner_outcome')
                 if winner_outcome:
-                    res = str(winner_outcome).upper()
-                    if 'YES' in res or 'UP' == res: return 'YES'
-                    if 'NO' in res or 'DOWN' == res: return 'NO'
-                    return res
+                    return normalize_outcome(winner_outcome)
 
-                # 3. tokens 배열 분석 (기존 로직 유지)
-                tokens = m.get('tokens', [])
-                if isinstance(tokens, str): tokens = robust_json_load(tokens)
-                
+                # 3. tokens 배열 분석
+                tokens = robust_json_load(m.get('tokens', []))
                 if isinstance(tokens, list):
                     for t in tokens:
                         if t.get('winner') is True:
-                            res = str(t.get('outcome', '')).upper()
-                            if 'YES' in res or 'UP' == res: return 'YES'
-                            if 'NO' in res or 'DOWN' == res: return 'NO'
-                            return res
+                            return normalize_outcome(t.get('outcome'))
                         try:
                             p = t.get('price') or t.get('outcomePrice')
                             if p and float(p) > 0.99:
-                                res = str(t.get('outcome', '')).upper()
-                                if 'YES' in res or 'UP' == res: return 'YES'
-                                if 'NO' in res or 'DOWN' == res: return 'NO'
-                                return res
+                                return normalize_outcome(t.get('outcome'))
                         except: pass
                 
-                # 3. resolved 필드가 True인데 위에서 안 걸린 경우 (드문 케이스)
-                if m.get('resolved') is True:
-                    # outcome 필드가 'Yes'나 'No'면 그걸 그대로 믿음 (단, 가격 확인이 안 될 때만)
-                    # 하지만 WAITING이 더 안전함
-                    pass
-
                 return "WAITING"
             return None
-        except Exception as e:
-            # print(f"[Resolution] Error: {e}") 
+        except Exception:
             return None
 
     def find_active_markets(self) -> list:

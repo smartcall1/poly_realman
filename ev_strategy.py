@@ -371,6 +371,9 @@ class EVStrategy:
             # 2. 미세하게 잔액 더 차감 (수수료 외의 숨겨진 비용)
             slippage_cost = size_usdc * slippage_rate
             
+            # [LOG] 거래 로그 기록 (Paper Mode에서도 베팅 규모 집계를 위해 기록)
+            self._log_trade(tid, coin, side, question, entry_price, size_usdc, "OPEN", market_id=market_id)
+
             self.bankroll -= (size_usdc + slippage_cost)
             self.stats['total_wagered'] += size_usdc
             
@@ -507,8 +510,8 @@ class EVStrategy:
         print(f"  뱅크롤: ${self.bankroll:.2f}")
         print(f"{'='*48}")
         
-        # [LOG] 패배 기록 (PnL 명시)
-        self._log_trade(tid, pos['coin'], s, pos['question'], 0.0, 0.0, "LOSS", pnl=loss)
+        # [LOG] 패배 기록 (PnL 명시, size_usdc 기록)
+        self._log_trade(tid, pos['coin'], s, pos['question'], 0.0, pos['size_usdc'], "LOSS", pnl=loss, market_id=pos.get('market_id', ''))
 
     # ─── 리스크 관리 ──────────────────────────────────────────
 
@@ -578,6 +581,7 @@ class EVStrategy:
             "price": round(price, 3),
             "question": question,
             "tid": tid,
+            "marketId": kwargs.get('market_id', ''),
             "bankroll_after": round(self.bankroll, 2)
         }
         
