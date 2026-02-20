@@ -15,85 +15,139 @@ def format_currency(value, width=0):
     return f"{color}{padded}{reset}"
 
 def run_dashboard():
-    history_file = 'trade_history.jsonl'
+    # 스크립트 실행 위치 기준 절대 경로 설정
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     
     start_time = time.time()
     
+    # [DEBUG] 디버깅용: 시작 시 경로와 파일 목록 한 번 확인
+    print(f"Scanning directory: {base_dir}")
+    try:
+        files = [f for f in os.listdir(base_dir) if f.startswith('status_') and f.endswith('.json')]
+        print(f"Found status files: {files}")
+    except Exception as e:
+        print(f"Error scanning directory: {e}")
+    time.sleep(1)
+    
     while True:
-        stats = defaultdict(lambda: {
-            'pnl': 0.0, 
-            'trades': 0, 
-            'wins': 0, 
-            'losses': 0, 
-            'last_trade': '-', 
-            'roi': 0.0,
-            'total_bet': 0.0
-        })
+        stats = {}
         
         try:
-            if os.path.exists(history_file):
-                with open(history_file, 'r', encoding='utf-8') as f:
-                    for line in f:
-                        try:
-                            data = json.loads(line)
-                            # 실제 키는 'strategy'이며, 과거 로그는 없을 수 있음
-                            name = data.get('strategy', 'Legacy (Pre-v3)')
-                            
-                            pnl = data.get('pnl', 0.0)
-                            action = data.get('action', '')
-                            
-                            s = stats[name]
-                            
-                            # 정산된 거래(WIN/LOSS/EXPIRED)에 대해서만 PnL 및 승수 집계
-                            if action in ['WIN', 'LOSS', 'EXPIRED']:
-                                s['pnl'] += pnl
-                                s['trades'] += 1
-                                if pnl > 0: s['wins'] += 1
-                                elif pnl < 0: s['losses'] += 1
-                            
-                            # 주문(OPEN) 시에 베팅 규모 집계
-                            if action == 'OPEN':
-                                s['total_bet'] += data.get('size_usdc', 0.0)
-                            
-                            s['last_trade'] = data.get('timestamp', '-')[:19]
-                        except:
-                            continue
+            # 절대 경로 사용하여 파일 목록 획득
+            files = [f for f in os.listdir(base_dir) if f.startswith('status_') and f.endswith('.json')]
             
-            # 소요 시간 계산
-            elapsed = int(time.time() - start_time)
-            hours, rem = divmod(elapsed, 3600)
-            minutes, seconds = divmod(rem, 60)
-            running_time = f"{hours:02}:{minutes:02}:{seconds:02}"
-            
-            clear_console()
-            print("="*85)
-            print(f" 🚀 [POLYMARKET HATEBOT v3.0] UNIFIED PERFORMANCE DASHBOARD (Run: {running_time})")
-            print("="*85)
-            print(f"{'PERSONA':<15} | {'PnL':>12} | {'Win%':>8} | {'Trades':>8} | {'Total Bet':>12} | {'Last Action'}")
-            print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 12 + 3 + 19))
-            
-            # PnL 순으로 정렬
-            sorted_stats = sorted(stats.items(), key=lambda x: x[1]['pnl'], reverse=True)
-            
-            total_global_pnl = 0
-            for name, s in sorted_stats:
-                win_rate = (s['wins'] / s['trades'] * 100) if s['trades'] > 0 else 0
-                total_global_pnl += s['pnl']
+            for filename in files:
+                full_path = os.path.join(base_dir, filename)
                 
-                print(f"{name:<15} | {format_currency(s['pnl'], 12)} | {win_rate:>7.1f}% | {s['trades']:>8} | ${s['total_bet']:>10.1f} | {s['last_trade']}")
-            
-            print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 12 + 3 + 19))
-            print(f"{'TOTAL PROFIT':<15} | {format_currency(total_global_pnl, 12)}")
-            print("="*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 12 + 3 + 19))
-            print("\n [Tip] 이 화면은 5초마다 자동 갱신됩니다. (Ctrl+C로 종료)")
-            
+                # 파일 읽기 시도 (Lock 경합 대비 재시도)
+                data = None
+                for attempt in range(5): # 5번까지 재시도
+                    try:
+                        with open(full_path, 'r', encoding='utf-8') as f:
+                            content = f.read().strip()
+                            if content: # 빈 파일 체크
+                                data = json.loads(content)
+                            break
+                    except (json.JSONDecodeError, PermissionError, OSError):
+                        time.sleep(0.1)
+                    except Exception:
+                        time.sleep(0.1)
+                
+                if data is None:
+                    continue
+
+                # 데이터 파싱
+                try:
+                    name = data.get('strategy', filename[7:-5])
+                    stats[name] = {
+                        'pnl': float(data.get('pnl', 0.0)),
+                        'trades': int(data.get('trades', 0)),
+                        'win_rate': float(data.get('win_rate', 0.0)),
+                        'total_bet': float(data.get('total_bet', 0.0)),
+                        'active': int(data.get('active_bets', 0)),
+                        'last_action': data.get('last_action', '-'),
+                        'online': True
+                    }
+                    
+                    # 파일 수정 시간이 60초 이상 지났으면 Offline 처리 (넉넉하게 잡음)
+                    mtime = os.path.getmtime(full_path)
+                    
+                    # [FIX] Shadow Bot([R])은 거래가 없어도 켜져있는 것으로 간주 (가상 시뮬레이션)
+                    # 또는 타임아웃을 길게 설정 (5분)
+                    if name.startswith('[R] '):
+                        if time.time() - mtime > 300: # 5분 이상 업데이트 없으면 OFF (봇이 죽었을 수도 있음)
+                            stats[name]['online'] = False
+                    else:
+                        if time.time() - mtime > 45:
+                            stats[name]['online'] = False
+                except Exception as parse_e:
+                    # 데이터 형식이 깨진 경우 스킵
+                    continue
+                    
         except Exception as e:
-            print(f"대시보드 갱신 오류: {e}")
+            # 메인 루프 터지지 않게 에러 출력만 하고 계속 진행
+            print(f"Dashboard Loop Error: {e}")
+            time.sleep(1)
+            continue
+
+        # 시간 계산
+        elapsed = int(time.time() - start_time)
+        h, r = divmod(elapsed, 3600)
+        m, s = divmod(r, 60)
+        running_time = f"{h:02}:{m:02}:{s:02}"
+        
+        # [REQUESTED] 현재 시간
+        current_time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        clear_console()
+        print("="*105)
+        # 시간 표시 강조
+        print(f" 🚀 [POLYMARKET HATEBOT v3.0] REAL-TIME DASHBOARD  |  🕒 {current_time_str}  |  Run: {running_time}")
+        print("="*105)
+        print(f"{'PERSONA':<15} | {'PnL (Real)':>12} | {'Win%':>8} | {'Trades':>8} | {'Active':>6} | {'Exposure':>10} | {'Last Action'}")
+        print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 6 + 3 + 10 + 3 + 19))
+        
+        if not stats:
+            print(f"\n   Waiting for bot data... (Scanning {base_dir})")
+            print(f"   Targets: status_*.json")
+            time.sleep(2)
+            continue
+
+        # PnL 순 정렬
+        sorted_stats = sorted(stats.items(), key=lambda x: x[1]['pnl'], reverse=True)
+        
+        total_global_pnl = 0
+        total_active_bets = 0
+        total_exposure = 0
+        
+        for name, s in sorted_stats:
+            total_global_pnl += s['pnl']
+            total_active_bets += s['active']
+            total_exposure += s['total_bet']
             
-        time.sleep(5)
+            # [REQ] [OFF] 상태거나 업데이트가 멈춘 봇은 대시보드에서 숨김 (거슬린다고 함)
+            # 단, PnL이 심각하게 깨져서 확인이 필요한 경우(-$100 이상 손실)는 표시
+            if not s['online']:
+                if s['pnl'] > -100.0:
+                    continue 
+
+            status_prefix = "" if s['online'] else "[OFF] "
+            name_str = f"{status_prefix}{name}"
+            
+            # 이름이 너무 길면 자름
+            if len(name_str) > 15:
+                name_str = name_str[:15]
+            
+            print(f"{name_str:<15} | {format_currency(s['pnl'], 12)} | {s['win_rate']:>7.1f}% | {s['trades']:>8} | {s['active']:>6} | ${s['total_bet']:>8.1f} | {s['last_action']}")
+        
+        print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 6 + 3 + 10 + 3 + 19))
+        print(f"{'TOTAL PROFIT':<15} | {format_currency(total_global_pnl, 12)} | Active: {total_active_bets} | Exposure: ${total_exposure:,.1f}")
+        print("="*(105))
+        print("\n [Tip] 이 화면은 2초마다 갱신됩니다. PnL과 포지션은 실시간 동기화됩니다.")
+        
+        time.sleep(2)
 
 if __name__ == "__main__":
-    # ANSI 이스케이프 코드 활성화 (Windows용)
     if os.name == 'nt':
         os.system('')
     run_dashboard()

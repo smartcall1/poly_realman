@@ -38,6 +38,9 @@ class BinancePriceFeed:
         # 현재 스팟 가격 캐시
         self._spot_cache = {}
         self._spot_last_fetch = 0
+        
+        # [NEW] 초단기 틱 가속도(Velocity) 측정을 위한 스팟 히스토리 (최대 60개 = 최근 60초)
+        self._spot_history = {coin: deque(maxlen=60) for coin in self.symbols}
 
         # 캔들 마지막 갱신 시각
         self._candle_last_fetch = {coin: 0 for coin in self.symbols}
@@ -58,7 +61,10 @@ class BinancePriceFeed:
                 data = {p['symbol']: float(p['price']) for p in r.json()}
                 for coin, symbol in self.symbols.items():
                     if symbol in data:
-                        self._spot_cache[coin] = data[symbol]
+                        price = data[symbol]
+                        self._spot_cache[coin] = price
+                        # [NEW] 히스토리에 (시간, 가격) 저장
+                        self._spot_history[coin].append((now, price))
                 self._spot_last_fetch = now
         except Exception:
             pass  # 네트워크 오류 시 기존 캐시 유지
@@ -87,6 +93,45 @@ class BinancePriceFeed:
                 best_price = c['close']
         
         return best_price
+
+    # ─── 초단기 틱 가속도 (Velocity) ──────────────────────────
+
+    def get_spot_velocity_bps(self, coin: str, window_sec: int = 15) -> float:
+        """
+        [NEW] 최근 초단기 시간(window_sec) 동안의 가격 변화율을 BPS(Basis Points per Second)로 환산.
+        갑작스러운 시장가 매수/매도 폭탄을 감지하기 위한 지표.
+        """
+        history = list(self._spot_history.get(coin, []))
+        if len(history) < 2: return 0.0
+        
+        now = time.time()
+        current_price = history[-1][1]
+        
+        # 윈도우 밖의 데이터는 버림
+        target_ts = now - window_sec
+        old_prices = [h[1] for h in history if h[0] <= target_ts]
+        
+        # 윈도우 시점 근처의 가격을 찾음
+        if old_prices:
+            ref_price = old_prices[-1]
+            elapsed_sec = window_sec
+        else:
+            # 데이터가 윈도우보다 적으면 가장 오래된 데이터를 기준으로 삼음
+            ref_price = history[0][1]
+            elapsed_sec = now - history[0][0]
+            if elapsed_sec < 1.0: elapsed_sec = 1.0
+            
+        if ref_price <= 0: return 0.0
+        
+        # 가격 변화율(%)
+        change_pct = (current_price / ref_price) - 1.0
+        
+        # BPS (Change in Basis Points per Second)
+        # 1 BPS = 0.01% = 0.0001
+        change_bps = change_pct * 10000
+        velocity = change_bps / elapsed_sec
+        
+        return velocity
 
     # ─── 1분봉 캔들 수집 ──────────────────────────────────────
 
@@ -325,6 +370,9 @@ class BinancePriceFeed:
         ema20 = self.get_ema(coin, 20)
         spot = self.get_spot_price(coin)
         drift = self.get_drift(coin)
+        
+        # [NEW] 단기 가속도 (BPS)
+        velocity = self.get_spot_velocity_bps(coin, window_sec=15)
 
         # 1. 추세 판단 (EMA 배열 기반 직관 극대화)
         trend = 'neutral'
@@ -354,7 +402,8 @@ class BinancePriceFeed:
             'trend': trend,
             'strength': round(strength, 2), # 0.0 ~ 1.0
             'state': state,
-            'ema_diff': round(ema_gap, 3)
+            'ema_diff': round(ema_gap, 3),
+            'velocity': round(velocity, 2)
         }
 
     def get_market_summary(self, coin: str) -> dict:

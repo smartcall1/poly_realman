@@ -1,22 +1,23 @@
 """
-+EV(양의 기대값) 베팅 전략 코어
++EV 초단타(Hyper-Short-Term) 베팅 전략 코어
 
-전략 핵심:
-1. Binance 실시간 가격 + HF 변동성으로 각 마켓의 "Fair Value" 계산
-2. Fair Value vs 시장 가격 비교 → Edge > MIN_EDGE면 진입
-3. 분수 켈리로 정확한 베팅 사이즈 결정
-4. 만기까지 무조건 보유 (NO stop-loss, NO take-profit)
-5. 대수의 법칙으로 장기 수익 실현
+전략 핵심 (5분/15분 마켓 특화):
+1. 기존 이론적 공정가(Fair Value) 한계 극복, 매수/매도 수급(Order Imbalance) 분석
+2. 만기가 15분 이하 남았을 때 발생하는 과평가 프리미엄(Theta Decay Premium) 공략
+3. 순간적인 시장 틱 가속도(SPOT_VELOCITY_BPS) 민감 반영
+4. 비상식적인 호가 갭(Spread Fee Ratio) 회피로 손실률 최소화
 
 핵심 철학: "Hold-to-Maturity"
 - 진입 후 절대 조기 청산하지 않는다
 - 0 or 1로 결판. 매번의 개별 결과는 무의미.
-- +EV 베팅을 수백 번 반복하면 기대값에 수렴한다.
+- 비이성적인 단기 쏠림과 시간 가치의 소멸을 이용하여 대수의 법칙으로 승리한다.
 """
 
 import re
 import time
 import os
+import json
+from datetime import datetime
 
 from binance_feed import BinancePriceFeed
 from probability_engine import (
@@ -111,12 +112,11 @@ class EVStrategy:
         if "XRP" in q or "RIPPLE" in q: return "XRP"
         return ''
 
-    def extract_strike_price(self, question: str) -> float:
-        """강화된 스트라이크 가격 추출 로직 (시간/날짜 필터링)"""
-        # 0. 전처리: 퀘스천 마크 등 제거
+    def extract_strike_price(self, question: str, coin: str = '') -> float:
+        """강화된 스트라이크 가격 추출 로직 (날짜 필터 및 코인별 임계치 적용)"""
         q = question.replace('?', '').strip()
 
-        # 1. $ 기호 뒤의 숫자 (가장 우선순위 높음)
+        # 1. $ 기호 뒤의 숫자 (가장 신뢰도 높음)
         dollar_matches = re.findall(r'\$\s*([\d,]+(?:\.\d+)?)', q)
         if dollar_matches:
             try:
@@ -124,29 +124,34 @@ class EVStrategy:
                 for m in dollar_matches:
                     val = float(m.replace(',', ''))
                     if val > 0: candidates.append(val)
-                # $가 여러 개면 가장 큰 값을 Strike로 간주 (BTC 97,500 vs 시간 12:05 등 방지)
                 if candidates: return max(candidates)
             except Exception: pass
 
-        # 2. 시간 패턴 제거 (HH:MM 또는 HH:MM:SS) - 예: "22:30:00"에서 "30"이 추출되는 것 방지
-        q_no_time = re.sub(r'\d{1,2}:\d{2}(?::\d{2})?', '', q)
+        # 2. 날짜/시간 패턴 제거 (February 17, 12:05 등) 
+        # "17" 이나 "11:00PM" 같은 숫자가 가격으로 오인되는 것 방지
+        q_clean = re.sub(r'(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}', '', q, flags=re.IGNORECASE)
+        q_clean = re.sub(r'\d{1,2}:\d{2}(?::\d{2})?(?:\s*[AP]M)?', '', q_clean, flags=re.IGNORECASE)
         
-        # 3. 숫자 패턴 추출 (이미 $에서 못 찾았을 경우만)
-        num_matches = re.findall(r'(\d+(?:,\d{3})*(?:\.\d+)?)', q_no_time)
+        # 3. 숫자 패턴 추출
+        num_matches = re.findall(r'(\d+(?:,\d{3})*(?:\.\d+)?)', q_clean)
         
+        spot = self.binance.get_spot_price(coin) if coin else 0.0
         candidates = []
         for n in num_matches:
             try:
                 val = float(n.replace(',', ''))
-                # 연도 필터링 (2025~2030)
+                # 연도 필터링
                 if 2024 <= val <= 2030 and val.is_integer(): continue
-                # 한자리 숫자는 보통 날짜/시간일 확률이 높음 (XRP도 0.x 이상임)
-                if val < 0.0001: continue 
+                # [CORE FIX] 현재가 대비 너무 낮은 숫자는 날짜일 확률이 높음 (예: BTC 90k인데 17추출)
+                if spot > 0:
+                    if coin == 'BTC' and val < 1000: continue
+                    if coin == 'ETH' and val < 100: continue
+                    if coin == 'SOL' and val < 10: continue
+                
                 candidates.append(val)
             except: continue
             
         if candidates:
-            # 여전히 여러 후보가 있다면 가장 큰 값 (보통 가격이 날짜보다 큼)
             return max(candidates)
 
         return 0.0
@@ -196,8 +201,10 @@ class EVStrategy:
             if tid in self.positions:
                 # 현재 시장가(매도할 수 있는 최선가 = Best Bid) 업데이트
                 bid = self._get_best_bid(order_book)
-                if bid > 0:
-                    self.positions[tid]['current_price'] = bid
+                # [BUG FIX] 0원(호가 없음/패배 임박)도 시세로 반영해야 함
+                # 기존: if bid > 0 (0원이면 업데이트 안 해서 직전 가격 유지 -> 좀비 포지션)
+                # 수정: 항상 업데이트
+                self.positions[tid]['current_price'] = bid
                 continue
 
             side = data.get('side', 'YES')
@@ -205,15 +212,18 @@ class EVStrategy:
             end_time = data.get('end_time', 0)
 
             coin = self.extract_coin(question)
-            strike = self.extract_strike_price(question)
-            is_above = self.is_above_market(question)
             if not coin: continue
 
             # 스팟/변동성 수집
             spot = self.binance.get_spot_price(coin)
             if spot <= 0: continue
+
+            strike = self.extract_strike_price(question, coin)
+            is_above = self.is_above_market(question)
             
-            # 스트라이크 파싱 실패 시 현재가로 대체
+            # [UPDOWN FIX] 스트라이크 파싱 실패(17 등 날짜 필터링됨) 시 현재가로 대체
+            # Polymarket UPDOWN 마켓은 특정 시점 대비 '위/아래'를 묻는 것이므로 
+            # 가격이 명시되지 않으면 현재가가 기준점이 됨.
             if strike <= 0: strike = spot
 
             time_to_expiry = end_time - now
@@ -236,10 +246,25 @@ class EVStrategy:
             final_prob, alpha_log = adjust_prob_by_expert_signals(actual_prob, expert_signals)
 
             best_ask = self._get_best_ask(order_book)
+            best_bid = self._get_best_bid(order_book)
             if best_ask <= 0: continue # [SAFETY] 가격 정보 없으면 진입 금지
             
+            # [NEW] 스프레드 분석 (Spread Fee Ratio)
+            spread = max(0.0, best_ask - best_bid)
+            spread_ratio = spread / best_ask if best_ask > 0 else 1.0
+
+            # [NEW] 오더북 수급 쏠림 분석 (Order Imbalance)
+            bids_vol = sum([float(b['size']) for b in order_book.get('bids', [])])
+            asks_vol = sum([float(a['size']) for a in order_book.get('asks', [])])
+            order_imbalance = bids_vol / asks_vol if asks_vol > 0 else (999.0 if bids_vol > 0 else 1.0)
+            
+            # [NEW] 시간가치 프리미엄 (Theta Decay Premium)
+            # 확률 모델이 극단적으로 낮다고(예: 5% 미만) 판단했는데, 실제 호가창 가격 비싼 경우
+            theta_premium = max(0.0, best_ask - final_prob) if final_prob < 0.1 else 0.0
+
             edge = calculate_edge(final_prob, best_ask, config.FEE_RATE)
             sig_str = expert_signals.get('strength', 0.0)
+            velocity = expert_signals.get('velocity', 0.0)
 
             # [코인별 베스트 픽 선별]
             if coin not in coin_best_pick or edge > coin_best_pick[coin]['edge']:
@@ -247,21 +272,67 @@ class EVStrategy:
                     'tid': tid, 'coin': coin, 'side': side, 'question': question,
                     'price': best_ask, 'prob': final_prob, 'edge': edge,
                     'end_time': end_time, 'strength': sig_str, 'alpha_log': alpha_log,
-                    'marketId': data.get('marketId', ''), 'conditionId': data.get('conditionId', '')
+                    'marketId': data.get('marketId', ''), 'conditionId': data.get('conditionId', ''),
+                    'strike': strike,  # [FIX] 진입 기준가 저장
+                    'spread_ratio': spread_ratio,
+                    'order_imbalance': order_imbalance,
+                    'theta_premium': theta_premium,
+                    'velocity': velocity
                 }
 
             # 분석 기록 (UI 표시용)
             analysis_results.append({
                 'tid': tid, 'coin': coin, 'side': side, 'prob': final_prob,
-                'price': best_ask, 'edge': edge, 'strength': sig_str, 'alpha_log': alpha_log
+                'price': best_ask, 'edge': edge, 'strength': sig_str, 'alpha_log': alpha_log,
+                'theta_premium': theta_premium, 'imbalance': order_imbalance
             })
 
         for coin, pick in coin_best_pick.items():
             if len(self.positions) >= config.MAX_CONCURRENT_BETS: break
 
-            # [CRITICAL FIX] +EV(양의 기대값)일 때만 진입!
-            # 이전 코드는 edge >= -0.30으로 마이너스에서도 진입 → 손실 원인이었음!
-            if pick['edge'] >= config.MIN_EDGE:
+            # [NEW] 페르소나별 분기 조건 진입 로직
+            strategy_name = config.STRATEGY_NAME
+            should_enter = False
+            
+            p_imb = pick['order_imbalance']
+            p_theta = pick['theta_premium']
+            p_vel = pick['velocity']
+            p_spread = pick['spread_ratio']
+            p_edge = pick['edge']
+            
+            # 방어 로직: 스프레드가 너무 넓은 시장(10% 이상)은 거의 무조건 거름 (Spread Arbitrageur 제외)
+            if p_spread > 0.10 and strategy_name != 'Spread_Arbit':
+                continue
+
+            if strategy_name == 'Theta_Reaper':
+                # 만기가 임박하고(프리미엄이 존재), 모델 확률은 매우 낮을 때(5% 미만), 
+                # 즉 "미친 듯이 고평가된 OTM"을 공략 (기본적으로 반대 베팅)
+                # 이 전략은 NO 사이드를 사는게 핵심이므로 위쪽에서 prob/edge 계산이 어떻게 되느냐에 따라 필터 조정
+                # 현재는 단순히 theta_premium이 높은 경우(예: 확률은 5% 미만인데 가격은 10센트 이상)
+                if p_theta >= 0.05:
+                    should_enter = True
+                    
+            elif strategy_name == 'OB_Surfer':
+                # 수급이 압도적으로 쏠려있고(매수 대기가 매도의 3배 이상), 모델 상으로도 +EV 일때
+                if p_edge >= -0.01 and p_imb >= 3.0:
+                    should_enter = True
+                    
+            elif strategy_name == 'Micro_Flash':
+                # 시장가 틱이 순식간에 폭등/폭락할 때 (초당 3 BPS 이상 변동) 해당 모멘텀 탑승
+                if abs(p_vel) >= 3.0:
+                    should_enter = True
+                    
+            elif strategy_name == 'Spread_Arbit':
+                # 모델상 +EV 가 확실하고 스프레드가 5% 이상일 때
+                if p_edge >= config.MIN_EDGE and p_spread >= 0.05:
+                    should_enter = True
+            
+            else:
+                # Fallback: 기본 엣지 전략
+                if p_edge >= config.MIN_EDGE:
+                    should_enter = True
+
+            if should_enter:
                 bet_size = kelly_bet_size(
                     bankroll=self.bankroll, win_prob=pick['prob'], market_price=pick['price'],
                     fee_rate=config.FEE_RATE, kelly_fraction=config.KELLY_FRACTION
@@ -286,7 +357,8 @@ class EVStrategy:
                         entry_price=pick['price'], size_usdc=bet_size,
                         fair_prob=pick['prob'], edge=pick['edge'],
                         end_time=pick['end_time'], side=pick['side'],
-                        market_id=pick.get('marketId', '')
+                        market_id=pick.get('marketId', ''),
+                        strike=pick['strike'] # [FIX] 기준가 전달
                     )
 
         # === 대시보드 렌더링 ===
@@ -294,7 +366,7 @@ class EVStrategy:
 
     # ─── 주문 실행 ────────────────────────────────────────────
 
-    def _place_bet(self, tid, coin, question, entry_price, size_usdc, fair_prob, edge, end_time, side='YES', market_id=''):
+    def _place_bet(self, tid, coin, question, entry_price, size_usdc, fair_prob, edge, end_time, side='YES', market_id='', strike=0.0):
         """베팅 실행 (Live Execution First Logic)"""
         
         # [CRITICAL FIX] 양방 배팅 방지 (Anti-Hedging)
@@ -356,7 +428,9 @@ class EVStrategy:
             'entry_price': entry_price, 'size_usdc': size_usdc,
             'shares': shares, 'fair_prob': fair_prob, 'edge': edge,
             'entry_time': time.time(), 'end_time': end_time, 'side': side,
-            'market_id': market_id
+            'entry_time': time.time(), 'end_time': end_time, 'side': side,
+            'market_id': market_id,
+            'strike': strike # [FIX] 기준가 저장
         }
 
         if config.PAPER_TRADING:
@@ -408,40 +482,26 @@ class EVStrategy:
 
         for tid, pos in self.positions.items():
             if now >= pos['end_time']:
-                # === [FACT-ONLY] Live 모드: 자체 판정 절대 금지 ===
-                if not config.PAPER_TRADING:
-                    # [Live Mode] 라이브 모드에서는 봇이 승패를 판단하지 않습니다.
-                    # 오직 지갑 잔액(Real Balance)의 변화로만 성과를 측정합니다.
-                    # 따라서 만기된 포지션은 리스트에서 제거만 하고, 로그는 남기지 않습니다.
-                    to_remove.append(tid)
-                    continue
-
-                # === Paper 모드만: Real Resolution (Gamma API) 대기 ===
+                # === [FACT-ONLY] Live/Paper: Real Resolution (Gamma API) 대기 ===
                 coin = pos['coin']
                 
-                # [REALITY PATCH] 봇의 자체 추정(Binance) 대신 실제 폴리마켓 심판 결과를 기다림
                 # API 호출 빈도 조절: 10초에 한 번만 체크
                 last_check = pos.get('last_resolution_check', 0)
                 if now - last_check < 10:
                     continue
                 
-                # Check resolution
                 pos['last_resolution_check'] = now
-                m_id = pos.get('market_id', tid) # Fallback to tid if market_id missing
+                m_id = pos.get('market_id', tid) 
                 winner = self.client.get_market_winner(m_id)
                 
-                # [DEBUG] 정산 상태 출력 (사용자 확인용)
                 print(f"  🔍 Checking {coin} Result... API says: {winner}")
                 
                 if winner == 'WAITING':
-                    # 아직 결과 안 나옴 -> 기다림
                     continue
                 
                 if winner is None:
-                    # API 에러 등 -> 다음 루프에 재시도
                     continue
                     
-                # 결과 확정 (YES or NO)
                 my_side = pos.get('side', 'YES')
                 won = (winner == my_side)
                 
@@ -464,7 +524,9 @@ class EVStrategy:
         net_payout = payout - fee
         profit = net_payout - pos['size_usdc']
 
-        self.bankroll += net_payout
+        # 실전 모드에서는 잔액을 직접 더하지 않음 (자동 동기화 루프가 따로 있음)
+        if config.PAPER_TRADING:
+            self.bankroll += net_payout
         self.stats['wins'] += 1
         self.stats['total_pnl'] += profit
         
@@ -475,7 +537,8 @@ class EVStrategy:
             self.stats['peak_bankroll'] = self.bankroll
 
         s = pos.get('side', '?')
-        strike = self.extract_strike_price(pos['question'])
+        # [FIX] 저장된 strike 사용 (없으면 재추출 시도하되 coin 파라미터 전달)
+        strike = pos.get('strike', self.extract_strike_price(pos['question'], pos['coin']))
         spot_final = self.binance.get_price_at_time(pos['coin'], pos['end_time'])
         
         from datetime import datetime
@@ -493,12 +556,20 @@ class EVStrategy:
         self.stats['losses'] += 1
         self.stats['total_pnl'] += loss
 
-        dd = (self.stats['peak_bankroll'] - self.bankroll) / self.stats['peak_bankroll']
+        # 실전 모드에서는 bankroll 차감을 패스 (실제 balance 싱크로 처리)
+        if config.PAPER_TRADING:
+            # Paper 모드에서도 bankroll은 이미 OPEN 시점에 전액 차감되었으므로 따로 뺄 필요 없음
+            pass
+        equity = self.bankroll + sum(p['size_usdc'] for p in self.positions.values())
+        current_peak = max(self.stats['peak_bankroll'], equity)
+        dd = 1.0 - (equity / current_peak) if current_peak > 0 else 0.0
+        
         if dd > self.stats['max_drawdown']:
             self.stats['max_drawdown'] = dd
 
         s = pos.get('side', '?')
-        strike = self.extract_strike_price(pos['question'])
+        # [FIX] 저장된 strike 사용
+        strike = pos.get('strike', self.extract_strike_price(pos['question'], pos['coin']))
         spot_final = self.binance.get_price_at_time(pos['coin'], pos['end_time'])
 
         from datetime import datetime
@@ -567,8 +638,6 @@ class EVStrategy:
 
     def _log_trade(self, tid, coin, side, question, price, size, action, **kwargs):
         """거래 내역을 JSONL 파일로 저장"""
-        import json
-        from datetime import datetime
         
         record = {
             "strategy": config.STRATEGY_NAME,
@@ -686,6 +755,31 @@ class EVStrategy:
                 alpha = f"({r['alpha_log'][:8]})" if r['alpha_log'] != "Neutral" else ""
                 print(f"{mark}{r['coin']:3s} {r['side']:3s} | Pb:{r['prob']:3.0%} / Ed:{r['edge']:+5.1%} {alpha}")
             print("-" * 48)
+
+        # === [NEW] 대시보드용 상태 스냅샷 저장 ===
+        self._save_snapshot(real_pnl, net_equity, roi, win_rate)
+
+    def _save_snapshot(self, real_pnl, net_equity, roi, win_rate):
+        """대시보드 실시간 연동을 위한 스냅샷 파일 저장"""
+        try:
+            snapshot_path = os.path.join(os.path.dirname(__file__), f"status_{config.STRATEGY_NAME}.json")
+            data = {
+                "strategy": config.STRATEGY_NAME,
+                "timestamp": datetime.now().isoformat(),
+                "pnl": round(real_pnl, 2),
+                "equity": round(net_equity, 2),
+                "balance": round(self.bankroll, 2),
+                "roi": round(roi, 1),
+                "win_rate": round(win_rate, 1),
+                "trades": self.stats['wins'] + self.stats['losses'],
+                "active_bets": len(self.positions),
+                "total_bet": round(sum(p['size_usdc'] for p in self.positions.values()), 2),
+                "last_action": datetime.now().isoformat()[:19]
+            }
+            with open(snapshot_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False)
+        except Exception as e:
+            pass # 렌더링 루프 방해 금지
 
 
 

@@ -1,29 +1,29 @@
-
 $Strategies = @(
-    @{ Name = "ConsrvGiant"; Edge = 0.10; Kelly = 0.10; Vol = 1.6; Alpha = 0.10 },
-    @{ Name = "TrendFollow"; Edge = 0.04; Kelly = 0.25; Vol = 1.2; Alpha = 0.45 },
-    @{ Name = "MeanRevert"; Edge = 0.05; Kelly = 0.20; Vol = 1.3; Alpha = -0.20 },
-    @{ Name = "GammaScalp"; Edge = 0.03; Kelly = 0.30; Vol = 1.1; Alpha = 0.25 },
-    @{ Name = "TailHunter"; Edge = 0.12; Kelly = 0.15; Vol = 1.8; Alpha = 0.30 },
-    @{ Name = "KellyPurist"; Edge = 0.02; Kelly = 0.50; Vol = 1.2; Alpha = 0.05 },
-    @{ Name = "SmartMoney"; Edge = 0.06; Kelly = 0.20; Vol = 1.3; Alpha = 0.25 },
-    @{ Name = "HF_Sniper"; Edge = 0.01; Kelly = 0.15; Vol = 1.0; Alpha = 0.20 },
-    @{ Name = "RiskOnSpec"; Edge = 0.04; Kelly = 0.40; Vol = 1.0; Alpha = 0.35 },
-    @{ Name = "AdaptiveMst"; Edge = 0.05; Kelly = 0.25; Vol = 1.25; Alpha = 0.25 },
-    @{ Name = "FiveMinMom"; Edge = 0.08; Kelly = 0.12; Vol = 1.0; Alpha = 0.28 },
-    @{ Name = "RegimeBrake"; Edge = 0.12; Kelly = 0.08; Vol = 1.4; Alpha = 0.00 }
+    @{ Name = "Theta_Reaper"; Edge = 0.0; Kelly = 0.10; Vol = 1.0; Alpha = 0.00 },
+    @{ Name = "OB_Surfer"; Edge = -0.01; Kelly = 0.20; Vol = 1.2; Alpha = 0.20 },
+    @{ Name = "Micro_Flash"; Edge = 0.0; Kelly = 0.15; Vol = 1.0; Alpha = 0.50 },
+    @{ Name = "Spread_Arbit"; Edge = 0.05; Kelly = 0.15; Vol = 1.3; Alpha = 0.10 },
+    @{ Name = "Bal_Factory"; Edge = 0.04; Kelly = 0.12; Vol = 1.2; Alpha = 0.25 }
 )
 
 Write-Host "🚀 트레이딩 군단출격" -ForegroundColor Cyan
 
-# [NEW] 거래 내역 리셋 (기존 로그 백업)
-$HistoryFile = "trade_history.jsonl"
-if (Test-Path $HistoryFile) {
-    $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-    $BackupFile = "trade_history_backup_$Timestamp.jsonl"
-    Move-Item -Path $HistoryFile -Destination $BackupFile
-    Write-Host "  📦 기존 거래 내역을 백업했습니다: $BackupFile" -ForegroundColor Gray
-}
+# [INFO] 거래 내역 누적 모드 (사용자 요청: 히스토리 이어서 쌓기)
+# $HistoryFile = "trade_history.jsonl"
+# if (Test-Path $HistoryFile) {
+#     if ($null -ne (Get-Content $HistoryFile -ErrorAction SilentlyContinue)) { 
+#         $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+#         $BackupFile = "trade_history_backup_$Timestamp.jsonl"
+#         Move-Item -Path $HistoryFile -Destination $BackupFile
+#         Write-Host "  📦 기존 거래 내역을 백업했습니다: $BackupFile" -ForegroundColor Gray
+#     } else {
+#         Remove-Item $HistoryFile
+#     }
+# }
+
+# 기존 상태 파일 정리
+Get-ChildItem "status_*.json" | Remove-Item -Force
+Write-Host "  🧹 이전 상태 스냅샷을 정리했습니다." -ForegroundColor Gray
 
 foreach ($S in $Strategies) {
     $command = "python main.py"

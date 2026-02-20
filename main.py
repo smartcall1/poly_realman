@@ -137,10 +137,12 @@ def main():
                     strategy.show_status("데이터 수집 실패 — 시장 재탐색 중...")
 
             except Exception as e:
+                print(f"\n⚠️ [Loop Error] {e}")
                 if config.DEBUG_MODE:
-                    print(f"\n[Error] {e}")
                     import traceback
                     traceback.print_exc()
+                print("  🔄 10초 후 루프 재시도...")
+                time.sleep(10)
 
             time.sleep(config.MAIN_LOOP_INTERVAL)
 
