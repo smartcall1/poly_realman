@@ -1,0 +1,23 @@
+{
+  "proxyWallet": "0xf709a25988a921b01b6ae5a9349aaf727247c75c",
+  "timestamp": 1771312877,
+  "conditionId": "0xdfd186f56be2b32336f8913e50ae55904db79690fcecbe73e46ea1153bd7b473",
+  "type": "TRADE",
+  "size": 4.11,
+  "usdcSize": 1.668,
+  "transactionHash": "0xe9d3f9a14d64112ccaee5195fe85f76e8cd1ed7c5065d0563720d54b4a428790",
+  "price": 0.4,
+  "asset": "101602389817077743209995551191575214374533571137829488711084718312626449678771",
+  "side": "BUY",
+  "outcomeIndex": 0,
+  "title": "Bitcoin Up or Down - February 17, 2:15AM-2:30AM ET",
+  "slug": "btc-updown-15m-1771312500",
+  "icon": "https://polymarket-upload.s3.us-east-2.amazonaws.com/BTC+fullsize.png",
+  "eventSlug": "btc-updown-15m-1771312500",
+  "outcome": "Up",
+  "name": "donemoji",
+  "pseudonym": "Agitated-Hyacinth",
+  "bio": "never mind",
+  "profileImage": "https://polymarket-upload.s3.us-east-2.amazonaws.com/profile-image-3105859-a0952501-4e86-455c-8e63-aa9f10da3768.jpg",
+  "profileImageOptimized": ""
+}

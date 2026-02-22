@@ -84,6 +84,10 @@ class EVStrategy:
 
         # 활성 포지션: {tid: {entry_price, size_usdc, fair_prob, edge, coin, question, entry_time, end_time}}
         self.positions = {}
+        
+        # [NEW] Sustained Imbalance 추적을 위한 딕셔너리
+        # 구조: { tid: {'first_seen': timestamp, 'side': 'YES'/'NO'} }
+        self._imbalance_tracker = {}
 
         # 누적 통계 (Paper 모드에서만 의미 있음)
         self.stats = {
@@ -290,7 +294,7 @@ class EVStrategy:
         for coin, pick in coin_best_pick.items():
             if len(self.positions) >= config.MAX_CONCURRENT_BETS: break
 
-            # [NEW] 페르소나별 분기 조건 진입 로직
+            # [NEW] 페르소나별 분기 조건 진입 로직 (v5.0 Anti-Latency)
             strategy_name = config.STRATEGY_NAME
             should_enter = False
             
@@ -300,37 +304,49 @@ class EVStrategy:
             p_spread = pick['spread_ratio']
             p_edge = pick['edge']
             
-            # 방어 로직: 스프레드가 너무 넓은 시장(10% 이상)은 거의 무조건 거름 (Spread Arbitrageur 제외)
-            if p_spread > 0.10 and strategy_name != 'Spread_Arbit':
-                continue
-
+            # [Imbalance 추적 로직]
+            # Imbalance_Sniper 전략을 위함: 매수 대기 물량이 꽤 많음(Imbalance >= 2.0)
+            if p_imb >= 2.0:
+                if tid not in self._imbalance_tracker:
+                    self._imbalance_tracker[tid] = {'first_seen': now}
+            else:
+                # 1.5 밑으로 깨지면 진짜 벽이 무너진 것으로 간주하고 초기화 (약간의 버퍼 제공)
+                if p_imb < 1.5 and tid in self._imbalance_tracker:
+                    del self._imbalance_tracker[tid]
+            
+            # --- 전략별 진입 통제 ---
+            
             if strategy_name == 'Theta_Reaper':
-                # 만기가 임박하고(프리미엄이 존재), 모델 확률은 매우 낮을 때(5% 미만), 
-                # 즉 "미친 듯이 고평가된 OTM"을 공략 (기본적으로 반대 베팅)
-                # 이 전략은 NO 사이드를 사는게 핵심이므로 위쪽에서 prob/edge 계산이 어떻게 되느냐에 따라 필터 조정
-                # 현재는 단순히 theta_premium이 높은 경우(예: 확률은 5% 미만인데 가격은 10센트 이상)
-                if p_theta >= 0.05:
+                # [BUG FIX] 거품이 낀 반대편(5%확률에 15센트)을 사는게 아니라, 
+                # 확실한 쪽을 사야 함.
+                # [RELAX] 확률 85% 이상, 엣지가 1.5% 이상 존재할 때만 진입하여 기회 포착률 상승
+                if pick['prob'] >= 0.85 and p_edge >= 0.015:
                     should_enter = True
                     
-            elif strategy_name == 'OB_Surfer':
-                # 수급이 압도적으로 쏠려있고(매수 대기가 매도의 3배 이상), 모델 상으로도 +EV 일때
-                if p_edge >= -0.01 and p_imb >= 3.0:
+            elif strategy_name == 'Spread_Fisher':
+                # [BUG FIX] 죽은 마켓(확률 0%)에서 스프레드가 높다고 1센트에 사는 현상 방지
+                # 팽팽한 접전(40~60%)이면서 스프레드가 10% 이상 벌어진 곳에만 지정가 낚시
+                if p_spread >= 0.10 and 0.40 <= pick['prob'] <= 0.60:
                     should_enter = True
+                    # 지정가 후려치기 (Paper 모드에서는 이게 체결가로 간주됨)
+                    pick['price'] = max(0.01, pick['prob'] - 0.05)
+                    # 가격을 인위적으로 바꿨으므로 edge 재계산
+                    # Spread_Fisher는 수동적으로 유리하게 샀다고 가정
+                    pick['edge'] = calculate_edge(pick['prob'], pick['price'], config.FEE_RATE)
                     
-            elif strategy_name == 'Micro_Flash':
-                # 시장가 틱이 순식간에 폭등/폭락할 때 (초당 3 BPS 이상 변동) 해당 모멘텀 탑승
-                if abs(p_vel) >= 3.0:
-                    should_enter = True
-                    
-            elif strategy_name == 'Spread_Arbit':
-                # 모델상 +EV 가 확실하고 스프레드가 5% 이상일 때
-                if p_edge >= config.MIN_EDGE and p_spread >= 0.05:
-                    should_enter = True
+            elif strategy_name == 'Imbalance_Sniper':
+                # 스푸핑(가짜 벽) 방어: Imbalance가 15초 이상 유지되었는지 확인 (버퍼 제공)
+                tracked = self._imbalance_tracker.get(tid)
+                if tracked and (now - tracked['first_seen']) >= 15.0:
+                    # 바이낸스 실물 가속도 동기화 확인 (0.5 BPS 이상 움직일 때만: 조건 완화)
+                    if p_vel >= 0.5 and 0.20 <= pick['prob'] <= 0.80:
+                        # 엣지가 최소 0%(손해는 아님)일 때 편승
+                        if p_edge >= 0.0:
+                            should_enter = True
             
             else:
-                # Fallback: 기본 엣지 전략
-                if p_edge >= config.MIN_EDGE:
-                    should_enter = True
+                # 안전망: 정의되지 않은 기존 전략(Bal_Factory 등)이 켜져있다면 아무것도 하지 않습니다. (손실 방지)
+                should_enter = False
 
             if should_enter:
                 bet_size = kelly_bet_size(

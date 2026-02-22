@@ -143,6 +143,36 @@ def run_dashboard():
         print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 6 + 3 + 10 + 3 + 19))
         print(f"{'TOTAL PROFIT':<15} | {format_currency(total_global_pnl, 12)} | Active: {total_active_bets} | Exposure: ${total_exposure:,.1f}")
         print("="*(105))
+        
+        # --- Active Whales Section ---
+        whales_path = os.path.join(base_dir, 'whales.json')
+        active_whales = []
+        try:
+            if os.path.exists(whales_path):
+                with open(whales_path, 'r', encoding='utf-8') as f:
+                    content = f.read().strip()
+                    if content:
+                        whales_data = json.loads(content)
+                        for addr, info in whales_data.items():
+                            if info.get('status') == 'active':
+                                active_whales.append({
+                                    'address': addr,
+                                    'name': info.get('name', 'Unknown'),
+                                    'win_rate': info.get('win_rate', 0.0),
+                                    'roi': info.get('roi', 0.0)
+                                })
+        except Exception:
+            pass
+
+        if active_whales:
+            print(f"\n 🐳 [ACTIVE WHALES TRACKED: {len(active_whales)}]")
+            print("-" * 65)
+            print(f" {'Name':<15} | {'Win Rate':>8} | {'ROI':>8} | {'Address'}")
+            print("-" * 65)
+            for w in sorted(active_whales, key=lambda x: x['roi'], reverse=True):
+                print(f" {w['name']:<15} | {w['win_rate']:>7.1f}% | {w['roi']:>7.1f}% | {w['address'][:8]}...{w['address'][-4:]}")
+            print("=" * 65)
+
         print("\n [Tip] 이 화면은 2초마다 갱신됩니다. PnL과 포지션은 실시간 동기화됩니다.")
         
         time.sleep(2)

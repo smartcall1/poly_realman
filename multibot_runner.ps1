@@ -1,9 +1,7 @@
 $Strategies = @(
     @{ Name = "Theta_Reaper"; Edge = 0.0; Kelly = 0.10; Vol = 1.0; Alpha = 0.00 },
-    @{ Name = "OB_Surfer"; Edge = -0.01; Kelly = 0.20; Vol = 1.2; Alpha = 0.20 },
-    @{ Name = "Micro_Flash"; Edge = 0.0; Kelly = 0.15; Vol = 1.0; Alpha = 0.50 },
-    @{ Name = "Spread_Arbit"; Edge = 0.05; Kelly = 0.15; Vol = 1.3; Alpha = 0.10 },
-    @{ Name = "Bal_Factory"; Edge = 0.04; Kelly = 0.12; Vol = 1.2; Alpha = 0.25 }
+    @{ Name = "Spread_Fisher"; Edge = 0.0; Kelly = 0.10; Vol = 1.0; Alpha = 0.00 },
+    @{ Name = "Imbalance_Sniper"; Edge = 0.0; Kelly = 0.10; Vol = 1.0; Alpha = 0.00 }
 )
 
 Write-Host "🚀 트레이딩 군단출격" -ForegroundColor Cyan
