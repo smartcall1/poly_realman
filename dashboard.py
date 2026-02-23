@@ -97,19 +97,20 @@ def run_dashboard():
         running_time = f"{h:02}:{m:02}:{s:02}"
         
         # [REQUESTED] 현재 시간
-        current_time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # [REQUESTED] 현재 시간 (모바일용으로 시분초만 간편하게 표시)
+        time_only_str = datetime.now().strftime("%H:%M:%S")
         
         clear_console()
-        print("="*105)
-        # 시간 표시 강조
-        print(f" 🚀 [POLYMARKET HATEBOT v3.0] REAL-TIME DASHBOARD  |  🕒 {current_time_str}  |  Run: {running_time}")
-        print("="*105)
-        print(f"{'PERSONA':<15} | {'PnL (Real)':>12} | {'Win%':>8} | {'Trades':>8} | {'Active':>6} | {'Exposure':>10} | {'Last Action'}")
-        print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 6 + 3 + 10 + 3 + 19))
+        print("="*60)
+        # 모바일 사이즈에 맞게 간소화
+        print(f" 🚀 [WHALE BOT] DASHBOARD  |  🕒 {time_only_str}")
+        print(f" ⏱️ Run: {running_time}")
+        print("="*60)
+        print(f"{'BOT':<12} | {'PnL($)':>9} | {'Win%':>5} | {'Trd':>3} | {'Act':>3} | {'Exp($)':>6}")
+        print("-" * 60)
         
         if not stats:
-            print(f"\n   Waiting for bot data... (Scanning {base_dir})")
-            print(f"   Targets: status_*.json")
+            print(f"\n Waiting for bot data... (Scanning {base_dir})")
             time.sleep(2)
             continue
 
@@ -125,24 +126,23 @@ def run_dashboard():
             total_active_bets += s['active']
             total_exposure += s['total_bet']
             
-            # [REQ] [OFF] 상태거나 업데이트가 멈춘 봇은 대시보드에서 숨김 (거슬린다고 함)
-            # 단, PnL이 심각하게 깨져서 확인이 필요한 경우(-$100 이상 손실)는 표시
             if not s['online']:
                 if s['pnl'] > -100.0:
                     continue 
 
-            status_prefix = "" if s['online'] else "[OFF] "
+            status_prefix = "" if s['online'] else "[X]"
             name_str = f"{status_prefix}{name}"
             
-            # 이름이 너무 길면 자름
-            if len(name_str) > 15:
-                name_str = name_str[:15]
+            # 모바일 최적화를 위해 이름 길이 크게 제한
+            if len(name_str) > 12:
+                name_str = name_str[:10] + ".."
             
-            print(f"{name_str:<15} | {format_currency(s['pnl'], 12)} | {s['win_rate']:>7.1f}% | {s['trades']:>8} | {s['active']:>6} | ${s['total_bet']:>8.1f} | {s['last_action']}")
+            pnl_str = format_currency(s['pnl'], 9)
+            print(f"{name_str:<12} | {pnl_str} | {s['win_rate']:>4.0f}% | {s['trades']:>3} | {s['active']:>3} | {s['total_bet']:>6.0f}")
         
-        print("-"*(15 + 3 + 12 + 3 + 8 + 3 + 8 + 3 + 6 + 3 + 10 + 3 + 19))
-        print(f"{'TOTAL PROFIT':<15} | {format_currency(total_global_pnl, 12)} | Active: {total_active_bets} | Exposure: ${total_exposure:,.1f}")
-        print("="*(105))
+        print("-" * 60)
+        print(f"{'TOTAL PROFIT':<12} | {format_currency(total_global_pnl, 9)} | Act: {total_active_bets} | Exp: {total_exposure:>.0f}")
+        print("=" * 60)
         
         # --- Active Whales Section ---
         whales_path = os.path.join(base_dir, 'whales.json')
@@ -165,15 +165,16 @@ def run_dashboard():
             pass
 
         if active_whales:
-            print(f"\n 🐳 [ACTIVE WHALES TRACKED: {len(active_whales)}]")
-            print("-" * 65)
-            print(f" {'Name':<15} | {'Win Rate':>8} | {'ROI':>8} | {'Address'}")
-            print("-" * 65)
+            print(f"\n 🐳 [ACTIVE WHALES: {len(active_whales)}]")
+            print("-" * 60)
+            print(f" {'Name':<12} | {'Win%':>5} | {'ROI%':>6} | {'Address'}")
+            print("-" * 60)
             for w in sorted(active_whales, key=lambda x: x['roi'], reverse=True):
-                print(f" {w['name']:<15} | {w['win_rate']:>7.1f}% | {w['roi']:>7.1f}% | {w['address'][:8]}...{w['address'][-4:]}")
-            print("=" * 65)
+                n = w['name'] if len(w['name']) <= 12 else w['name'][:10] + '..'
+                print(f" {n:<12} | {w['win_rate']:>4.0f}% | {w['roi']:>5.1f}% | {w['address'][:4]}..{w['address'][-4:]}")
+            print("=" * 60)
 
-        print("\n [Tip] 이 화면은 2초마다 갱신됩니다. PnL과 포지션은 실시간 동기화됩니다.")
+        print("\n [Tip] 2초 부분 갱신 (실시간 포지션 동기화)")
         
         time.sleep(2)
 
