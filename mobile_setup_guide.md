@@ -33,7 +33,8 @@ cd polymarket_bot
 python -m venv venv
 source venv/bin/activate
 
-# 4. 필수 라이브러리 설치
+# 4. 필수 라이브러리 설치 (컴파일용 API 레벨 지정 필수)
+export ANDROID_API_LEVEL=24
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
@@ -79,5 +80,10 @@ python whale_copy_bot.py
 모바일 CPU 아키텍처 특성상 간혹 빌드 패키지 오류가 발생할 수 있습니다. 아래 명령어로 필수 빌드 패키지들이 정확히 설치되었는지 재확인하시기 바랍니다.
 `pkg install rust binutils libffi openssl -y`
 
-**2. 모듈이 없다는 에러 발생 시**
-가상환경(`venv`)이 활성화되어 있는지 프롬프트 창을 확인하시고, `pip install -r requirements.txt` 명령어를 통해 재설치 하십시오.
+**2. 모듈이 없거나 설치 중 pip 오류(subprocess-exited) 발생 시**
+Termux 환경 변수 누락으로 인한 컴파일 에러일 확률이 큽니다.
+```bash
+export ANDROID_API_LEVEL=24
+pip install -r requirements.txt
+```
+위 코드를 차례대로 한 번만 다시 입력해 보시기 바랍니다.
