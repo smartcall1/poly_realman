@@ -172,7 +172,7 @@ def run_dashboard():
                 print(f"{n:<12}|{w['win_rate']:>4.0f}%|{w['roi']:>5.1f}%|{w['address'][:4]}..{w['address'][-3:]}")
             print("=" * 55)
 
-        print("\n [Tip] 2초 부분 갱신 (실시간 포지션 동기화)")
+        print("\n [Tip] Auto-refresh every 2s (Real-time syncing)")
         
         time.sleep(2)
 
