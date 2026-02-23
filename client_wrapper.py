@@ -130,6 +130,74 @@ class PolymarketClient:
         except Exception:
             return None
 
+    def simulate_market_buy_vwap(self, market_id: str, buy_usdc_amount: float) -> float:
+        """
+        주어진 USDC 금액만큼 시장가 매수(Market Buy)를 진행했을 때의
+        가상 체결 가중평균가(VWAP, Volume-Weighted Average Price)를 계산합니다.
+        
+        Args:
+            market_id: 마켓의 Token ID (해당 진영의 토큰)
+            buy_usdc_amount: 투자하려는 USDC 규모
+            
+        Returns:
+            예상 체결 평단가 (0~1 사이). 
+            물량이 부족하여 전체 금액을 체결할 수 없거나 에러 발생 시 None 반환.
+        """
+        try:
+            # 1. 호가창 조회
+            orderbook = self.get_order_book(market_id)
+            if not orderbook or 'asks' not in orderbook:
+                return None
+                
+            asks = orderbook['asks'] # 매도 물량(우리가 사야할 물량)
+            if not asks:
+                return None
+                
+            # 가격 오름차순 정렬 (싼 것부터 체결)
+            asks.sort(key=lambda x: float(x['price']))
+            
+            remaining_usdc = buy_usdc_amount
+            total_shares_bought = 0.0
+            total_usdc_spent = 0.0
+            
+            for ask in asks:
+                price = float(ask['price'])
+                size_shares = float(ask['size'])
+                
+                # 이 호가에 있는 물량을 전부 샀을 때 필요한 USDC
+                cost_for_this_ask = price * size_shares
+                
+                if remaining_usdc >= cost_for_this_ask:
+                    # 물량 전부 소화
+                    total_shares_bought += size_shares
+                    total_usdc_spent += cost_for_this_ask
+                    remaining_usdc -= cost_for_this_ask
+                else:
+                    # 돈이 부족해서 일부만 매수
+                    shares_to_buy = remaining_usdc / price
+                    total_shares_bought += shares_to_buy
+                    total_usdc_spent += remaining_usdc
+                    remaining_usdc = 0
+                    break
+                    
+                if remaining_usdc <= 0:
+                    break
+                    
+            # 2. 결과 계산
+            if remaining_usdc > 0.01:
+                # 호가창에 존재하는 모든 물량을 다 사도 내가 원하는 금액을 못 채운 경우 (유동성 부족)
+                print(f"[Warning] 호가창 유동성 부족 (남은 주문 잔액: ${remaining_usdc:.2f})")
+                return None
+                
+            if total_shares_bought > 0:
+                vwap_price = total_usdc_spent / total_shares_bought
+                return round(vwap_price, 4)
+            return None
+            
+        except Exception as e:
+            print(f"[Error] VWAP calculation failed: {e}")
+            return None
+
     def get_market_winner(self, market_id: str) -> str:
         """
         Gamma API를 통해 마켓의 승자(Winner) 조회.

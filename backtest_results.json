@@ -1,0 +1,3218 @@
+[
+  {
+    "date": "2026-01-25 08:54",
+    "whale": "Vanchalkenstein",
+    "market": "San Diego State Aztecs vs. UNLV Runnin' Rebels",
+    "bet_size": 25.0,
+    "profit": -25.0,
+    "capital": 975.0
+  },
+  {
+    "date": "2026-01-26 06:14",
+    "whale": "Vanchalkenstein",
+    "market": "Pelicans vs. Spurs",
+    "bet_size": 24.38,
+    "profit": -24.38,
+    "capital": 950.62
+  },
+  {
+    "date": "2026-01-26 06:36",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 23.77,
+    "profit": -6.7,
+    "capital": 943.92
+  },
+  {
+    "date": "2026-01-26 06:36",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 23.6,
+    "profit": -6.65,
+    "capital": 937.27
+  },
+  {
+    "date": "2026-01-26 06:37",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 23.43,
+    "profit": -6.61,
+    "capital": 930.66
+  },
+  {
+    "date": "2026-01-26 06:37",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 23.27,
+    "profit": -6.56,
+    "capital": 924.1
+  },
+  {
+    "date": "2026-01-26 06:37",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 23.1,
+    "profit": -6.51,
+    "capital": 917.59
+  },
+  {
+    "date": "2026-01-26 06:37",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 22.94,
+    "profit": -6.47,
+    "capital": 911.12
+  },
+  {
+    "date": "2026-01-26 06:37",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 22.78,
+    "profit": -6.42,
+    "capital": 904.7
+  },
+  {
+    "date": "2026-01-26 06:39",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 22.62,
+    "profit": -6.38,
+    "capital": 898.32
+  },
+  {
+    "date": "2026-01-26 06:39",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 22.46,
+    "profit": -6.33,
+    "capital": 891.99
+  },
+  {
+    "date": "2026-01-26 06:39",
+    "whale": "Vanchalkenstein",
+    "market": "Mavericks vs. Bucks",
+    "bet_size": 22.3,
+    "profit": -6.29,
+    "capital": 885.7
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 22.14,
+    "profit": -22.14,
+    "capital": 863.56
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 21.59,
+    "profit": -21.59,
+    "capital": 841.97
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 21.05,
+    "profit": -21.05,
+    "capital": 820.92
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 20.52,
+    "profit": -20.52,
+    "capital": 800.4
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 20.01,
+    "profit": -20.01,
+    "capital": 780.39
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 19.51,
+    "profit": -19.51,
+    "capital": 760.88
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 19.02,
+    "profit": -19.02,
+    "capital": 741.86
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 18.55,
+    "profit": -18.55,
+    "capital": 723.31
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 18.08,
+    "profit": -18.08,
+    "capital": 705.23
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 17.63,
+    "profit": -17.63,
+    "capital": 687.6
+  },
+  {
+    "date": "2026-01-26 06:40",
+    "whale": "Vanchalkenstein",
+    "market": "Patriots vs. Broncos",
+    "bet_size": 17.19,
+    "profit": -17.19,
+    "capital": 670.41
+  },
+  {
+    "date": "2026-01-26 22:56",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 16.76,
+    "profit": 8.27,
+    "capital": 678.68
+  },
+  {
+    "date": "2026-01-26 22:58",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 16.97,
+    "profit": 8.38,
+    "capital": 687.06
+  },
+  {
+    "date": "2026-01-26 23:01",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 17.18,
+    "profit": 8.48,
+    "capital": 695.54
+  },
+  {
+    "date": "2026-01-27 01:30",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 17.39,
+    "profit": 16.38,
+    "capital": 711.91
+  },
+  {
+    "date": "2026-01-27 01:32",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 17.8,
+    "profit": 16.76,
+    "capital": 728.67
+  },
+  {
+    "date": "2026-01-27 01:32",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 18.22,
+    "profit": 17.16,
+    "capital": 745.83
+  },
+  {
+    "date": "2026-01-27 01:35",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 18.65,
+    "profit": 17.56,
+    "capital": 763.39
+  },
+  {
+    "date": "2026-01-27 01:42",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 19.08,
+    "profit": 17.97,
+    "capital": 781.36
+  },
+  {
+    "date": "2026-01-27 01:45",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 19.53,
+    "profit": 18.4,
+    "capital": 799.76
+  },
+  {
+    "date": "2026-01-27 01:46",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 19.99,
+    "profit": 18.83,
+    "capital": 818.59
+  },
+  {
+    "date": "2026-01-27 01:53",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 20.46,
+    "profit": 19.27,
+    "capital": 837.86
+  },
+  {
+    "date": "2026-01-27 02:04",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 20.95,
+    "profit": 19.73,
+    "capital": 857.58
+  },
+  {
+    "date": "2026-01-27 02:04",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 21.44,
+    "profit": 20.19,
+    "capital": 877.77
+  },
+  {
+    "date": "2026-01-27 02:08",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 21.94,
+    "profit": 20.67,
+    "capital": 898.44
+  },
+  {
+    "date": "2026-01-27 02:09",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 22.46,
+    "profit": 21.15,
+    "capital": 919.59
+  },
+  {
+    "date": "2026-01-27 02:12",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 22.99,
+    "profit": 21.65,
+    "capital": 941.24
+  },
+  {
+    "date": "2026-01-27 02:18",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 23.53,
+    "profit": 22.16,
+    "capital": 963.4
+  },
+  {
+    "date": "2026-01-27 02:27",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 24.09,
+    "profit": 22.68,
+    "capital": 986.09
+  },
+  {
+    "date": "2026-01-27 02:30",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 24.65,
+    "profit": 23.22,
+    "capital": 1009.3
+  },
+  {
+    "date": "2026-01-27 02:38",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 25.23,
+    "profit": 23.76,
+    "capital": 1033.07
+  },
+  {
+    "date": "2026-01-27 02:39",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 25.83,
+    "profit": 24.32,
+    "capital": 1057.39
+  },
+  {
+    "date": "2026-01-27 02:39",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 26.43,
+    "profit": 24.89,
+    "capital": 1082.28
+  },
+  {
+    "date": "2026-01-27 02:40",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 27.06,
+    "profit": 25.48,
+    "capital": 1107.76
+  },
+  {
+    "date": "2026-01-27 02:45",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 27.69,
+    "profit": 26.08,
+    "capital": 1133.84
+  },
+  {
+    "date": "2026-01-27 02:45",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 28.35,
+    "profit": 26.69,
+    "capital": 1160.54
+  },
+  {
+    "date": "2026-01-27 02:53",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 29.01,
+    "profit": 27.32,
+    "capital": 1187.86
+  },
+  {
+    "date": "2026-01-27 02:55",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 29.7,
+    "profit": 27.97,
+    "capital": 1215.83
+  },
+  {
+    "date": "2026-01-27 03:02",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 30.4,
+    "profit": 28.63,
+    "capital": 1244.45
+  },
+  {
+    "date": "2026-01-27 03:03",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 31.11,
+    "profit": 29.3,
+    "capital": 1273.75
+  },
+  {
+    "date": "2026-01-27 03:05",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 31.84,
+    "profit": 29.99,
+    "capital": 1303.74
+  },
+  {
+    "date": "2026-01-27 03:13",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 32.59,
+    "profit": 30.69,
+    "capital": 1334.44
+  },
+  {
+    "date": "2026-01-27 03:20",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 33.36,
+    "profit": 16.47,
+    "capital": 1350.91
+  },
+  {
+    "date": "2026-01-27 03:20",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 33.77,
+    "profit": 16.67,
+    "capital": 1367.58
+  },
+  {
+    "date": "2026-01-27 03:20",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 34.19,
+    "profit": 16.88,
+    "capital": 1384.46
+  },
+  {
+    "date": "2026-01-27 03:22",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 34.61,
+    "profit": 32.6,
+    "capital": 1417.05
+  },
+  {
+    "date": "2026-01-27 03:24",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 35.43,
+    "profit": 33.36,
+    "capital": 1450.41
+  },
+  {
+    "date": "2026-01-27 03:27",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 36.26,
+    "profit": 34.15,
+    "capital": 1484.56
+  },
+  {
+    "date": "2026-01-27 03:28",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 37.11,
+    "profit": 34.95,
+    "capital": 1519.51
+  },
+  {
+    "date": "2026-01-27 03:28",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 37.99,
+    "profit": 35.77,
+    "capital": 1555.29
+  },
+  {
+    "date": "2026-01-27 03:29",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 38.88,
+    "profit": 36.62,
+    "capital": 1591.91
+  },
+  {
+    "date": "2026-01-27 03:32",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 39.8,
+    "profit": 37.48,
+    "capital": 1629.38
+  },
+  {
+    "date": "2026-01-27 03:38",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 40.73,
+    "profit": 38.36,
+    "capital": 1667.75
+  },
+  {
+    "date": "2026-01-27 03:41",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 41.69,
+    "profit": 20.58,
+    "capital": 1688.33
+  },
+  {
+    "date": "2026-01-27 03:41",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 42.21,
+    "profit": 39.75,
+    "capital": 1728.08
+  },
+  {
+    "date": "2026-01-27 03:43",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 43.2,
+    "profit": 40.69,
+    "capital": 1768.76
+  },
+  {
+    "date": "2026-01-27 03:46",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 44.22,
+    "profit": 41.64,
+    "capital": 1810.41
+  },
+  {
+    "date": "2026-01-27 03:56",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 45.26,
+    "profit": 42.62,
+    "capital": 1853.03
+  },
+  {
+    "date": "2026-01-27 03:59",
+    "whale": "Vanchalkenstein",
+    "market": "Lakers vs. Bulls",
+    "bet_size": 46.33,
+    "profit": 43.63,
+    "capital": 1896.66
+  },
+  {
+    "date": "2026-01-27 04:24",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 47.42,
+    "profit": 23.41,
+    "capital": 1920.06
+  },
+  {
+    "date": "2026-01-27 04:27",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 48.0,
+    "profit": 23.7,
+    "capital": 1943.76
+  },
+  {
+    "date": "2026-01-27 04:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 48.59,
+    "profit": 23.99,
+    "capital": 1967.75
+  },
+  {
+    "date": "2026-01-27 04:46",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 49.19,
+    "profit": 24.28,
+    "capital": 1992.03
+  },
+  {
+    "date": "2026-01-27 04:48",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 49.8,
+    "profit": 24.58,
+    "capital": 2016.62
+  },
+  {
+    "date": "2026-01-27 04:50",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Alexander Zverev vs Learner Tien",
+    "bet_size": 50.0,
+    "profit": 24.68,
+    "capital": 2041.3
+  },
+  {
+    "date": "2026-01-27 06:09",
+    "whale": "Vanchalkenstein",
+    "market": "76ers vs. Hornets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 1991.3
+  },
+  {
+    "date": "2026-01-27 06:09",
+    "whale": "Vanchalkenstein",
+    "market": "76ers vs. Hornets",
+    "bet_size": 49.78,
+    "profit": -49.78,
+    "capital": 1941.52
+  },
+  {
+    "date": "2026-01-27 06:09",
+    "whale": "Vanchalkenstein",
+    "market": "76ers vs. Hornets",
+    "bet_size": 48.54,
+    "profit": -48.54,
+    "capital": 1892.98
+  },
+  {
+    "date": "2026-01-27 06:09",
+    "whale": "Vanchalkenstein",
+    "market": "76ers vs. Hornets",
+    "bet_size": 47.32,
+    "profit": -47.32,
+    "capital": 1845.66
+  },
+  {
+    "date": "2026-01-27 06:10",
+    "whale": "Vanchalkenstein",
+    "market": "76ers vs. Hornets",
+    "bet_size": 46.14,
+    "profit": -46.14,
+    "capital": 1799.51
+  },
+  {
+    "date": "2026-01-27 10:27",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Alex de Minaur",
+    "bet_size": 44.99,
+    "profit": -44.99,
+    "capital": 1754.53
+  },
+  {
+    "date": "2026-01-27 10:28",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Alex de Minaur",
+    "bet_size": 43.86,
+    "profit": -43.86,
+    "capital": 1710.66
+  },
+  {
+    "date": "2026-01-27 10:29",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Alex de Minaur",
+    "bet_size": 42.77,
+    "profit": -42.77,
+    "capital": 1667.9
+  },
+  {
+    "date": "2026-01-27 10:29",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Alex de Minaur",
+    "bet_size": 41.7,
+    "profit": -41.7,
+    "capital": 1626.2
+  },
+  {
+    "date": "2026-01-28 09:59",
+    "whale": "Vanchalkenstein",
+    "market": "Nebraska Cornhuskers vs. Michigan Wolverines",
+    "bet_size": 40.65,
+    "profit": 6.33,
+    "capital": 1632.53
+  },
+  {
+    "date": "2026-01-28 09:59",
+    "whale": "Vanchalkenstein",
+    "market": "Nebraska Cornhuskers vs. Michigan Wolverines",
+    "bet_size": 40.81,
+    "profit": 6.36,
+    "capital": 1638.89
+  },
+  {
+    "date": "2026-01-28 09:59",
+    "whale": "Vanchalkenstein",
+    "market": "Nebraska Cornhuskers vs. Michigan Wolverines",
+    "bet_size": 40.97,
+    "profit": 6.38,
+    "capital": 1645.28
+  },
+  {
+    "date": "2026-02-01 18:32",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 41.13,
+    "profit": 13.57,
+    "capital": 1658.85
+  },
+  {
+    "date": "2026-02-01 18:33",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 41.47,
+    "profit": 13.68,
+    "capital": 1672.53
+  },
+  {
+    "date": "2026-02-01 18:33",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 41.81,
+    "profit": 13.8,
+    "capital": 1686.33
+  },
+  {
+    "date": "2026-02-01 18:33",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 42.16,
+    "profit": 13.91,
+    "capital": 1700.24
+  },
+  {
+    "date": "2026-02-01 18:33",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 42.51,
+    "profit": 14.03,
+    "capital": 1714.26
+  },
+  {
+    "date": "2026-02-01 18:33",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 42.86,
+    "profit": 14.14,
+    "capital": 1728.41
+  },
+  {
+    "date": "2026-02-01 18:33",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 43.21,
+    "profit": 14.26,
+    "capital": 1742.66
+  },
+  {
+    "date": "2026-02-01 18:33",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 43.57,
+    "profit": 14.38,
+    "capital": 1757.04
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 43.93,
+    "profit": 14.49,
+    "capital": 1771.53
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 44.29,
+    "profit": 14.61,
+    "capital": 1786.15
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 44.65,
+    "profit": 14.73,
+    "capital": 1800.88
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 45.02,
+    "profit": 14.86,
+    "capital": 1815.74
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 45.39,
+    "profit": 14.98,
+    "capital": 1830.71
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 45.77,
+    "profit": 15.1,
+    "capital": 1845.82
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 46.15,
+    "profit": 15.23,
+    "capital": 1861.04
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 46.53,
+    "profit": 15.35,
+    "capital": 1876.39
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 46.91,
+    "profit": 15.48,
+    "capital": 1891.87
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 47.3,
+    "profit": 15.61,
+    "capital": 1907.48
+  },
+  {
+    "date": "2026-02-01 18:34",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 47.69,
+    "profit": 15.73,
+    "capital": 1923.21
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 48.08,
+    "profit": 15.86,
+    "capital": 1939.08
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 48.48,
+    "profit": 16.0,
+    "capital": 1955.07
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 48.88,
+    "profit": 16.13,
+    "capital": 1971.2
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 49.28,
+    "profit": 16.26,
+    "capital": 1987.46
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 49.69,
+    "profit": 16.39,
+    "capital": 2003.86
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2020.36
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2036.85
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2053.35
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2069.85
+  },
+  {
+    "date": "2026-02-01 18:35",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2086.35
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2102.85
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2119.35
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2135.84
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2152.34
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2168.84
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2185.34
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2201.84
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2218.33
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2234.83
+  },
+  {
+    "date": "2026-02-01 18:36",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2251.33
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2267.83
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2284.33
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2300.83
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2317.32
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2333.82
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2350.32
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2366.82
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2383.32
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2399.81
+  },
+  {
+    "date": "2026-02-01 18:37",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2416.31
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2432.81
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2449.31
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2465.81
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2482.31
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2498.8
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2515.3
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2531.8
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2548.3
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2564.8
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2581.3
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2597.79
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2614.29
+  },
+  {
+    "date": "2026-02-01 18:38",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2630.79
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2647.29
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2663.79
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2680.28
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2696.78
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2713.28
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2729.78
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2746.28
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2762.78
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2779.27
+  },
+  {
+    "date": "2026-02-01 18:39",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2795.77
+  },
+  {
+    "date": "2026-02-01 18:40",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2812.27
+  },
+  {
+    "date": "2026-02-01 18:40",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2828.77
+  },
+  {
+    "date": "2026-02-01 18:40",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2845.27
+  },
+  {
+    "date": "2026-02-01 18:40",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2861.76
+  },
+  {
+    "date": "2026-02-01 18:40",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2878.26
+  },
+  {
+    "date": "2026-02-01 18:40",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2894.76
+  },
+  {
+    "date": "2026-02-01 18:40",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2911.26
+  },
+  {
+    "date": "2026-02-01 18:41",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2927.76
+  },
+  {
+    "date": "2026-02-01 18:41",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2944.26
+  },
+  {
+    "date": "2026-02-01 18:41",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2960.75
+  },
+  {
+    "date": "2026-02-01 18:42",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2977.25
+  },
+  {
+    "date": "2026-02-01 18:42",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 2993.75
+  },
+  {
+    "date": "2026-02-01 18:42",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3010.25
+  },
+  {
+    "date": "2026-02-01 18:42",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3026.75
+  },
+  {
+    "date": "2026-02-01 18:42",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3043.24
+  },
+  {
+    "date": "2026-02-01 18:42",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3059.74
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3076.24
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3092.74
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3109.24
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3125.74
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3142.23
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3158.73
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3175.23
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3191.73
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3208.23
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3224.73
+  },
+  {
+    "date": "2026-02-01 18:43",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3241.22
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3257.72
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3274.22
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3290.72
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3307.22
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3323.71
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3340.21
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3356.71
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3373.21
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3389.71
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3406.21
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3422.7
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3439.2
+  },
+  {
+    "date": "2026-02-01 18:44",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3455.7
+  },
+  {
+    "date": "2026-02-01 18:45",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3472.2
+  },
+  {
+    "date": "2026-02-01 18:45",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3488.7
+  },
+  {
+    "date": "2026-02-01 18:45",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3505.19
+  },
+  {
+    "date": "2026-02-01 18:45",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3521.69
+  },
+  {
+    "date": "2026-02-01 18:45",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3538.19
+  },
+  {
+    "date": "2026-02-01 18:45",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 16.5,
+    "capital": 3554.69
+  },
+  {
+    "date": "2026-02-01 19:08",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 38.26,
+    "capital": 3592.95
+  },
+  {
+    "date": "2026-02-01 19:08",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 38.26,
+    "capital": 3631.21
+  },
+  {
+    "date": "2026-02-01 19:08",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 38.26,
+    "capital": 3669.47
+  },
+  {
+    "date": "2026-02-01 19:08",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 38.26,
+    "capital": 3707.73
+  },
+  {
+    "date": "2026-02-01 19:08",
+    "whale": "Vanchalkenstein",
+    "market": "Australian Open Men's: Carlos Alcaraz vs Novak Djokovic",
+    "bet_size": 50.0,
+    "profit": 38.26,
+    "capital": 3746.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3696.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3646.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3596.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3546.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3496.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3446.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3396.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3346.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3296.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3246.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3196.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3146.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3096.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 3046.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2996.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2946.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2896.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2846.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2796.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2746.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2696.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2646.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2596.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2546.0
+  },
+  {
+    "date": "2026-02-05 09:57",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2496.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2446.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2396.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2346.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2296.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2246.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2196.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2146.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2096.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 2046.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 50.0,
+    "profit": -50.0,
+    "capital": 1996.0
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 49.9,
+    "profit": -49.9,
+    "capital": 1946.1
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 48.65,
+    "profit": -48.65,
+    "capital": 1897.44
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 47.44,
+    "profit": -47.44,
+    "capital": 1850.01
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 46.25,
+    "profit": -46.25,
+    "capital": 1803.76
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 45.09,
+    "profit": -45.09,
+    "capital": 1758.66
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 43.97,
+    "profit": -43.97,
+    "capital": 1714.7
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 42.87,
+    "profit": -42.87,
+    "capital": 1671.83
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 41.8,
+    "profit": -41.8,
+    "capital": 1630.03
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 40.75,
+    "profit": -40.75,
+    "capital": 1589.28
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 39.73,
+    "profit": -39.73,
+    "capital": 1549.55
+  },
+  {
+    "date": "2026-02-05 09:58",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 38.74,
+    "profit": -38.74,
+    "capital": 1510.81
+  },
+  {
+    "date": "2026-02-05 09:59",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 37.77,
+    "profit": -37.77,
+    "capital": 1473.04
+  },
+  {
+    "date": "2026-02-05 09:59",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 36.83,
+    "profit": -36.83,
+    "capital": 1436.22
+  },
+  {
+    "date": "2026-02-05 09:59",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 35.91,
+    "profit": -35.91,
+    "capital": 1400.31
+  },
+  {
+    "date": "2026-02-05 09:59",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 35.01,
+    "profit": -35.01,
+    "capital": 1365.3
+  },
+  {
+    "date": "2026-02-05 09:59",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 34.13,
+    "profit": -34.13,
+    "capital": 1331.17
+  },
+  {
+    "date": "2026-02-05 09:59",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 33.28,
+    "profit": -33.28,
+    "capital": 1297.89
+  },
+  {
+    "date": "2026-02-05 10:00",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 32.45,
+    "profit": -32.45,
+    "capital": 1265.44
+  },
+  {
+    "date": "2026-02-05 10:00",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 31.64,
+    "profit": -31.64,
+    "capital": 1233.81
+  },
+  {
+    "date": "2026-02-05 10:01",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 30.85,
+    "profit": -30.85,
+    "capital": 1202.96
+  },
+  {
+    "date": "2026-02-05 10:01",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 30.07,
+    "profit": -30.07,
+    "capital": 1172.89
+  },
+  {
+    "date": "2026-02-05 10:01",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 29.32,
+    "profit": -29.32,
+    "capital": 1143.57
+  },
+  {
+    "date": "2026-02-05 10:02",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 28.59,
+    "profit": -28.59,
+    "capital": 1114.98
+  },
+  {
+    "date": "2026-02-05 10:02",
+    "whale": "BWArmageddon",
+    "market": "Blackhawks vs. Blue Jackets",
+    "bet_size": 27.87,
+    "profit": -27.87,
+    "capital": 1087.1
+  },
+  {
+    "date": "2026-02-05 10:40",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 27.18,
+    "profit": -27.18,
+    "capital": 1059.92
+  },
+  {
+    "date": "2026-02-05 10:57",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 26.5,
+    "profit": -26.5,
+    "capital": 1033.43
+  },
+  {
+    "date": "2026-02-05 10:57",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 25.84,
+    "profit": -25.84,
+    "capital": 1007.59
+  },
+  {
+    "date": "2026-02-05 10:59",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 25.19,
+    "profit": -25.19,
+    "capital": 982.4
+  },
+  {
+    "date": "2026-02-05 10:59",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 24.56,
+    "profit": -24.56,
+    "capital": 957.84
+  },
+  {
+    "date": "2026-02-05 11:02",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 23.95,
+    "profit": -23.95,
+    "capital": 933.89
+  },
+  {
+    "date": "2026-02-05 11:02",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 23.35,
+    "profit": -23.35,
+    "capital": 910.55
+  },
+  {
+    "date": "2026-02-05 11:03",
+    "whale": "BWArmageddon",
+    "market": "Wild vs. Predators",
+    "bet_size": 22.76,
+    "profit": -22.76,
+    "capital": 887.78
+  },
+  {
+    "date": "2026-02-05 11:29",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 22.19,
+    "profit": -22.19,
+    "capital": 865.59
+  },
+  {
+    "date": "2026-02-05 11:29",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 21.64,
+    "profit": -21.64,
+    "capital": 843.95
+  },
+  {
+    "date": "2026-02-05 11:29",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 21.1,
+    "profit": -21.1,
+    "capital": 822.85
+  },
+  {
+    "date": "2026-02-05 11:29",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 20.57,
+    "profit": -20.57,
+    "capital": 802.28
+  },
+  {
+    "date": "2026-02-05 11:29",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 20.06,
+    "profit": -20.06,
+    "capital": 782.22
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 19.56,
+    "profit": -19.56,
+    "capital": 762.67
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 19.07,
+    "profit": -19.07,
+    "capital": 743.6
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 18.59,
+    "profit": -18.59,
+    "capital": 725.01
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 18.13,
+    "profit": -18.13,
+    "capital": 706.89
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 17.67,
+    "profit": -17.67,
+    "capital": 689.21
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 17.23,
+    "profit": -17.23,
+    "capital": 671.98
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 16.8,
+    "profit": -16.8,
+    "capital": 655.18
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 16.38,
+    "profit": -16.38,
+    "capital": 638.8
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 15.97,
+    "profit": -15.97,
+    "capital": 622.83
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 15.57,
+    "profit": -15.57,
+    "capital": 607.26
+  },
+  {
+    "date": "2026-02-05 11:30",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 15.18,
+    "profit": -15.18,
+    "capital": 592.08
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 14.8,
+    "profit": -14.8,
+    "capital": 577.28
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 14.43,
+    "profit": -14.43,
+    "capital": 562.85
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 14.07,
+    "profit": -14.07,
+    "capital": 548.78
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 13.72,
+    "profit": -13.72,
+    "capital": 535.06
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 13.38,
+    "profit": -13.38,
+    "capital": 521.68
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 13.04,
+    "profit": -13.04,
+    "capital": 508.64
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 12.72,
+    "profit": -12.72,
+    "capital": 495.92
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 12.4,
+    "profit": -12.4,
+    "capital": 483.52
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 12.09,
+    "profit": -12.09,
+    "capital": 471.44
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 11.79,
+    "profit": -11.79,
+    "capital": 459.65
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 11.49,
+    "profit": -11.49,
+    "capital": 448.16
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 11.2,
+    "profit": -11.2,
+    "capital": 436.95
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 10.92,
+    "profit": -10.92,
+    "capital": 426.03
+  },
+  {
+    "date": "2026-02-05 11:31",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 10.65,
+    "profit": -10.65,
+    "capital": 415.38
+  },
+  {
+    "date": "2026-02-05 11:32",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 10.38,
+    "profit": -10.38,
+    "capital": 405.0
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 10.12,
+    "profit": -10.12,
+    "capital": 394.87
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 9.87,
+    "profit": -9.87,
+    "capital": 385.0
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 9.62,
+    "profit": -9.62,
+    "capital": 375.37
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 9.38,
+    "profit": -9.38,
+    "capital": 365.99
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 9.15,
+    "profit": -9.15,
+    "capital": 356.84
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 8.92,
+    "profit": -8.92,
+    "capital": 347.92
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 8.7,
+    "profit": -8.7,
+    "capital": 339.22
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 8.48,
+    "profit": -8.48,
+    "capital": 330.74
+  },
+  {
+    "date": "2026-02-05 11:33",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 8.27,
+    "profit": -8.27,
+    "capital": 322.47
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 8.06,
+    "profit": -8.06,
+    "capital": 314.41
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 7.86,
+    "profit": -7.86,
+    "capital": 306.55
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 7.66,
+    "profit": -7.66,
+    "capital": 298.89
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 7.47,
+    "profit": -7.47,
+    "capital": 291.41
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 7.29,
+    "profit": -7.29,
+    "capital": 284.13
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 7.1,
+    "profit": -7.1,
+    "capital": 277.03
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 6.93,
+    "profit": -6.93,
+    "capital": 270.1
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 6.75,
+    "profit": -6.75,
+    "capital": 263.35
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 6.58,
+    "profit": -6.58,
+    "capital": 256.76
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 6.42,
+    "profit": -6.42,
+    "capital": 250.34
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 6.26,
+    "profit": -6.26,
+    "capital": 244.09
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 6.1,
+    "profit": -6.1,
+    "capital": 237.98
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 5.95,
+    "profit": -5.95,
+    "capital": 232.03
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 5.8,
+    "profit": -5.8,
+    "capital": 226.23
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 5.66,
+    "profit": -5.66,
+    "capital": 220.58
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 5.51,
+    "profit": -5.51,
+    "capital": 215.06
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 5.38,
+    "profit": -5.38,
+    "capital": 209.69
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 5.24,
+    "profit": -5.24,
+    "capital": 204.44
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 5.11,
+    "profit": -5.11,
+    "capital": 199.33
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.98,
+    "profit": -4.98,
+    "capital": 194.35
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.86,
+    "profit": -4.86,
+    "capital": 189.49
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.74,
+    "profit": -4.74,
+    "capital": 184.75
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.62,
+    "profit": -4.62,
+    "capital": 180.13
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.5,
+    "profit": -4.5,
+    "capital": 175.63
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.39,
+    "profit": -4.39,
+    "capital": 171.24
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.28,
+    "profit": -4.28,
+    "capital": 166.96
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.17,
+    "profit": -4.17,
+    "capital": 162.79
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 4.07,
+    "profit": -4.07,
+    "capital": 158.72
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.97,
+    "profit": -3.97,
+    "capital": 154.75
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.87,
+    "profit": -3.87,
+    "capital": 150.88
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.77,
+    "profit": -3.77,
+    "capital": 147.11
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.68,
+    "profit": -3.68,
+    "capital": 143.43
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.59,
+    "profit": -3.59,
+    "capital": 139.84
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.5,
+    "profit": -3.5,
+    "capital": 136.35
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.41,
+    "profit": -3.41,
+    "capital": 132.94
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.32,
+    "profit": -3.32,
+    "capital": 129.62
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.24,
+    "profit": -3.24,
+    "capital": 126.38
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.16,
+    "profit": -3.16,
+    "capital": 123.22
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.08,
+    "profit": -3.08,
+    "capital": 120.14
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 3.0,
+    "profit": -3.0,
+    "capital": 117.13
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.93,
+    "profit": -2.93,
+    "capital": 114.2
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.86,
+    "profit": -2.86,
+    "capital": 111.35
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.78,
+    "profit": -2.78,
+    "capital": 108.57
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.71,
+    "profit": -2.71,
+    "capital": 105.85
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.65,
+    "profit": -2.65,
+    "capital": 103.2
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.58,
+    "profit": -2.58,
+    "capital": 100.62
+  },
+  {
+    "date": "2026-02-05 11:34",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.52,
+    "profit": -2.52,
+    "capital": 98.11
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.45,
+    "profit": -2.45,
+    "capital": 95.66
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.39,
+    "profit": -2.39,
+    "capital": 93.26
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.33,
+    "profit": -2.33,
+    "capital": 90.93
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.27,
+    "profit": -2.27,
+    "capital": 88.66
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.22,
+    "profit": -2.22,
+    "capital": 86.44
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.16,
+    "profit": -2.16,
+    "capital": 84.28
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.11,
+    "profit": -2.11,
+    "capital": 82.18
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.05,
+    "profit": -2.05,
+    "capital": 80.12
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 2.0,
+    "profit": -2.0,
+    "capital": 78.12
+  },
+  {
+    "date": "2026-02-05 11:35",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.95,
+    "profit": -1.95,
+    "capital": 76.16
+  },
+  {
+    "date": "2026-02-05 11:36",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.9,
+    "profit": -1.9,
+    "capital": 74.26
+  },
+  {
+    "date": "2026-02-05 11:36",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.86,
+    "profit": -1.86,
+    "capital": 72.4
+  },
+  {
+    "date": "2026-02-05 11:36",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.81,
+    "profit": -1.81,
+    "capital": 70.59
+  },
+  {
+    "date": "2026-02-05 11:36",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.76,
+    "profit": -1.76,
+    "capital": 68.83
+  },
+  {
+    "date": "2026-02-05 11:36",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.72,
+    "profit": -1.72,
+    "capital": 67.11
+  },
+  {
+    "date": "2026-02-05 11:37",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.68,
+    "profit": -1.68,
+    "capital": 65.43
+  },
+  {
+    "date": "2026-02-05 11:37",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.64,
+    "profit": -1.64,
+    "capital": 63.8
+  },
+  {
+    "date": "2026-02-05 11:37",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.59,
+    "profit": -1.59,
+    "capital": 62.2
+  },
+  {
+    "date": "2026-02-05 11:37",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.56,
+    "profit": -1.56,
+    "capital": 60.65
+  },
+  {
+    "date": "2026-02-05 11:37",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.52,
+    "profit": -1.52,
+    "capital": 59.13
+  },
+  {
+    "date": "2026-02-05 11:38",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.48,
+    "profit": -1.48,
+    "capital": 57.65
+  },
+  {
+    "date": "2026-02-05 11:38",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.44,
+    "profit": -1.44,
+    "capital": 56.21
+  },
+  {
+    "date": "2026-02-05 11:38",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.41,
+    "profit": -1.41,
+    "capital": 54.8
+  },
+  {
+    "date": "2026-02-05 11:38",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.37,
+    "profit": -1.37,
+    "capital": 53.43
+  },
+  {
+    "date": "2026-02-05 11:38",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.34,
+    "profit": -1.34,
+    "capital": 52.1
+  },
+  {
+    "date": "2026-02-05 11:38",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.3,
+    "profit": -1.3,
+    "capital": 50.8
+  },
+  {
+    "date": "2026-02-05 11:39",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.27,
+    "profit": -1.27,
+    "capital": 49.53
+  },
+  {
+    "date": "2026-02-05 11:39",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.24,
+    "profit": -1.24,
+    "capital": 48.29
+  },
+  {
+    "date": "2026-02-05 11:39",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.21,
+    "profit": -1.21,
+    "capital": 47.08
+  },
+  {
+    "date": "2026-02-05 11:39",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.18,
+    "profit": -1.18,
+    "capital": 45.9
+  },
+  {
+    "date": "2026-02-05 11:39",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.15,
+    "profit": -1.15,
+    "capital": 44.76
+  },
+  {
+    "date": "2026-02-05 11:39",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.12,
+    "profit": -1.12,
+    "capital": 43.64
+  },
+  {
+    "date": "2026-02-05 11:40",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.09,
+    "profit": -1.09,
+    "capital": 42.55
+  },
+  {
+    "date": "2026-02-05 11:40",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.06,
+    "profit": -1.06,
+    "capital": 41.48
+  },
+  {
+    "date": "2026-02-05 11:40",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.04,
+    "profit": -1.04,
+    "capital": 40.45
+  },
+  {
+    "date": "2026-02-05 11:41",
+    "whale": "BWArmageddon",
+    "market": "Sharks vs. Avalanche",
+    "bet_size": 1.01,
+    "profit": -1.01,
+    "capital": 39.43
+  }
+]

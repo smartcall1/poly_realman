@@ -104,25 +104,41 @@ def evaluate_whale_edge(address, session, limit=50):
         print(f"Error evaluating {address}: {e}")
         return None
 
-def fetch_top_leaderboard(session, limit=100):
-    url = f"{DATA_API_BASE}/v1/leaderboard?limit={limit}&timePeriod=MONTH&orderBy=PNL"
-    try:
-        r = session.get(url, timeout=10)
-        data = r.json()
-        items = data if isinstance(data, list) else data.get('data', [])
-        if not items and isinstance(data, dict):
-            items = data.get('results', []) or data.get('leaderboard', [])
+def fetch_top_leaderboard(session, limit=500):
+    """
+    Polymarket Leaderboard API (최대 50건 반환 한계 극복)
+    limit으로 요청한 수량만큼 offset을 조절하며 페이지네이션(Pagination) 수집
+    """
+    whales = []
+    
+    # API Max Limit is 50 per request
+    batch_size = 50
+    offsets = range(0, limit, batch_size)
+    
+    for offset in offsets:
+        url = f"{DATA_API_BASE}/v1/leaderboard?limit={batch_size}&offset={offset}&timePeriod=MONTH&orderBy=PNL"
+        try:
+            r = session.get(url, timeout=10)
+            data = r.json()
+            items = data if isinstance(data, list) else data.get('data', [])
+            if not items and isinstance(data, dict):
+                items = data.get('results', []) or data.get('leaderboard', [])
             
-        whales = []
-        for item in items:
-            addr = item.get('proxyWallet') or item.get('address')
-            name = item.get('userName', 'Unknown')
-            if addr:
-                whales.append({"address": addr, "name": name})
-        return whales
-    except Exception as e:
-        print(f"Error fetching leaderboard: {e}")
-        return []
+            if not items:
+                break # 데이터가 더 없으면 중단
+                
+            for item in items:
+                addr = item.get('proxyWallet') or item.get('address')
+                name = item.get('userName', 'Unknown')
+                if addr:
+                    whales.append({"address": addr, "name": name})
+                    
+            time.sleep(1) # IP 밴 제한 회피용
+        except Exception as e:
+            print(f"Error fetching leaderboard at offset {offset}: {e}")
+            break
+            
+    return whales[:limit]
 
 def run_manager():
     print(f"[{datetime.now()}] 🐋 Starting Whale Manager...")
@@ -160,8 +176,9 @@ def run_manager():
                 info['win_rate'] = win_rate
                 
     # 2. Discovery: 리더보드에서 새로운 고래 발굴
-    print("\n--- 2. Discovering New Whales ---")
-    candidates = fetch_top_leaderboard(session, limit=100)
+    print("\n--- 2. Discovering New Whales (Top 500 Pagination) ---")
+    candidates = fetch_top_leaderboard(session, limit=500)
+    print(f"✅ Fetched {len(candidates)} candidates from Leaderboard.")
     
     new_found = 0
     for cand in candidates:
