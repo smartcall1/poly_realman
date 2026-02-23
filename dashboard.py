@@ -101,13 +101,11 @@ def run_dashboard():
         time_only_str = datetime.now().strftime("%H:%M:%S")
         
         clear_console()
-        print("="*60)
-        # 모바일 사이즈에 맞게 간소화
-        print(f" 🚀 [WHALE BOT] DASHBOARD  |  🕒 {time_only_str}")
-        print(f" ⏱️ Run: {running_time}")
-        print("="*60)
-        print(f"{'BOT':<12} | {'PnL($)':>9} | {'Win%':>5} | {'Trd':>3} | {'Act':>3} | {'Exp($)':>6}")
-        print("-" * 60)
+        print("="*55)
+        print(f"🚀 [WHALE BOT] DASH | 🕒 {time_only_str} | Run: {running_time}")
+        print("="*55)
+        print(f"{'BOT':<10}|{'PnL($)':>8}|{'Win%':>5}|{'Trd':>3}|{'Act':>3}|{'Exp$':>6}")
+        print("-" * 55)
         
         if not stats:
             print(f"\n Waiting for bot data... (Scanning {base_dir})")
@@ -134,15 +132,15 @@ def run_dashboard():
             name_str = f"{status_prefix}{name}"
             
             # 모바일 최적화를 위해 이름 길이 크게 제한
-            if len(name_str) > 12:
-                name_str = name_str[:10] + ".."
+            if len(name_str) > 10:
+                name_str = name_str[:8] + ".."
             
-            pnl_str = format_currency(s['pnl'], 9)
-            print(f"{name_str:<12} | {pnl_str} | {s['win_rate']:>4.0f}% | {s['trades']:>3} | {s['active']:>3} | {s['total_bet']:>6.0f}")
+            pnl_str = format_currency(s['pnl'], 8) # 8글자 
+            print(f"{name_str:<10}|{pnl_str}|{s['win_rate']:>4.0f}%|{s['trades']:>3}|{s['active']:>3}|{s['total_bet']:>6.0f}")
         
-        print("-" * 60)
-        print(f"{'TOTAL PROFIT':<12} | {format_currency(total_global_pnl, 9)} | Act: {total_active_bets} | Exp: {total_exposure:>.0f}")
-        print("=" * 60)
+        print("-" * 55)
+        print(f"{'TOTAL PROFIT':<10}|{format_currency(total_global_pnl, 8)}|Act:{total_active_bets}|Exp:{total_exposure:>.0f}")
+        print("=" * 55)
         
         # --- Active Whales Section ---
         whales_path = os.path.join(base_dir, 'whales.json')
@@ -165,14 +163,14 @@ def run_dashboard():
             pass
 
         if active_whales:
-            print(f"\n 🐳 [ACTIVE WHALES: {len(active_whales)}]")
-            print("-" * 60)
-            print(f" {'Name':<12} | {'Win%':>5} | {'ROI%':>6} | {'Address'}")
-            print("-" * 60)
+            print(f"\n🐳 [ACTIVE WHALES: {len(active_whales)}]")
+            print("-" * 55)
+            print(f"{'Name':<12}|{'Win%':>5}|{'ROI%':>6}|{'Addr'}")
+            print("-" * 55)
             for w in sorted(active_whales, key=lambda x: x['roi'], reverse=True):
                 n = w['name'] if len(w['name']) <= 12 else w['name'][:10] + '..'
-                print(f" {n:<12} | {w['win_rate']:>4.0f}% | {w['roi']:>5.1f}% | {w['address'][:4]}..{w['address'][-4:]}")
-            print("=" * 60)
+                print(f"{n:<12}|{w['win_rate']:>4.0f}%|{w['roi']:>5.1f}%|{w['address'][:4]}..{w['address'][-3:]}")
+            print("=" * 55)
 
         print("\n [Tip] 2초 부분 갱신 (실시간 포지션 동기화)")
         
