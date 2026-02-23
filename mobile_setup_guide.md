@@ -1,153 +1,83 @@
-# 📱 POLYMARKET HATEBOT - 모바일(Termux) 완벽 구동 가이드
+# Polymarket Whale Copy Trading Bot - 모바일 (Termux) 환경 설정 가이드
 
-> **"지상 최강 트레이더를 내 주머니 속에."**
-> 이 가이드는 안드로이드 폰(Termux)에서 봇을 완벽하게 구동하기 위한 **All-in-One** 매뉴얼입니다.
+본 문서는 안드로이드 스마트폰에 Termux 애플리케이션을 설치하여 Polymarket Whale Copy Trading Bot을 24시간 가동하기 위한 설정 방법을 안내합니다.
 
----
+## 1. Termux 초기 설정
 
-## 🚀 1. Termux 기초 공사 (필수)
+앱 설치 직후 기본 패키지와 시스템 빌드 도구들을 설치해야 합니다.
 
-Termux를 처음 설치했다면, 봇이 돌아갈 수 있는 '기초 체력'을 길러줘야 합니다.  
-아래 명령어들을 **한 줄씩 복사**해서 Termux에 붙여넣고 엔터(Enter)를 치세요. 중간에 `Example... [Y/n]` 처럼 물어보면 무조건 **`y`** 를 누르고 엔터!
-
-### 1️⃣ 패키지 업데이트 & 권한 설정
 ```bash
-# 저장소 접근 권한 허용 (필수)
+# 1. 기기 저장소 접근 권한 부여
 termux-setup-storage
 
-# 패키지 목록 최신화 및 업그레이드
+# 2. 패키지 목록 갱신
 pkg update -y && pkg upgrade -y
-```
 
-### 2️⃣ 필수 시스템 패키지 설치 (중요 ⭐)
-암호화 라이브러리(`py-clob-client`) 구동을 위해 컴파일러와 라이브러리가 꼭 필요합니다.  
-**이 단계가 누락되면 설치 도중 에러가 납니다!**
-
-```bash
-# 빌드 도구 및 라이브러리 일괄 설치
+# 3. 필수 빌드 도구 및 파이썬 패키지 설치
 pkg install python git clang make libffi openssl rust binutils requests -y
 ```
-*(설치 시간이 3~5분 정도 걸릴 수 있습니다. 인내심을 가지세요!)*
+*참고: 빌드 패키지(`clang`, `rust`, `make` 등)는 API 암호화 라이브러리인 `py-clob-client`를 컴파일하기 위해 반드시 필요합니다.*
 
----
+## 2. 소스 코드 동기화 및 가상환경 세팅
 
-## ☁️ 2. 소스 코드 가져오기
-
-PC에서 작업한 최신 코드를 폰으로 가져옵니다.
-
-1. **깃 클론 (내 저장소 복제)**
-   * `[당신의_깃허브_아이디]`를 본인 ID로 바꿔주세요. (예: `smartcall1`)
-   ```bash
-   git clone https://github.com/[당신의_깃허브_아이디]/polymarket_bot.git
-   ```
-
-2. **폴더로 이동**
-   ```bash
-   cd polymarket_bot
-   ```
-
----
-
-## ⚡ 3. 파이썬 가상환경 세팅
-
-시스템 파이썬을 더럽히지 않고 깔끔하게 돌리기 위해 가상환경을 만듭니다.
-
-### 1️⃣ 가상환경 생성 (최초 1회)
-```bash
-python -m venv venv
-```
-
-### 2️⃣ 가상환경 켜기 (매번)
-봇을 켤 때마다 이 명령어를 먼저 입력해야 합니다. 프롬프트 앞에 `(venv)`가 뜨면 성공!
-```bash
-source venv/bin/activate
-```
-
-### 3️⃣ 라이브러리 설치 (최초 1회)
-방금 설치한 시스템 패키지 덕분에 에러 없이 잘 깔릴 겁니다.
-```bash
-# 최신 pip 업그레이드
-pip install --upgrade pip
-
-# 봇 구동 라이브러리 설치
-pip install -r requirements.txt
-```
-
----
-
-## 🔑 4. API 키 설정 (보안 필수)
-
-GitHub에는 비밀번호(`.env`)가 없으므로 폰에서 직접 만들어줘야 합니다.
-
-1. **에디터 열기**
-   ```bash
-   nano .env
-   ```
-
-2. **내용 붙여넣기**
-   - PC에 있는 `.env` 내용을 전부 복사하세요.
-   - Termux 화면을 **길게 꾹 누르고** `Paste`를 선택합니다.
-
-3. **저장하고 나오기**
-   - 키보드 위 `CTRL` 버튼을 누른 상태에서 `o` (저장) -> `Enter`
-   - 키보드 위 `CTRL` 버튼을 누른 상태에서 `x` (종료)
-
----
-
-## 🔥 5. 지상 최강 트레이더 실행!
-
-준비는 끝났습니다. 이제 24시간 자동 사냥을 시작합니다.
-
-### 1️⃣ 화면 꺼짐 방지 (필수)
-폰 화면이 꺼져도 봇이 죽지 않게 락을 겁니다.
-```bash
-termux-wake-lock
-```
-*(알림바에 'Termux Wake lock held'라고 뜨면 성공)*
-
-### 2️⃣ 봇 실행
-```bash
-python main.py
-```
-
----
-
-## 💡 요약: 나중에 다시 켤 때는?
-
-앱을 껐다가 다시 켤 때는 **이것만 기억하세요!**
+PC에서 개발한 봇의 최신 버전을 모바일 환경으로 가져오고 독립된 파이썬 환경을 구성합니다.
 
 ```bash
-# 1. 방해 금지 모드 (Wake Lock)
-termux-wake-lock
+# 1. 깃 저장소 클론 (본인의 계정 URL로 변경)
+git clone https://github.com/[당신의_깃허브_아이디]/polymarket_bot.git
 
-# 2. 폴더 이동
+# 2. 작업 폴더로 이동
 cd polymarket_bot
 
-# 3. 가상환경 켜기
+# 3. 파이썬 가상환경 생성 및 활성화
+python -m venv venv
 source venv/bin/activate
 
-# 4. 봇 실행
-python main.py
-```
-
-
----
-
-## ❓ 자주 묻는 질문 (Troubleshooting)
-
-### Q. 'ModuleNotFoundError: No module named requests' 에러가 떠요!
-설치 도중 인터넷이 끊겼거나 일부 패키지 설치가 실패해서 그럴 수 있습니다. 당황하지 말고 아래 명령어를 입력하세요.
-
-```bash
-# requests 모듈 수동 설치
-pip install requests
-
-# 전체 의존성 다시 확실하게 설치
+# 4. 필수 라이브러리 설치
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### Q. 'Rust'나 'Cargo' 관련 에러가 빨간색으로 떠요!
-암호화 라이브러리 빌드에 필요한 도구가 없는 경우입니다. 1번 단계의 **필수 시스템 패키지 설치**를 다시 한 번 실행해주세요.
+## 3. 환경 변수(.env) 구성
+
+로컬 환경 변수 파일은 깃허브에 공유되지 않으므로, 폰에서 직접 생성하여 내용을 붙여넣어야 합니다.
+
 ```bash
-pkg install rust binutils libffi openssl -y
+# 에디터 실행
+nano .env
 ```
+PC에 설정되어 있는 `.env` 파일의 내용(PAPER_TRADING, API Key, Wallet 정보 등)을 복사하여 Termux 화면을 길게 눌러 `Paste` 합니다.
+작성이 끝나면 `Ctrl + O` (저장) -> `Enter` -> `Ctrl + X` (종료) 순서로 에디터를 빠져나옵니다.
+
+## 4. 백그라운드 봇 실행
+
+모바일 기기의 화면이 꺼지면 운영체제가 백그라운드 앱을 종료할 수 있습니다. 이를 방지하고 봇을 실행하는 방법입니다.
+
+```bash
+# 1. CPU 절전 모드 방지 (안드로이드 시스템에 백그라운드 유지 요청)
+termux-wake-lock
+
+# 2. 메인 봇 실행 (고래 매니저 및 스코어러 스레드 자동 포함)
+python whale_copy_bot.py
+```
+*(성공적으로 적용되었다면 알림 창에 'Termux Wake lock held' 상태가 유지됩니다.)*
+
+## 5. 재실행 요약 (앱 재가동 시)
+
+향후 기기를 재부팅하거나 앱을 재시작했을 때 사용할 명령어 요약입니다.
+
+```bash
+termux-wake-lock
+cd polymarket_bot
+source venv/bin/activate
+python whale_copy_bot.py
+```
+
+## 문제 해결 (Troubleshooting)
+
+**1. 패키지 빌드 오류 발생 시 (`Rust` 또는 `Compiler` 관련 로그)**
+모바일 CPU 아키텍처 특성상 간혹 빌드 패키지 오류가 발생할 수 있습니다. 아래 명령어로 필수 빌드 패키지들이 정확히 설치되었는지 재확인하시기 바랍니다.
+`pkg install rust binutils libffi openssl -y`
+
+**2. 모듈이 없다는 에러 발생 시**
+가상환경(`venv`)이 활성화되어 있는지 프롬프트 창을 확인하시고, `pip install -r requirements.txt` 명령어를 통해 재설치 하십시오.

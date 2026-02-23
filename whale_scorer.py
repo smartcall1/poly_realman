@@ -2,7 +2,7 @@ import json
 import os
 import requests
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
@@ -65,7 +65,7 @@ class WhaleScorer:
             
             for t in activities:
                 if t.get('type') == 'TRADE' and t.get('side') == 'BUY':
-                    from datetime import timezone
+
                     timestamp_val = t.get('timestamp')
                     if isinstance(timestamp_val, str):
                         api_time_str = timestamp_val.split('.')[0]
@@ -154,7 +154,6 @@ class WhaleScorer:
     def run(self):
         print("=== 🐋 고래 스코어링 시작 ===")
         db = self.load_db()
-        from datetime import timezone
         thirty_days_ago = datetime.now(timezone.utc) - timedelta(days=30)
         
         for addr, info in db.items():
