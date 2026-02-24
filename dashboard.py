@@ -167,9 +167,12 @@ def run_dashboard():
             print("-" * 55)
             print(f"{'Name':<12}|{'Win%':>5}|{'ROI%':>6}|{'Addr'}")
             print("-" * 55)
-            for w in sorted(active_whales, key=lambda x: x['roi'], reverse=True):
+            sorted_whales = sorted(active_whales, key=lambda x: x['roi'], reverse=True)
+            for w in sorted_whales[:5]:
                 n = w['name'] if len(w['name']) <= 12 else w['name'][:10] + '..'
                 print(f"{n:<12}|{w['win_rate']:>4.0f}%|{w['roi']:>5.1f}%|{w['address'][:4]}..{w['address'][-3:]}")
+            if len(sorted_whales) > 5:
+                print(f"... 외 {len(sorted_whales) - 5}마리의 고래가 더 활동 중입니다.")
             print("=" * 55)
 
         print("\n [Tip] Auto-refresh every 2s (Real-time syncing)")

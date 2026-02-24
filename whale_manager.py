@@ -9,11 +9,12 @@ DATA_API_BASE = "https://data-api.polymarket.com"
 GAMMA_API_BASE = "https://gamma-api.polymarket.com"
 DB_FILE = "whales.json"
 
-# 백테스팅 설정값 (Top 100 깐깐한 고래 감시 기준)
+# 백테스팅 설정값 (최정예 1타 강사 단타 고래 30명 스피드 감시 기준)
 SLIPPAGE_PCT = 0.03   # 3% 슬리피지 가정
-MIN_WIN_RATE = 70.0   # 최소 70% 이상의 승률 요구
-MIN_ROI = 0.5         # 최소 0.5% 이상의 '슬리피지 후' 가상 ROI 요구
-MIN_TRADES = 10       # 최소 10건 이상의 거래 내역이 있어야 함
+MIN_WIN_RATE = 75.0   # 최소 75% 이상의 승률 요구 (상향)
+MIN_ROI = 10.0        # 최소 10% 이상의 '슬리피지 후' 가상 ROI 요구 (대폭 상향)
+MIN_TRADES = 20       # 최소 20건 이상의 거래 내역이 있어야 함 (상향)
+MAX_ACTIVE_WHALES = 30 # 최대 유지 고래 수 (모바일 모니터링 최적화)
 
 def load_whales_db():
     if os.path.exists(DB_FILE):
@@ -215,6 +216,17 @@ def run_manager():
             
         time.sleep(1) # Rate limit
         
+    # 3. Trim to Top N Whales (최정예만 남김)
+    print(f"\n--- 3. Trimming to Top {MAX_ACTIVE_WHALES} Whales ---")
+    active_only = [(addr, info) for addr, info in db.items() if info.get('status') == 'active']
+    if len(active_only) > MAX_ACTIVE_WHALES:
+        # ROI 기준으로 정렬 (최상위 N명만 유지)
+        sorted_whales = sorted(active_only, key=lambda x: x[1].get('roi', 0), reverse=True)
+        # 컷오프 당한 고래는 inactive 강등
+        for addr, info in sorted_whales[MAX_ACTIVE_WHALES:]:
+            print(f"Demoting {info['name']} (ROI {info.get('roi', 0):.1f}% - Not in Top {MAX_ACTIVE_WHALES})")
+            db[addr]['status'] = 'inactive'
+            
     save_whales_db(db)
     
     active_count = sum(1 for v in db.values() if v.get('status') == 'active')

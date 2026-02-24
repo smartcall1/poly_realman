@@ -147,12 +147,14 @@ class WhaleCopyBot:
                     if tx_id not in self.seen_txs:
                         # UTC로 들어오는 timestamps를 제대로 파싱해서 로컬 시간(now)과 비교해야 함 (타임존 버그 픽스)
                         from datetime import timezone
-                        api_time_str = tx.get('timestamp').split('.')[0]
+                        # 밀리초가 없는 경우 'Z'가 남아 에러가 나는 것을 방지
+                        api_time_str = tx.get('timestamp').split('.')[0].replace('Z', '')
                         tx_time = int(datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp())
                         now = int(time.time())
                         
                         self.seen_txs.add(tx_id)
                         
+                        # 최정예 30명으로 압축했으므로 루프 속도가 빨라짐. 1분(60초) 이내의 매수만 칼타이밍으로 추적!
                         if (now - tx_time) <= 60: 
                             whale_price = float(tx.get('price', 0))
                             whale_size = float(tx.get('size', 0)) # 고래가 산 금액 (USDC)
@@ -244,7 +246,8 @@ class WhaleCopyBot:
                 self.seen_txs.add(tx.get('id'))
                             
         except Exception as e:
-            pass
+            # 모바일 환경에서 갑자기 통신이 끊기거나 파싱 에러가 날 때 원인을 파악할 수 있도록 표기 (무시하지 않음)
+            print(f"⚠️ [Error] _check_whale_activity failed for {name}: {e}")
 
     def _get_gamma_price(self, slug, conditionId, outcomeIndex):
         url = f"https://gamma-api.polymarket.com/events?slug={slug}"
