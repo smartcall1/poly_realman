@@ -1,8 +1,8 @@
 import time
 import json
 import os
-import requests
-import threading
+import asyncio
+import aiohttp
 from datetime import datetime, timedelta, timezone
 from config import config
 from client_wrapper import PolymarketClient
@@ -37,13 +37,8 @@ class WhaleCopyBot:
         self.trade_log_path = os.path.join(os.path.dirname(__file__), "trade_history.jsonl")
         self.status_file_path = os.path.join(os.path.dirname(__file__), "status_WhaleCopy.json")
         
-        self.session = requests.Session()
-        self.session.headers.update({"User-Agent": "Mozilla/5.0"})
+        self.async_session = None
         self.client = PolymarketClient()
-
-        # 자동 유지보수 설정 (Background Scheduler)
-        self.maintenance_thread = threading.Thread(target=self._maintenance_loop, daemon=True)
-        self.maintenance_thread.start()
 
         print("=== 🐋 WHALE COPY BOT (PAPER MODE) ===")
         print(f"  초기 자본금: ${self.bankroll:.2f}")
@@ -61,41 +56,58 @@ class WhaleCopyBot:
                 return {}
         return {}
 
-    def run_loop(self):
+    async def run_loop(self):
         """메인 모니터링 루프"""
+        self.async_session = aiohttp.ClientSession(headers={"User-Agent": "Mozilla/5.0"})
+        
+        # 백그라운드 태스크 시작
+        asyncio.create_task(self._maintenance_loop())
+        asyncio.create_task(self._pending_order_loop())
+        
+        try:
+            while True:
+                try:
+                    # 1. 고래 목록 갱신 (1분마다)
+                    active_whales = self.load_whales()
+                    if not active_whales:
+                        print(f"[{datetime.now().strftime('%H:%M:%S')}] ⚠️ Active 상태인 고래가 없습니다. whales.json을 확인하세요.")
+                        await asyncio.sleep(30)
+                        continue
+
+                    # 2. 각 고래의 최신 Activity 병렬 조회
+                    tasks = [
+                        self._check_whale_activity(whale_addr, info['name'], info.get('score', 50))
+                        for whale_addr, info in active_whales.items()
+                    ]
+                    await asyncio.gather(*tasks, return_exceptions=True)
+
+                    # 3. 진행 중인 포지션 정산
+                    await self._settle_positions()
+
+                    # 4. 대시보드 스냅샷 업데이트
+                    self._update_dashboard()
+
+                except Exception as e:
+                    print(f"❌ 루프 에러: {e}")
+                    await asyncio.sleep(5)
+                    
+                # 폴링 간격 (5초: 병렬 스캔이므로 폴링 속도 극대화 가능)
+                await asyncio.sleep(5)
+        finally:
+            await self.async_session.close()
+
+    async def _pending_order_loop(self):
+        """1초 주기로 pending_orders에 등록된 지정가 큐를 확인하여 체결 시도 (비동기 독립 스레드)"""
         while True:
             try:
-                # 1. 고래 목록 갱신 (1분마다)
-                active_whales = self.load_whales()
-                if not active_whales:
-                    print(f"[{datetime.now().strftime('%H:%M:%S')}] ⚠️ Active 상태인 고래가 없습니다. whales.json을 확인하세요.")
-                    time.sleep(30)
-                    continue
-
-                # 2. 각 고래의 최신 Activity 조회
-                for whale_addr, info in active_whales.items():
-                    score = info.get('score', 50) # 기본 50점으로 간주
-                    self._check_whale_activity(whale_addr, info['name'], score)
-
-                # 스마트 진입(대기열) 처리
-                self._process_pending_orders()
-
-                # 3. 진행 중인 포지션 정산
-                self._settle_positions()
-
-                # 4. 대시보드 스냅샷 업데이트
-                self._update_dashboard()
-
+                await self._process_pending_orders()
             except Exception as e:
-                print(f"❌ 루프 에러: {e}")
-                time.sleep(5)
-                
-            # 폴링 간격 (5초: 초당 API 1회 수준이므로 충분히 안전함)
-            time.sleep(5)
+                print(f"❌ Pending Loop Error: {e}")
+            await asyncio.sleep(1)
 
-    def _maintenance_loop(self):
+    async def _maintenance_loop(self):
         """백그라운드에서 주기적으로 고래 목록 갱신 및 스코어링 수행"""
-        print("[Maintenance] Background maintenance thread started.")
+        print("[Maintenance] Background maintenance task started.")
         
         # 주기에 따른 실행 간격 정의
         MANAGER_INTERVAL = 24 * 3600  # 24시간마다 리더보드 전체 스캔
@@ -113,7 +125,7 @@ class WhaleCopyBot:
             if now - last_manager_run >= MANAGER_INTERVAL:
                 try:
                     print(f"\n[{datetime.now().strftime('%H:%M:%S')}] ⚙️ [Maintenance] Running Whale Manager (Discovery)...")
-                    run_manager()
+                    await asyncio.to_thread(run_manager)
                     last_manager_run = time.time()
                 except Exception as e:
                     print(f"❌ [Maintenance] Manager Error: {e}")
@@ -122,116 +134,117 @@ class WhaleCopyBot:
             if now - last_scorer_run >= SCORER_INTERVAL:
                 try:
                     print(f"\n[{datetime.now().strftime('%H:%M:%S')}] ⚙️ [Maintenance] Running Whale Scorer (Tagging)...")
-                    scorer.run()
+                    await asyncio.to_thread(scorer.run)
                     last_scorer_run = time.time()
                 except Exception as e:
                     print(f"❌ [Maintenance] Scorer Error: {e}")
             
             # 메인 거래 루프에 영향을 주지 않으려 아주 가끔씩만 체크 (1분 간격)
-            time.sleep(60)
+            await asyncio.sleep(60)
 
-    def _check_whale_activity(self, addr, name, score):
-        """특정 고래의 최근 트랜잭션 조회 및 카피"""
+    async def _check_whale_activity(self, addr, name, score):
+        """특정 고래의 최근 트랜잭션 비동기 조회 및 카피"""
         url = f"https://data-api.polymarket.com/activity?user={addr}&limit=10"
         try:
-            r = self.session.get(url, timeout=5)
-            if r.status_code != 200:
-                return
+            async with self.async_session.get(url, timeout=5) as r:
+                if r.status != 200:
+                    return
+                activities = await r.json()
                 
-            activities = r.json()
             for tx in activities:
-                # 거래(TRADE)이면서 매수(BUY) 액션만
+                # 1. 고래의 매집 (BUY) 액션 모니터링
                 if tx.get('type') == 'TRADE' and tx.get('side') == 'BUY':
                     tx_id = tx.get('id')
                     
                     if tx_id not in self.seen_txs:
-                        # UTC로 들어오는 timestamps를 제대로 파싱해서 로컬 시간(now)과 비교해야 함 (타임존 버그 픽스)
-                        from datetime import timezone
-                        # 밀리초가 없는 경우 'Z'가 남아 에러가 나는 것을 방지
                         api_time_str = tx.get('timestamp').split('.')[0].replace('Z', '')
                         tx_time = int(datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp())
                         now = int(time.time())
                         
                         self.seen_txs.add(tx_id)
                         
-                        # 최정예 30명으로 압축했으므로 루프 속도가 빨라짐. 1분(60초) 이내의 매수만 칼타이밍으로 추적!
                         if (now - tx_time) <= 60: 
                             whale_price = float(tx.get('price', 0))
-                            whale_size = float(tx.get('size', 0)) # 고래가 산 금액 (USDC)
+                            whale_size = float(tx.get('size', 0))
                             slug = tx.get('slug')
                             
-                            # V4: 스마트 필터 엔진 (마감일 및 카테고리 체크)
                             target_market_url = f"https://gamma-api.polymarket.com/events?slug={slug}"
                             try:
-                                mr_res = self.session.get(target_market_url, timeout=3)
-                                if mr_res.status_code == 200 and mr_res.json():
-                                    ev_data = mr_res.json()[0]
-                                    end_date_str = ev_data.get('endDate')
-                                    
-                                    # 1. 만기일 검증 (30일 초과 장기마켓 차단)
-                                    if end_date_str:
-                                        ed_dt = datetime.strptime(end_date_str.split('.')[0].replace('Z',''), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
-                                        days_left = (ed_dt.timestamp() - now) / 86400
-                                        if days_left > 30:
-                                            print(f"🚫 [SKIP] {name} 픽, 기회비용 필터 발동 (종료까지 {days_left:.1f}일 남은 장기 마켓: {slug})")
-                                            self.seen_txs.add(tx_id)
-                                            continue
+                                async with self.async_session.get(target_market_url, timeout=3) as mr_res:
+                                    if mr_res.status == 200:
+                                        data = await mr_res.json()
+                                        if data:
+                                            ev_data = data[0]
+                                            end_date_str = ev_data.get('endDate')
                                             
-                                    # 2. 고래 카테고리 (주종목) 검증
-                                    market_tags = [t.get('label') for t in ev_data.get('tags', []) if t.get('label')]
-                                    whale_top_tags = info.get('metrics', {}).get('top_categories', {})
-                                    
-                                    # 고래가 주종목이 하나도 등록 안 돼 있거나(초기), 교집합 태그가 있는지 확인 
-                                    if whale_top_tags:
-                                        # 시장 태그와 고래의 탑 3 태그 간의 교집합 검색
-                                        matched_tags = set(market_tags).intersection(set(whale_top_tags.keys()))
-                                        
-                                        # 주종목이 아닌 경우 (태그가 전혀 안 겹침)
-                                        if not matched_tags and len(market_tags) > 0:
-                                            print(f"🚫 [SKIP] {name} 픽, 전공 외 픽 필터 발동 (마켓태그: {market_tags}, 고래전공: {list(whale_top_tags.keys())})")
-                                            self.seen_txs.add(tx_id)
-                                            continue
+                                            if end_date_str:
+                                                ed_dt = datetime.strptime(end_date_str.split('.')[0].replace('Z',''), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+                                                days_left = (ed_dt.timestamp() - now) / 86400
+                                                if days_left > 30:
+                                                    print(f"🚫 [SKIP] {name} 픽, 기회비용 필터 발동 (종료까지 {days_left:.1f}일 남은 장기 마켓: {slug})")
+                                                    continue
+                                                    
+                                            info = self.load_whales().get(addr, {})
+                                            market_tags = [t.get('label') for t in ev_data.get('tags', []) if t.get('label')]
+                                            whale_top_tags = info.get('metrics', {}).get('top_categories', {})
+                                            
+                                            if whale_top_tags:
+                                                matched_tags = set(market_tags).intersection(set(whale_top_tags.keys()))
+                                                if not matched_tags and len(market_tags) > 0:
+                                                    print(f"🚫 [SKIP] {name} 픽, 전공 외 픽 필터 발동 (마켓태그: {market_tags}, 고래전공: {list(whale_top_tags.keys())})")
+                                                    continue
                             except Exception as e:
-                                pass # API 로드 실패 시 보수적으로 그냥 일단 넘어감 (필터 미적용 패스)
+                                pass
                                
-                            
-                            # 고래 액수에 따른 다이나믹 슬리피지 (고래가 많이 샀을수록 허용폭을 넓힘)
                             if whale_size >= 5000:
-                                slippage_modifier = 0.05 # 5,000불 이상 초거대 매수: 5% 슬리피지 허용 (무조건 따라붙기)
+                                slippage_modifier = 0.07 
                             elif whale_size >= 1000:
-                                slippage_modifier = 0.03 # 1,000불 이상: 3% 허용
+                                slippage_modifier = 0.05 
                             elif whale_size >= 100:
-                                slippage_modifier = 0.01 # 100불 이상: 1% 허용
+                                slippage_modifier = 0.03 
                             else:
-                                slippage_modifier = 0.005 # 소액 잡코인: 0.5% (사실상 찍먹)
+                                slippage_modifier = 0.015 
                             
-                            # 스코어가 높으면 슬리피지 여유를 1% 추가로 줌
-                            if score >= 80:
-                                slippage_modifier += 0.01 
+                            if score >= 90:
+                                slippage_modifier = max(slippage_modifier, 0.15) 
+                                print(f"💎 [VIP PASS] 90점 이상 최상급 고래({name}, {score}점) 픽! 슬리피지 15% 개방")
+                            elif score >= 80:
+                                slippage_modifier += 0.02 
                                 
-                            target_price = min(0.99, whale_price * (1 + slippage_modifier))
+                            ev_ceiling = (score / 100.0) * 0.95
+                            target_price = min(0.99, max(whale_price * (1 + slippage_modifier), ev_ceiling))
+                            # 켈리 베팅(Kelly Criterion) 산출: p = 승률, b = 배당비율
+                            p = score / 100.0
+                            # 보수적인 EV 계산을 위해 우리가 살 수 있는 최악의 가격(target_price)을 기준으로 계산
+                            b = (1.0 - target_price) / target_price if target_price > 0 and target_price < 1.0 else 0
                             
-                            token_id = tx.get('asset') # 트랜잭션의 token_id
-                            
-                            # 우리가 살 금액 (잔고비례)
-                            base_bet_size = min(self.bankroll * 0.05, 100.0) 
-                            weight = max(0, min(score / 100.0, 1.0))
-                            bet_size = base_bet_size * weight
-                            
-                            # 호가창(Orderbook) 뒤져서 예상 체결가 산출
-                            vwap_price = self.client.simulate_market_buy_vwap(token_id, bet_size)
-                            
-                            if vwap_price is not None and vwap_price <= target_price:
-                                print(f"\n⚡ [FAST EXECUTE] 🐋 {name} 픽, 호가창 포착 즉시 매수!")
-                                print(f"  고래매수가: ${whale_price:.3f} (규모: ${whale_size:.0f}) | VWAP평단가: ${vwap_price:.3f} | 한도: ${target_price:.3f}")
-                                self._execute_copy_trade(tx, name, score, vwap_price)
+                            if b > 0:
+                                kelly_f = p - ((1.0 - p) / b)
                             else:
-                                print(f"\n⏳ [PENDING Queue] 🐋 {name} 픽, 호가창 유동성 부족/가격 이탈 -> 대기열 등록 (1분)")
-                                if vwap_price:
-                                    print(f"  VWAP평단가: ${vwap_price:.3f} > 한도: ${target_price:.3f}")
-                                else:
-                                    print(f"  호가창 분석 실패 또는 잔량 부족")
-                                    
+                                kelly_f = -1.0
+                                
+                            fractional_kelly = kelly_f * 0.5 # Half Kelly (안전형)
+                            
+                            if fractional_kelly > 0:
+                                # EV가 플러스인 꿀자리: 잔고의 최대 15%까지 투자 (과감한 배팅)
+                                bet_fraction = min(fractional_kelly, 0.15)
+                                bet_size = self.bankroll * bet_fraction
+                                bet_type = "KELLY"
+                                print(f"🧠 [KELLY] EV Positive! 켈리 배팅 비율: {bet_fraction*100:.1f}%")
+                            else:
+                                # EV가 마이너스인 쓰레기 자리: 정찰병만 보냄 (잔고의 1% 또는 $20 중 작은 값)
+                                bet_size = min(self.bankroll * 0.01, 20.0)
+                                bet_type = "SCOUT"
+                                print(f"🛡️ [SCOUT] EV Negative (f={kelly_f:.2f}). 정찰병 배팅 투입.")
+                            
+                            vwap_price = await asyncio.to_thread(self.client.simulate_market_buy_vwap, token_id, bet_size)
+                            
+                            idx = tx.get('outcomeIndex', 0)
+                            if vwap_price is not None and vwap_price <= target_price:
+                                print(f"\n⚡ [FAST EXECUTE] 🐋 {name} 픽, 매수 체결! ({bet_type})")
+                                self._execute_copy_trade(tx, name, score, vwap_price, str(idx), bet_size)
+                            else:
+                                print(f"\n⏳ [PENDING] 🐋 {name} 픽, 목표가 {target_price:.3f} 대기열 등록 ({bet_type})")
                                 self.pending_orders.append({
                                     "tx": tx,
                                     "whale_name": name,
@@ -239,35 +252,55 @@ class WhaleCopyBot:
                                     "whale_price": whale_price,
                                     "target_price": target_price,
                                     "bet_size": bet_size,
-                                    "expires_at": now + 60 # 즉시 체결 못했으면 1분만 기다림 (너무 기다리면 포모)
+                                    "idx": str(idx),
+                                    "expires_at": now + 300
                                 })
-                
-                # 본 내역은 전부 기록해둠 (중복방지)
-                self.seen_txs.add(tx.get('id'))
+                                
+                # 2. 고래의 덤핑 (SELL) 액션 모니터링 (Mirror Exit)
+                elif tx.get('type') == 'TRADE' and tx.get('side') == 'SELL':
+                    tx_id = tx.get('id')
+                    if tx_id not in self.seen_txs:
+                        self.seen_txs.add(tx_id)
+                        
+                        slug = tx.get('slug')
+                        for tid, pos in list(self.positions.items()):
+                            if pos['slug'] == slug and pos['whale_name'] == name:
+                                # 고래가 해당 종목을 던졌으므로 미러링 액션 발동
+                                print(f"👀 [WATCH] 🐋 고래 {name}가 {tx.get('title')} 종목을 매도했습니다! 추격 청산 준비...")
+                                
+                                token_id = tx.get('asset')
+                                sell_size = pos['shares'] # 전량 매도
+                                
+                                # 시장가(VWAP)로 매도 가격 산출 (simulate_market_sell_vwap 함수는 추후 고도화 필요, 현재는 직전 price 참조)
+                                current_vwap = await asyncio.to_thread(self.client.simulate_market_buy_vwap, token_id, 10)
+                                if not current_vwap:
+                                    current_vwap = float(tx.get('price', 0))
+                                    
+                                self._execute_sell(tid, pos, current_vwap, "MIRROR")
                             
         except Exception as e:
             # 모바일 환경에서 갑자기 통신이 끊기거나 파싱 에러가 날 때 원인을 파악할 수 있도록 표기 (무시하지 않음)
             print(f"⚠️ [Error] _check_whale_activity failed for {name}: {e}")
 
-    def _get_gamma_price(self, slug, conditionId, outcomeIndex):
+    async def _get_gamma_price(self, slug, conditionId, outcomeIndex):
         url = f"https://gamma-api.polymarket.com/events?slug={slug}"
         try:
-            r = self.session.get(url, timeout=5)
-            events = r.json()
-            if not events: return None
-            for m in events[0].get('markets', []):
-                if m.get('conditionId') == conditionId:
-                    prices = m.get('outcomePrices', [])
-                    if isinstance(prices, str):
-                        try: prices = json.loads(prices)
-                        except: pass
-                    if isinstance(prices, list) and len(prices) > outcomeIndex:
-                        return float(prices[outcomeIndex])
+            async with self.async_session.get(url, timeout=5) as r:
+                events = await r.json()
+                if not events: return None
+                for m in events[0].get('markets', []):
+                    if m.get('conditionId') == conditionId:
+                        prices = m.get('outcomePrices', [])
+                        if isinstance(prices, str):
+                            try: prices = json.loads(prices)
+                            except: pass
+                        if isinstance(prices, list) and len(prices) > outcomeIndex:
+                            return float(prices[outcomeIndex])
         except:
             pass
         return None
 
-    def _process_pending_orders(self):
+    async def _process_pending_orders(self):
         if not self.pending_orders:
             return
             
@@ -283,25 +316,20 @@ class WhaleCopyBot:
             token_id = tx.get('asset')
             bet_size = order['bet_size']
             
-            # 큐에서도 호가창 긁어서 (VWAP) 바로 체결각 재기
-            vwap_price = self.client.simulate_market_buy_vwap(token_id, bet_size)
+            # 큐에서도 호가창 긁어서 (VWAP) 바로 체결각 재기 (블로킹이므로 to_thread)
+            vwap_price = await asyncio.to_thread(self.client.simulate_market_buy_vwap, token_id, bet_size)
             
             if vwap_price is not None and vwap_price <= order['target_price']:
                 print(f"✅ [PENDING Filled] 🐋 {order['whale_name']} 픽 체결! (VWAP: ${vwap_price:.3f} <= ${order['target_price']:.3f})")
-                self._execute_copy_trade(tx, order['whale_name'], order['score'], vwap_price)
+                self._execute_copy_trade(tx, order['whale_name'], order['score'], vwap_price, order['idx'], bet_size)
             else:
                 active_orders.append(order)
                 
         self.pending_orders = active_orders
 
-    def _execute_copy_trade(self, tx, whale_name, score, executed_price):
-        """가상 매매 집행 (bet_size가 외부에서 주어지거나 여기서 계산되지만 일원화를 위해 여기서 계산 유지)"""
-        # 켈리 배팅이 아니라 고정 $10 혹은 자산의 1% 투자 (예시: 잔고의 5% 최대 $100)
-        base_bet_size = min(self.bankroll * 0.05, 100.0) 
-        
-        # 스코어에 비례하여 투자 비중 조절 (100점 -> 최대비중, 50점 -> 절반)
-        weight = max(0, min(score / 100.0, 1.0))
-        bet_size = base_bet_size * weight
+    def _execute_copy_trade(self, tx, whale_name, score, executed_price, outcome_idx="0", computed_bet_size=None):
+        """가상 매매 집행"""
+        bet_size = computed_bet_size if computed_bet_size else 10.0 # 에러 방지용 Fallback
         
         if bet_size < 1.0: 
             print(f"🚫 [SKIP] {whale_name} 픽, 스코어/잔고 부족 (산출금: ${bet_size:.2f})")
@@ -325,16 +353,17 @@ class WhaleCopyBot:
         self.positions[tid] = {
             'whale_name': whale_name,
             'title': tx.get('title'),
-            'side': 'YES', # 여기서 outcome index에 따라 NO일수도 있지만 제목은 정해짐
+            'side': 'YES', 
             'outcome': tx.get('outcome'),
+            'outcomeIndex': outcome_idx, # idx 저장
             'entry_price': executed_price,
             'size_usdc': bet_size,
             'shares': shares,
             'conditionId': tx.get('conditionId'),
-            'marketId': tx.get('marketId'), # if exists
+            'marketId': tx.get('marketId'), 
             'slug': slug,
             'timestamp': int(time.time()),
-            'current_price': executed_price # 초기 가격
+            'current_price': executed_price 
         }
         
         whale_price = float(tx.get('price', 0))
@@ -346,7 +375,7 @@ class WhaleCopyBot:
         # 호환성 위해 Trade Log 기록 (strategy 이름으로 분리)
         self._log_trade(tid, "WHL", "YES", tx.get('title'), executed_price, bet_size, "OPEN", tx.get('marketId'))
 
-    def _settle_positions(self):
+    async def _settle_positions(self):
         """진행 중인 포지션의 현재가 조회 및 정산 (정산 여부는 Gamma API 활용)"""
         to_remove = []
         for tid, pos in self.positions.items():
@@ -356,35 +385,60 @@ class WhaleCopyBot:
             
             url = f"https://gamma-api.polymarket.com/events?slug={slug}"
             try:
-                r = self.session.get(url, timeout=5)
-                events = r.json()
-                for m in events[0].get('markets', []):
-                    if m.get('conditionId') == cond_id:
-                        
-                        # 1. Closed 인가?
-                        closed = m.get('closed', False)
-                        # 2. 결과가 났는가?
-                        winner = self.client.get_market_winner(m.get('id', ''))
-                        
-                        if winner not in ['WAITING', None] or closed:
-                            # 정산
-                            won = (winner == pos['outcome']) or (winner == 'YES' and str(pos['outcome']).upper() == 'YES')
-                            if won:
-                                self._settle_as_win(tid, pos)
-                            else:
-                                self._settle_as_loss(tid, pos)
-                            to_remove.append(tid)
-                            continue
+                async with self.async_session.get(url, timeout=5) as r:
+                    events = await r.json()
+                    
+                    for m in events[0].get('markets', []):
+                        if m.get('conditionId') == cond_id:
                             
-                        # 아직 진행중이면 현재가만 갱신
-                        prices = m.get('outcomePrices')
-                        try:
-                            if isinstance(prices, str): prices = json.loads(prices)
-                            if prices:
-                                # 보통 outcome이 YES/NO 형태이거나 토큰 리스트의 index 순서와 맞물림
-                                # 좀 더 확실하게 하려면 order_book을 가져와야 함. 여기선 rough하게 0번/1번 파싱.
-                                pass 
-                        except: pass
+                            # 1. Closed 인가?
+                            closed = m.get('closed', False)
+                            # 2. 결과가 났는가? (동기 blocking이므로 to_thread)
+                            winner = await asyncio.to_thread(self.client.get_market_winner, m.get('id', ''))
+                            
+                            if winner not in ['WAITING', None] or closed:
+                                # 정산
+                                won = (winner == pos['outcome']) or (winner == 'YES' and str(pos['outcome']).upper() == 'YES')
+                                if won:
+                                    self._settle_as_win(tid, pos)
+                                else:
+                                    self._settle_as_loss(tid, pos)
+                                to_remove.append(tid)
+                                continue
+                                
+                            # 아직 진행중이면 현재가 기반 청산 규칙(TP/SL/Timeout) 검사
+                            prices = m.get('outcomePrices')
+                            try:
+                                if isinstance(prices, str): prices = json.loads(prices)
+                                if prices:
+                                    # 해당 마켓의 내가 샀던 outcomeIndex 찾기 처리 (단순화: prices[int(pos['outcomeIndex'])])
+                                    current_price = float(prices[0]) # 임시 단순화 (보통 YES는 인덱스 0)
+                                    # 고도화(추후): outcome 문자열과 인덱스 매칭, 지금은 일단 첫 번째 가격(YES) 기준
+                                    
+                                    shares = pos['shares']
+                                    current_value = shares * current_price
+                                    roi = (current_value - pos['size_usdc']) / pos['size_usdc'] * 100
+                                    
+                                    # 1. 20% 수익 달성 시 익절 (Hard TP)
+                                    if roi >= 20.0:
+                                        self._execute_sell(tid, pos, current_price, "TAKE PROFIT")
+                                        to_remove.append(tid)
+                                        continue
+                                        
+                                    # 2. -30% 손실 시 손절 (Hard SL)
+                                    if roi <= -30.0:
+                                        self._execute_sell(tid, pos, current_price, "STOP LOSS")
+                                        to_remove.append(tid)
+                                        continue
+                                    
+                                    # 3. 타임아웃 청산 (7일 초과)
+                                    days_held = (int(time.time()) - pos['timestamp']) / 86400
+                                    if days_held > 7.0:
+                                        self._execute_sell(tid, pos, current_price, "TIMEOUT")
+                                        to_remove.append(tid)
+                                        continue
+
+                            except: pass
             except:
                 pass
                 
@@ -408,6 +462,37 @@ class WhaleCopyBot:
         
         print(f"\n❌ [LOSS] {pos['title']} 손실: ${loss:.2f}")
         self._log_trade(tid, "WHL", pos['outcome'], pos['title'], 0.0, pos['size_usdc'], "LOSS", pos['marketId'], pnl=loss)
+
+    def _execute_sell(self, tid, pos, sell_price, reason="TP/SL"):
+        """보유 중인 포지션을 수동 매도(청산) 처리"""
+        if tid not in self.positions:
+            return
+            
+        shares = pos['shares']
+        payout = shares * sell_price
+        profit = payout - pos['size_usdc']
+        
+        self.bankroll += payout
+        if profit >= 0:
+            self.stats['wins'] += 1
+        else:
+            self.stats['losses'] += 1
+            
+        self.stats['total_pnl'] += profit
+        
+        icon = "✅ [TAKE PROFIT]" if profit >= 0 else "🚨 [STOP LOSS]"
+        if reason == "MIRROR":
+            icon = "👀 [MIRROR EXIT]"
+        elif reason == "TIMEOUT":
+            icon = "⏳ [TIMEOUT EXIT]"
+            
+        print(f"\n{icon} {pos['title']} 청산 완료!")
+        print(f"  매수 평단: ${pos['entry_price']:.3f} -> 매도 평단: ${sell_price:.3f}")
+        print(f"  수익금: ${profit:+.2f} | 회수금: ${payout:.2f}")
+        
+        self._log_trade(tid, "WHL", pos['outcome'], pos['title'], sell_price, payout, reason, pos['marketId'], pnl=profit)
+        self.positions.pop(tid, None)
+
 
     def _log_trade(self, tid, coin, side, question, price, size, action, market_id="", pnl=0.0):
         record = {
@@ -450,4 +535,7 @@ class WhaleCopyBot:
 
 if __name__ == '__main__':
     bot = WhaleCopyBot()
-    bot.run_loop()
+    try:
+        asyncio.run(bot.run_loop())
+    except KeyboardInterrupt:
+        print("\n봇 종료 중...")
