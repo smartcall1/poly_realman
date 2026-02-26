@@ -142,7 +142,7 @@ def fetch_top_leaderboard(session, limit=500):
     return whales[:limit]
 
 def run_manager():
-    print(f"[{datetime.now()}] 🐋 Starting Whale Manager...")
+    print(f"[{datetime.now()}] Starting Whale Manager...")
     session = requests.Session()
     session.headers.update({"User-Agent": "Mozilla/5.0"})
     
@@ -199,7 +199,7 @@ def run_manager():
             print(f"  -> ROI: {roi:+.2f}%, Win Rate: {win_rate:.1f}%")
             
             if roi >= MIN_ROI and win_rate >= MIN_WIN_RATE:
-                print("  🎉 New Whale Edge Verified! Adding to DB.")
+                print("  New Whale Edge Verified! Adding to DB.")
                 db[addr] = {
                     "name": name,
                     "win_rate": win_rate,
@@ -230,7 +230,7 @@ def run_manager():
     save_whales_db(db)
     
     active_count = sum(1 for v in db.values() if v.get('status') == 'active')
-    print(f"\n[{datetime.now()}] 🐋 Manager Finished.")
+    print(f"\n[{datetime.now()}] Manager Finished.")
     print(f"Current Active Whales: {active_count}")
     print(f"Newly Added: {new_found}")
 

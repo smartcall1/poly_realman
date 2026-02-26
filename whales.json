@@ -1,1 +1,1323 @@
-{}
+{
+    "0x6a72f61820b26b1fe4d956e17b6dc2a1ea3033ee": {
+        "name": "kch123",
+        "win_rate": 100.0,
+        "roi": 106.56889067395312,
+        "added_at": 1772031729,
+        "last_updated": 1772031729,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 500,
+            "win_rate": 100.0,
+            "roi": 106.57,
+            "top_categories": {
+                "Sports": 486,
+                "NHL": 486,
+                "Games": 486
+            }
+        }
+    },
+    "0xccb290b1c145d1c95695d3756346bba9f1398586": {
+        "name": "hioa",
+        "win_rate": 100.0,
+        "roi": 83.18373250221201,
+        "added_at": 1772089383,
+        "last_updated": 1772089383,
+        "status": "inactive"
+    },
+    "0x9976874011b081e1e408444c579f48aa5b5967da": {
+        "name": "BWArmageddon",
+        "win_rate": 100.0,
+        "roi": 29.449838187702255,
+        "added_at": 1772032022,
+        "last_updated": 1772032022,
+        "status": "inactive"
+    },
+    "0x4bd74aef0ee5f1ec0718890f55c15f047e28373e": {
+        "name": "tbs8t",
+        "win_rate": 100.0,
+        "roi": 259.5828838116886,
+        "added_at": 1772032089,
+        "last_updated": 1772088587,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 494,
+            "win_rate": 100.0,
+            "roi": 259.58,
+            "top_categories": {
+                "Sports": 494,
+                "NBA": 494,
+                "Games": 494
+            }
+        }
+    },
+    "0x7744bfd749a70020d16a1fcbac1d064761c9999e": {
+        "name": "chungguskhan",
+        "win_rate": 100.0,
+        "roi": 223.61936696971227,
+        "added_at": 1772032504,
+        "last_updated": 1772032504,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 282,
+            "win_rate": 100.0,
+            "roi": 223.62,
+            "top_categories": {
+                "Unknown": 160,
+                "Politics": 84,
+                "Middle East": 84
+            }
+        }
+    },
+    "0x57cd939930fd119067ca9dc42b22b3e15708a0fb": {
+        "name": "Supah9ga",
+        "win_rate": 100.0,
+        "roi": 11.594688092846768,
+        "added_at": 1772089880,
+        "last_updated": 1772089880,
+        "status": "inactive"
+    },
+    "0xb8e6281d22dc80e08885ebc7d819da9bf8cdd504": {
+        "name": "ball52759",
+        "win_rate": 100.0,
+        "roi": 61.81229773462778,
+        "added_at": 1772090541,
+        "last_updated": 1772090541,
+        "status": "inactive"
+    },
+    "0x3d8920c114631fc43ad4fa0d77ac1cc12823b02c": {
+        "name": "yAmutHAa",
+        "win_rate": 100.0,
+        "roi": 77.46739444940198,
+        "added_at": 1772090630,
+        "last_updated": 1772090630,
+        "status": "inactive"
+    },
+    "0xc660ae71765d0d9eaf5fa8328c1c959841d2bd28": {
+        "name": "TradeurSanders",
+        "win_rate": 100.0,
+        "roi": 53.277842507181596,
+        "added_at": 1772033301,
+        "last_updated": 1772033301,
+        "status": "inactive"
+    },
+    "0xac4773707daddd3792efed5a91f5ec7651a7d234": {
+        "name": "HBAFlover98",
+        "win_rate": 100.0,
+        "roi": 79.79144192736425,
+        "added_at": 1772090761,
+        "last_updated": 1772090761,
+        "status": "inactive"
+    },
+    "0xedc8b2023897dad9df5b2f47ce79b2cdf1b6cca9": {
+        "name": "XORP",
+        "win_rate": 98.0,
+        "roi": 85.95601898231894,
+        "added_at": 1772090826,
+        "last_updated": 1772090826,
+        "status": "inactive"
+    },
+    "0x99bd18bf3b49a82cbd5749eafb3bfb117406238e": {
+        "name": "xdoors",
+        "win_rate": 100.0,
+        "roi": 111.059518539405,
+        "added_at": 1772033430,
+        "last_updated": 1772033430,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 331,
+            "win_rate": 100.0,
+            "roi": 111.06,
+            "top_categories": {
+                "Sports": 323,
+                "Games": 323,
+                "Hockey": 323
+            }
+        }
+    },
+    "0x7e6fda10646a4343358c84004859adfea1c0c022": {
+        "name": "98866",
+        "win_rate": 80.0,
+        "roi": 27.900336179784528,
+        "added_at": 1772090947,
+        "last_updated": 1772090947,
+        "status": "inactive"
+    },
+    "0x799c2267096b7523577d1d30564f914e649637f7": {
+        "name": "qwqbw",
+        "win_rate": 100.0,
+        "roi": 91.91567887781157,
+        "added_at": 1772033726,
+        "last_updated": 1772088634,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 34,
+            "win_rate": 100.0,
+            "roi": 91.92,
+            "top_categories": {
+                "Unknown": 48,
+                "Recurring": 25,
+                "Crypto": 24
+            }
+        }
+    },
+    "0x801ed774db6a5981945a825074a6b91788f6ad90": {
+        "name": "Darwinsfish",
+        "win_rate": 97.82608695652173,
+        "roi": 36.038598857201826,
+        "added_at": 1772091455,
+        "last_updated": 1772091455,
+        "status": "inactive"
+    },
+    "0x19f19dd8ee1f7e5f6ec666987e2963a65971a9c6": {
+        "name": "RetamzZ",
+        "win_rate": 93.47826086956522,
+        "roi": 49.10565702958189,
+        "added_at": 1772091480,
+        "last_updated": 1772091480,
+        "status": "inactive"
+    },
+    "0x45bc74efa620b45c02308acaecdff1f7c06f978b": {
+        "name": "0xb3ab5c8YCm9E4cZ96bne91qq99724dbdc6",
+        "win_rate": 100.0,
+        "roi": 13.726891347991884,
+        "added_at": 1772034096,
+        "last_updated": 1772034096,
+        "status": "inactive"
+    },
+    "0x7780e9f103f370a7a0351217501d99da178503ed": {
+        "name": "kindlydelta",
+        "win_rate": 78.26086956521739,
+        "roi": 41.55420443120607,
+        "added_at": 1772091808,
+        "last_updated": 1772091808,
+        "status": "inactive"
+    },
+    "0x34f62ce5beaf9b3b325726ec4b6c733df8534535": {
+        "name": "PatienceCapital",
+        "win_rate": 80.0,
+        "roi": 15.795523163374718,
+        "added_at": 1772091645,
+        "last_updated": 1772091645,
+        "status": "inactive"
+    },
+    "0x4460bf2c0aa59db412a6493c2c08970797b62970": {
+        "name": "Bidou28old",
+        "win_rate": 100.0,
+        "roi": 37.486057834443606,
+        "added_at": 1772091919,
+        "last_updated": 1772091919,
+        "status": "inactive"
+    },
+    "0xb96903067a7129d14931c5a7e82b1a7c8a3c66a1": {
+        "name": "0xB96903067A7129D14931c5A7E82B1A7c8A3c66a1-1770840142269",
+        "win_rate": 100.0,
+        "roi": 53.216610960079514,
+        "added_at": 1772091968,
+        "last_updated": 1772091968,
+        "status": "inactive"
+    },
+    "0x2a3ef27f644f70a25bf04fa07a5eee0d1bca8d9a": {
+        "name": "Kopojlb4yxaHoB1",
+        "win_rate": 100.0,
+        "roi": 14.295217951109224,
+        "added_at": 1772092136,
+        "last_updated": 1772092136,
+        "status": "inactive"
+    },
+    "0xd56837a9f2ed30eefe0a588dd1467e7f51e3a35a": {
+        "name": "jeffersonlau",
+        "win_rate": 86.11111111111111,
+        "roi": 20.977258290692298,
+        "added_at": 1772091894,
+        "last_updated": 1772091894,
+        "status": "inactive"
+    },
+    "0xeeb684d0364e193fb9b1d0a096c1d44718c3d982": {
+        "name": "Xander-corvus2",
+        "win_rate": 100.0,
+        "roi": 86.98502261907173,
+        "added_at": 1772092473,
+        "last_updated": 1772092473,
+        "status": "inactive"
+    },
+    "0xb3dda8a76f79f132b6f1a4b3c89f47474ea4a7e0": {
+        "name": "BK9496",
+        "win_rate": 87.17948717948718,
+        "roi": 40.79017847771862,
+        "added_at": 1772092532,
+        "last_updated": 1772092532,
+        "status": "inactive"
+    },
+    "0x3c2781460cf28726ed6ff38dc52e3175b0c2555b": {
+        "name": "0x3C2781460CF28726ed6ff38dC52E3175b0c2555B-1770837381456",
+        "win_rate": 100.0,
+        "roi": 290.08421956830864,
+        "added_at": 1772035274,
+        "last_updated": 1772088650,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 492,
+            "win_rate": 100.0,
+            "roi": 290.08,
+            "top_categories": {
+                "Crypto": 492,
+                "Up or Down": 492,
+                "Crypto Prices": 492
+            }
+        }
+    },
+    "0x66e27114127dbe9b40c1f58eedb709892a75bf7f": {
+        "name": "paoloestp",
+        "win_rate": 100.0,
+        "roi": 94.17475728155343,
+        "added_at": 1772035344,
+        "last_updated": 1772088665,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 46,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Crypto": 44,
+                "Crypto Prices": 44,
+                "Recurring": 44
+            }
+        }
+    },
+    "0xe56db4870eae8f391078e06e96dbcdbccd392b65": {
+        "name": "Luck-Pig",
+        "win_rate": 75.0,
+        "roi": 68.50277174851075,
+        "added_at": 1772092846,
+        "last_updated": 1772092846,
+        "status": "inactive"
+    },
+    "0xe169f7ab9cd3d2cc593b28e4a00568a2eeaa2158": {
+        "name": "mmmmmmmmonsterkill",
+        "win_rate": 100.0,
+        "roi": 26.72025463521018,
+        "added_at": 1772093035,
+        "last_updated": 1772093035,
+        "status": "inactive"
+    },
+    "0x16b1f68da281f346fa9ff7a46e9d55826abe968a": {
+        "name": "test124566",
+        "win_rate": 100.0,
+        "roi": 42.43768552273617,
+        "added_at": 1772093166,
+        "last_updated": 1772093166,
+        "status": "inactive"
+    },
+    "0xcbb1a3174d9ac5a0f57f5b86808204b9382e7afb": {
+        "name": "bratanbratishka",
+        "win_rate": 100.0,
+        "roi": 60.07176956549266,
+        "added_at": 1772035739,
+        "last_updated": 1772088680,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 493,
+            "win_rate": 100.0,
+            "roi": 122.68,
+            "top_categories": {
+                "Up or Down": 493,
+                "Crypto Prices": 493,
+                "Hide From New": 493
+            }
+        }
+    },
+    "0xee17380b79ecdc5f13bd2930388c55b13b03b46e": {
+        "name": "showbizzfor500",
+        "win_rate": 100.0,
+        "roi": 72.86347444571275,
+        "added_at": 1772091946,
+        "last_updated": 1772091946,
+        "status": "inactive"
+    },
+    "0x95481feb1901b5dba3e301450d0e1a90ebfb521f": {
+        "name": "loserWinner1",
+        "win_rate": 88.63636363636364,
+        "roi": 36.44316800690154,
+        "added_at": 1772093578,
+        "last_updated": 1772093578,
+        "status": "inactive"
+    },
+    "0xc44f432b014f36679e13615f95996eac32bbd49f": {
+        "name": "Zywoo123",
+        "win_rate": 92.85714285714286,
+        "roi": 30.69344880096424,
+        "added_at": 1772036137,
+        "last_updated": 1772036137,
+        "status": "inactive"
+    },
+    "0x74b7937435e1b3c392520e6defbe588bf6d8cdcf": {
+        "name": "lowellqua",
+        "win_rate": 100.0,
+        "roi": 94.17475728155337,
+        "added_at": 1772036162,
+        "last_updated": 1772088695,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 42,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Crypto": 46,
+                "Crypto Prices": 46,
+                "Recurring": 46
+            }
+        }
+    },
+    "0xcf265e86655bbb06d779c06d20975a9f4d1939a6": {
+        "name": "EonWinss",
+        "win_rate": 100.0,
+        "roi": 10.326566637246247,
+        "added_at": 1772093716,
+        "last_updated": 1772093716,
+        "status": "inactive"
+    },
+    "0x9adff33e757c0987015353863a98d1ecc524f6c0": {
+        "name": "0x9aDFf33E757c0987015353863a98D1eCC524f6c0-1770839520549",
+        "win_rate": 100.0,
+        "roi": 67.41713102513738,
+        "added_at": 1772094005,
+        "last_updated": 1772094005,
+        "status": "inactive"
+    },
+    "0x781caf04d98a281712caf1677877c442789fdb68": {
+        "name": "Avarice31",
+        "win_rate": 100.0,
+        "roi": 64.10209440068387,
+        "added_at": 1772036450,
+        "last_updated": 1772036450,
+        "status": "inactive"
+    },
+    "0xfe144d42554dd872c4dedaf1a870247d274b11ee": {
+        "name": "Adept-Closing",
+        "win_rate": 90.9090909090909,
+        "roi": 21.997015958711,
+        "added_at": 1772094061,
+        "last_updated": 1772094061,
+        "status": "inactive"
+    },
+    "0x5e2bbc2a6bcc683175b43fa2d315f8c01188f439": {
+        "name": "mnnnn123456",
+        "win_rate": 100.0,
+        "roi": 52.57513141258232,
+        "added_at": 1772094160,
+        "last_updated": 1772094160,
+        "status": "inactive"
+    },
+    "0xe790950382f11f714a13965a7703501d6e2edb42": {
+        "name": "kingdeserun",
+        "win_rate": 93.33333333333333,
+        "roi": 88.4601567077953,
+        "added_at": 1772094364,
+        "last_updated": 1772094364,
+        "status": "inactive"
+    },
+    "0x3bdbf89b0420924b99408841349a13d3cd7cde66": {
+        "name": "edfgdsas",
+        "win_rate": 85.71428571428571,
+        "roi": 94.158077520096,
+        "added_at": 1772094403,
+        "last_updated": 1772094403,
+        "status": "active",
+        "score": 91.3,
+        "metrics": {
+            "30d_trades": 17,
+            "win_rate": 85.71,
+            "roi": 94.16,
+            "top_categories": {
+                "Unknown": 34,
+                "Crypto": 21,
+                "Crypto Prices": 20
+            }
+        }
+    },
+    "0xbb2f6c2d96fc8c1c11774c2a6e0c51723699eca9": {
+        "name": "0xbb2f6C2D96Fc8C1C11774C2A6E0c51723699ECA9-1719713845865",
+        "win_rate": 100.0,
+        "roi": 158.25324376064708,
+        "added_at": 1772037406,
+        "last_updated": 1772037406,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 484,
+            "win_rate": 100.0,
+            "roi": 158.25,
+            "top_categories": {
+                "Sports": 258,
+                "Games": 258,
+                "Basketball": 258
+            }
+        }
+    },
+    "0x0d471d4b359275e6f51ab03e48467db7c5489505": {
+        "name": "0x0d471d4b359275E6F51Ab03E48467DB7C5489505-1770840474545",
+        "win_rate": 100.0,
+        "roi": 60.874291326425265,
+        "added_at": 1772095102,
+        "last_updated": 1772095102,
+        "status": "inactive"
+    },
+    "0x2da9cdcfc041d3732e0b1d42a2c7b35ac565be13": {
+        "name": "yvonneal",
+        "win_rate": 94.44444444444444,
+        "roi": 89.36101865248325,
+        "added_at": 1772095167,
+        "last_updated": 1772095167,
+        "status": "inactive"
+    },
+    "0xda3cb30df19c54d18fd79158c1c470048c280367": {
+        "name": "valliedolor",
+        "win_rate": 96.15384615384616,
+        "roi": 93.58983708660244,
+        "added_at": 1772037598,
+        "last_updated": 1772088727,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 31,
+            "win_rate": 96.15,
+            "roi": 93.59,
+            "top_categories": {
+                "Unknown": 46,
+                "Crypto": 32,
+                "Crypto Prices": 32
+            }
+        }
+    },
+    "0x99eccf7c575974bdfa801f0ef262889191e121dd": {
+        "name": "xiaomei8",
+        "win_rate": 100.0,
+        "roi": 14.012832497650024,
+        "added_at": 1772095232,
+        "last_updated": 1772095232,
+        "status": "inactive"
+    },
+    "0x49447d65bad9f5500972b6d535cc6a54bd3498c3": {
+        "name": "Peggyt",
+        "win_rate": 94.44444444444444,
+        "roi": 90.55104515486602,
+        "added_at": 1772095341,
+        "last_updated": 1772095341,
+        "status": "inactive"
+    },
+    "0x82a9ca3dac74910ceaace565832400dfdf26c9a1": {
+        "name": "2026frederick",
+        "win_rate": 87.5,
+        "roi": 30.84108088577382,
+        "added_at": 1772037827,
+        "last_updated": 1772037827,
+        "status": "inactive"
+    },
+    "0xba64c51abcade6f3276f896ae45b4a2a15454700": {
+        "name": "kristofersin",
+        "win_rate": 100.0,
+        "roi": 94.17475728155344,
+        "added_at": 1772037849,
+        "last_updated": 1772088742,
+        "status": "active",
+        "score": 95.3,
+        "metrics": {
+            "30d_trades": 23,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Unknown": 40,
+                "Crypto": 28,
+                "Crypto Prices": 28
+            }
+        }
+    },
+    "0xa564aaad2a650e43684211153e01f3eb112daa16": {
+        "name": "SHERARD",
+        "win_rate": 95.45454545454545,
+        "roi": 94.166107917766,
+        "added_at": 1772095411,
+        "last_updated": 1772095411,
+        "status": "active",
+        "score": 93.3,
+        "metrics": {
+            "30d_trades": 20,
+            "win_rate": 95.45,
+            "roi": 94.17,
+            "top_categories": {
+                "Unknown": 40,
+                "Crypto": 22,
+                "Crypto Prices": 22
+            }
+        }
+    },
+    "0x969fae0a3a93778adc42178f72c612ed8c4e4d55": {
+        "name": "superstonksbro",
+        "win_rate": 92.3076923076923,
+        "roi": 22.717815749968334,
+        "added_at": 1772095319,
+        "last_updated": 1772095319,
+        "status": "inactive"
+    },
+    "0x5e88b0e78db6a302d763fd8f85e8e7a20c095dda": {
+        "name": "k3m7t9qx",
+        "win_rate": 100.0,
+        "roi": 76.52250661959394,
+        "added_at": 1772095499,
+        "last_updated": 1772095499,
+        "status": "inactive"
+    },
+    "0xb8e3ab1cfe1a5610af9486d490fe987d99a15f7b": {
+        "name": "finbar",
+        "win_rate": 84.61538461538461,
+        "roi": 93.97971175779328,
+        "added_at": 1772095858,
+        "last_updated": 1772095858,
+        "status": "active",
+        "score": 83.3,
+        "metrics": {
+            "30d_trades": 5,
+            "win_rate": 84.62,
+            "roi": 93.98,
+            "top_categories": {
+                "Unknown": 38,
+                "Crypto": 12,
+                "Crypto Prices": 11
+            }
+        }
+    },
+    "0xc15df433cc88a225cdda2d3f5955f3973f8e6186": {
+        "name": "iirbl",
+        "win_rate": 100.0,
+        "roi": 94.17586167402281,
+        "added_at": 1772096078,
+        "last_updated": 1772096078,
+        "status": "active",
+        "score": 86.7,
+        "metrics": {
+            "30d_trades": 10,
+            "win_rate": 100.0,
+            "roi": 94.18,
+            "top_categories": {
+                "Unknown": 53,
+                "Crypto": 8,
+                "Crypto Prices": 8
+            }
+        }
+    },
+    "0x42750318632bb15bdbc2c58ec6be0919a43b655b": {
+        "name": "wrqlj",
+        "win_rate": 100.0,
+        "roi": 94.15664985057064,
+        "added_at": 1772096141,
+        "last_updated": 1772096141,
+        "status": "active",
+        "score": 85.3,
+        "metrics": {
+            "30d_trades": 8,
+            "win_rate": 100.0,
+            "roi": 94.16,
+            "top_categories": {
+                "Unknown": 35,
+                "Crypto": 8,
+                "Crypto Prices": 8
+            }
+        }
+    },
+    "0x25e28169faea17421fcd4cc361f6436d1e449a09": {
+        "name": "xdd07070",
+        "win_rate": 100.0,
+        "roi": 33.29362571403461,
+        "added_at": 1772096217,
+        "last_updated": 1772096217,
+        "status": "inactive"
+    },
+    "0x8f053ac26c46b27f304cb51ae35dc6f677e3c0b8": {
+        "name": "MaiHaze",
+        "win_rate": 100.0,
+        "roi": 244.91293395006304,
+        "added_at": 1772038659,
+        "last_updated": 1772088759,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 61,
+            "win_rate": 100.0,
+            "roi": 244.91,
+            "top_categories": {
+                "Sports": 217,
+                "Games": 217,
+                "Tennis": 140
+            }
+        }
+    },
+    "0x58b3a2d157f7ce32429b61121fbbfcc3dfb5be97": {
+        "name": "JemimaPerry",
+        "win_rate": 87.5,
+        "roi": 93.98265611180912,
+        "added_at": 1772096237,
+        "last_updated": 1772096237,
+        "status": "active",
+        "score": 86.0,
+        "metrics": {
+            "30d_trades": 9,
+            "win_rate": 87.5,
+            "roi": 93.98,
+            "top_categories": {
+                "Unknown": 30,
+                "Crypto": 7,
+                "Crypto Prices": 7
+            }
+        }
+    },
+    "0x500f1ec92aa1d5ffd34fb7d39776672c5a5094bf": {
+        "name": "EsportsEnjoyer",
+        "win_rate": 100.0,
+        "roi": 58.231866744089835,
+        "added_at": 1772094696,
+        "last_updated": 1772094696,
+        "status": "inactive"
+    },
+    "0x14333d20e95f39472970d2feff6c9c4c16fd56a0": {
+        "name": "theyseemeloosintheyhatin",
+        "win_rate": 91.66666666666666,
+        "roi": 33.38158284367888,
+        "added_at": 1772038791,
+        "last_updated": 1772038791,
+        "status": "inactive"
+    },
+    "0x1b1eb91359604ecd73bb0d77d7c5b113d9d2b7a5": {
+        "name": "30go3",
+        "win_rate": 86.66666666666667,
+        "roi": 91.55144193878624,
+        "added_at": 1772096330,
+        "last_updated": 1772096330,
+        "status": "inactive"
+    },
+    "0x7bebb8daa6b403346be3b26d5b99d29e9f62f48a": {
+        "name": "0x7bEbb8Daa6B403346Be3b26D5b99d29e9F62F48a-1766655054403",
+        "win_rate": 100.0,
+        "roi": 78.89061609587917,
+        "added_at": 1772096565,
+        "last_updated": 1772096565,
+        "status": "inactive"
+    },
+    "0xb6e6bc15e534d13c8104f610f21a4aa200c6389d": {
+        "name": "bbbave",
+        "win_rate": 100.0,
+        "roi": 155.4931016666461,
+        "added_at": 1772038973,
+        "last_updated": 1772088776,
+        "status": "active",
+        "score": 98.7,
+        "metrics": {
+            "30d_trades": 28,
+            "win_rate": 100.0,
+            "roi": 155.49,
+            "top_categories": {
+                "Esports": 35,
+                "counter strike 2": 35,
+                "Games": 35
+            }
+        }
+    },
+    "0xd9bd576c61bc8305f1878e59de31cdf48dc182b4": {
+        "name": "poorsGOD2",
+        "win_rate": 97.43589743589743,
+        "roi": 89.83503481004571,
+        "added_at": 1772096662,
+        "last_updated": 1772096662,
+        "status": "inactive"
+    },
+    "0x2e33c2571dcca96cd8e558dcf8195c738b82d046": {
+        "name": "MiyooMarketMaker",
+        "win_rate": 90.2439024390244,
+        "roi": 12.779882332570146,
+        "added_at": 1772096807,
+        "last_updated": 1772096807,
+        "status": "inactive"
+    },
+    "0x21ecbb95a15822bbdd4ab71345385a6056d95348": {
+        "name": "0x21eCbb95a15822bBdD4Ab71345385a6056D95348-1763085902493",
+        "win_rate": 100.0,
+        "roi": 38.909099224375396,
+        "added_at": 1772039320,
+        "last_updated": 1772039320,
+        "status": "inactive"
+    },
+    "0x2c4bad2680956e6acdd5a19c6e475b5aae2cb6d1": {
+        "name": "KarenaFlourishing",
+        "win_rate": 100.0,
+        "roi": 94.17557726245441,
+        "added_at": 1772097053,
+        "last_updated": 1772097053,
+        "status": "active",
+        "score": 84.0,
+        "metrics": {
+            "30d_trades": 6,
+            "win_rate": 100.0,
+            "roi": 94.18,
+            "top_categories": {
+                "Unknown": 38,
+                "Crypto": 11,
+                "Crypto Prices": 9
+            }
+        }
+    },
+    "0xb461dcd1ba2b0338e244b226063d2db1d6bc8e86": {
+        "name": "SilverLin",
+        "win_rate": 100.0,
+        "roi": 94.1747572815534,
+        "added_at": 1772039449,
+        "last_updated": 1772088790,
+        "status": "active",
+        "score": 93.3,
+        "metrics": {
+            "30d_trades": 20,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Unknown": 22,
+                "Crypto": 20,
+                "Crypto Prices": 20
+            }
+        }
+    },
+    "0x8980903d2a8f27323e4873178c7782d92cc8d4f4": {
+        "name": "emkayfd",
+        "win_rate": 97.91666666666666,
+        "roi": 34.273025440646954,
+        "added_at": 1772097190,
+        "last_updated": 1772097190,
+        "status": "inactive"
+    },
+    "0xbe51e0b28eeedd6176835395b930ed17795e6797": {
+        "name": "aracelyrep",
+        "win_rate": 92.85714285714286,
+        "roi": 92.24673823720096,
+        "added_at": 1772097281,
+        "last_updated": 1772097281,
+        "status": "active",
+        "score": 97.3,
+        "metrics": {
+            "30d_trades": 26,
+            "win_rate": 92.86,
+            "roi": 92.25,
+            "top_categories": {
+                "Crypto": 14,
+                "Crypto Prices": 14,
+                "Recurring": 14
+            }
+        }
+    },
+    "0x3a89c316624aa51fff6aaea8c84cccb32ee2f7f1": {
+        "name": "keithr",
+        "win_rate": 75.0,
+        "roi": 94.16333872974091,
+        "added_at": 1772097301,
+        "last_updated": 1772097301,
+        "status": "active",
+        "score": 76.0,
+        "metrics": {
+            "30d_trades": 4,
+            "win_rate": 75.0,
+            "roi": 94.16,
+            "top_categories": {
+                "Unknown": 35,
+                "Crypto": 8,
+                "Crypto Prices": 7
+            }
+        }
+    },
+    "0x14ac84b66a27fc30e56ed620ebfa61cd8105cb21": {
+        "name": "BrokeMaxxing",
+        "win_rate": 100.0,
+        "roi": 46.682730013614986,
+        "added_at": 1772039777,
+        "last_updated": 1772039777,
+        "status": "inactive"
+    },
+    "0xf4df10996e7cf58c2e63098ab56e6579af09e559": {
+        "name": "Bohdanl",
+        "win_rate": 82.6086956521739,
+        "roi": 11.888015868544679,
+        "added_at": 1772097461,
+        "last_updated": 1772097461,
+        "status": "inactive"
+    },
+    "0x94c9b50bb1d5bd06ed5983cba568300d573c4a4d": {
+        "name": "haylief",
+        "win_rate": 96.15384615384616,
+        "roi": 93.62265041722101,
+        "added_at": 1772040086,
+        "last_updated": 1772088805,
+        "status": "active",
+        "score": 98.7,
+        "metrics": {
+            "30d_trades": 28,
+            "win_rate": 96.15,
+            "roi": 93.62,
+            "top_categories": {
+                "Crypto": 30,
+                "Crypto Prices": 30,
+                "Recurring": 30
+            }
+        }
+    },
+    "0x6a5835cefa27a4333cf6d0dc509b8c47a7d161f0": {
+        "name": "0x6A5835CeFa27A4333CF6d0DC509B8C47A7D161f0-1769750980838",
+        "win_rate": 100.0,
+        "roi": 31.199160325373924,
+        "added_at": 1772097926,
+        "last_updated": 1772097926,
+        "status": "inactive"
+    },
+    "0x2580d0e16709994f5b8a0206271ad14e2b911d56": {
+        "name": "Maxdaboss1",
+        "win_rate": 87.5,
+        "roi": 23.73134087760018,
+        "added_at": 1772097985,
+        "last_updated": 1772097985,
+        "status": "inactive"
+    },
+    "0x9f65732d61805423719bd160016ea8844a73585b": {
+        "name": "enawelchg",
+        "win_rate": 100.0,
+        "roi": 94.17475728155338,
+        "added_at": 1772040329,
+        "last_updated": 1772088818,
+        "status": "active",
+        "score": 92.0,
+        "metrics": {
+            "30d_trades": 18,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Unknown": 28,
+                "Crypto": 22,
+                "Crypto Prices": 22
+            }
+        }
+    },
+    "0x5ec1272b672931a308175a122f6f191cd7bc057c": {
+        "name": "Kakusthavarma",
+        "win_rate": 100.0,
+        "roi": 47.9614275302093,
+        "added_at": 1772098285,
+        "last_updated": 1772098285,
+        "status": "inactive"
+    },
+    "0xbde33ac3839672f1bd3fecfc0271ad95f07c4a49": {
+        "name": "EomJunsik",
+        "win_rate": 81.63265306122449,
+        "roi": 20.08847881299305,
+        "added_at": 1772040552,
+        "last_updated": 1772040552,
+        "status": "inactive"
+    },
+    "0x6ac5cb2e20df97c80ee8f0c9a5b7ae63a8e0831e": {
+        "name": "sehxvv",
+        "win_rate": 100.0,
+        "roi": 94.17475728155341,
+        "added_at": 1772040689,
+        "last_updated": 1772088832,
+        "status": "active",
+        "score": 97.3,
+        "metrics": {
+            "30d_trades": 26,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Unknown": 63,
+                "Crypto": 27,
+                "Crypto Prices": 26
+            }
+        }
+    },
+    "0x34032958cfd19d76b3e1904455f744cf39edc25e": {
+        "name": "JustinStranger",
+        "win_rate": 85.71428571428571,
+        "roi": 94.102072079659,
+        "added_at": 1772098451,
+        "last_updated": 1772098451,
+        "status": "active",
+        "score": 84.0,
+        "metrics": {
+            "30d_trades": 6,
+            "win_rate": 85.71,
+            "roi": 94.1,
+            "top_categories": {
+                "Unknown": 36,
+                "Crypto": 8,
+                "Crypto Prices": 8
+            }
+        }
+    },
+    "0xd90959db7db52fd9a17cf8a8f93884f8b030bd2a": {
+        "name": "adelaideelmer",
+        "win_rate": 100.0,
+        "roi": 94.17475728155338,
+        "added_at": 1772098579,
+        "last_updated": 1772098579,
+        "status": "active",
+        "score": 82.7,
+        "metrics": {
+            "30d_trades": 4,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Unknown": 53,
+                "Crypto": 4,
+                "Crypto Prices": 4
+            }
+        }
+    },
+    "0xc8573e8132400bfcbaddad51287660c97e969e70": {
+        "name": "palace",
+        "win_rate": 90.9090909090909,
+        "roi": 20.452304825653425,
+        "added_at": 1772098676,
+        "last_updated": 1772098676,
+        "status": "inactive"
+    },
+    "0x83b6f6702e2b67d5466c48371309330d24549dbd": {
+        "name": "OBORRA",
+        "win_rate": 100.0,
+        "roi": 120.65313311613339,
+        "added_at": 1772041010,
+        "last_updated": 1772088846,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 472,
+            "win_rate": 100.0,
+            "roi": 120.65,
+            "top_categories": {
+                "Unknown": 358,
+                "Sports": 114,
+                "Games": 114
+            }
+        }
+    },
+    "0x87da2f16cf98af9b3e2f6ba6d9c4c470815b53d1": {
+        "name": "Comebackbot",
+        "win_rate": 100.0,
+        "roi": 74.65920163722333,
+        "added_at": 1772041082,
+        "last_updated": 1772041082,
+        "status": "inactive"
+    },
+    "0xae61434f3ac60736fff2b4bd55af48a596ebcb58": {
+        "name": "sisyl",
+        "win_rate": 100.0,
+        "roi": 94.17475728155334,
+        "added_at": 1772098774,
+        "last_updated": 1772098774,
+        "status": "active",
+        "score": 88.7,
+        "metrics": {
+            "30d_trades": 13,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Unknown": 68,
+                "Crypto": 13,
+                "Crypto Prices": 13
+            }
+        }
+    },
+    "0x88d17ad6bf91ca0935f6e70b37ebe3db92b618da": {
+        "name": "kahe",
+        "win_rate": 82.5,
+        "roi": 22.240973796796272,
+        "added_at": 1772096410,
+        "last_updated": 1772096410,
+        "status": "inactive"
+    },
+    "0x72b40c0012682ef52228ad53ef955f9e4f177d67": {
+        "name": "nz7",
+        "win_rate": 77.27272727272727,
+        "roi": 56.283031588433396,
+        "added_at": 1772089454,
+        "last_updated": 1772089454,
+        "status": "inactive"
+    },
+    "0x57a8d63731277200ed26cfde9a8a830d94f36933": {
+        "name": "statwC00KS",
+        "win_rate": 91.30434782608695,
+        "roi": 17.455454594107746,
+        "added_at": 1772089480,
+        "last_updated": 1772089480,
+        "status": "inactive"
+    },
+    "0x0b9cae2b0dfe7a71c413e0604eaac1c352f87e44": {
+        "name": "geniusMC",
+        "win_rate": 100.0,
+        "roi": 70.24357009027429,
+        "added_at": 1772089613,
+        "last_updated": 1772089613,
+        "status": "inactive"
+    },
+    "0x7af9bac9328c7cec1f9d07786e59576b608db408": {
+        "name": "0x7AF9Bac9328c7ceC1F9D07786E59576b608Db408-1771787783556",
+        "win_rate": 100.0,
+        "roi": 44.18547798135536,
+        "added_at": 1772090385,
+        "last_updated": 1772090385,
+        "status": "inactive"
+    },
+    "0x08c59894c5e32f0e5406799e49a9a33f4b7643ed": {
+        "name": "shan776",
+        "win_rate": 100.0,
+        "roi": 58.76937599672524,
+        "added_at": 1772090442,
+        "last_updated": 1772090442,
+        "status": "inactive"
+    },
+    "0x84dbb7103982e3617704a2ed7d5b39691952aeeb": {
+        "name": "ShucksIt69",
+        "win_rate": 100.0,
+        "roi": 67.52141070044513,
+        "added_at": 1772090472,
+        "last_updated": 1772090472,
+        "status": "inactive"
+    },
+    "0x99e42eb9038705165b22f821e27659c1dc41e4c4": {
+        "name": "acorp",
+        "win_rate": 75.0,
+        "roi": 320.98657525925,
+        "added_at": 1772091204,
+        "last_updated": 1772091204,
+        "status": "active",
+        "score": 93.3,
+        "metrics": {
+            "30d_trades": 416,
+            "win_rate": 75.0,
+            "roi": 320.99,
+            "top_categories": {
+                "Games": 372,
+                "Sports": 372,
+                "Esports": 148
+            }
+        }
+    },
+    "0xa38a455bbdd4b68486548b7e19da99903f4f821d": {
+        "name": "takeormake",
+        "win_rate": 76.0,
+        "roi": 45.412370744777114,
+        "added_at": 1772091702,
+        "last_updated": 1772091702,
+        "status": "inactive"
+    },
+    "0x12c087ec351a039aba7962f075c6edb90e0e692b": {
+        "name": "miroB",
+        "win_rate": 100.0,
+        "roi": 39.552116192807475,
+        "added_at": 1772092050,
+        "last_updated": 1772092050,
+        "status": "inactive"
+    },
+    "0x67bb64fac5252df3f61ee2d91a4b1350e40eb6ef": {
+        "name": "Blueberry1337",
+        "win_rate": 100.0,
+        "roi": 80.18229998586473,
+        "added_at": 1772092111,
+        "last_updated": 1772092111,
+        "status": "inactive"
+    },
+    "0xf7f0b0b1e9c0fe02ccad926916ee31aef74b912c": {
+        "name": "Rock.San",
+        "win_rate": 100.0,
+        "roi": 27.653552863833,
+        "added_at": 1772092288,
+        "last_updated": 1772092288,
+        "status": "inactive"
+    },
+    "0x448861155279dbf833d041b963e3ac854599e319": {
+        "name": "Flipadelphia",
+        "win_rate": 100.0,
+        "roi": 102.16423948220064,
+        "added_at": 1772092350,
+        "last_updated": 1772092350,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 424,
+            "win_rate": 100.0,
+            "roi": 102.16,
+            "top_categories": {
+                "Unknown": 184,
+                "Sports": 184,
+                "Games": 184
+            }
+        }
+    },
+    "0x26437896ed9dfeb2f69765edcafe8fdceaab39ae": {
+        "name": "Latina",
+        "win_rate": 100.0,
+        "roi": 66.52585484527012,
+        "added_at": 1772092751,
+        "last_updated": 1772092751,
+        "status": "inactive"
+    },
+    "0x85e5669beee6b80d887493e724987dabc5f56056": {
+        "name": "winner877",
+        "win_rate": 97.14285714285714,
+        "roi": 19.392389488966966,
+        "added_at": 1772092924,
+        "last_updated": 1772092924,
+        "status": "inactive"
+    },
+    "0x9fad8308ef6b6ed5320e53a290a3bd4ad91f5a9f": {
+        "name": "Dingwin",
+        "win_rate": 100.0,
+        "roi": 88.25807492671377,
+        "added_at": 1772093009,
+        "last_updated": 1772093009,
+        "status": "inactive"
+    },
+    "0x9f138019d5481fdc5c59b93b0ae4b9b817cce0fd": {
+        "name": "Bienville",
+        "win_rate": 88.0,
+        "roi": 63.50856001671368,
+        "added_at": 1772093280,
+        "last_updated": 1772093280,
+        "status": "inactive"
+    },
+    "0xcc8f0e3bd33b98eb19a0c122397b6ce69cffa7bb": {
+        "name": "ACEE123",
+        "win_rate": 92.85714285714286,
+        "roi": 13.13032258397758,
+        "added_at": 1772093524,
+        "last_updated": 1772093524,
+        "status": "inactive"
+    },
+    "0x751a2b86cab503496efd325c8344e10159349ea1": {
+        "name": "Sharky6999",
+        "win_rate": 100.0,
+        "roi": 10.071051462014736,
+        "added_at": 1772093980,
+        "last_updated": 1772093980,
+        "status": "inactive"
+    },
+    "0xe5241830e8876c115d7dc8311ad9f43d85fdd34f": {
+        "name": "Sportbetting76",
+        "win_rate": 100.0,
+        "roi": 91.39524271792354,
+        "added_at": 1772094660,
+        "last_updated": 1772094660,
+        "status": "inactive"
+    },
+    "0xebc74e9bb96aefee476be4518510f506bbd94003": {
+        "name": "NHL-Guy",
+        "win_rate": 100.0,
+        "roi": 85.65155087293833,
+        "added_at": 1772094971,
+        "last_updated": 1772094971,
+        "status": "inactive"
+    },
+    "0xa9650fe4301f45e7f090ada7252f9c1268183565": {
+        "name": "0xA9650de4301F45e7F090AdA7252F9c",
+        "win_rate": 100.0,
+        "roi": 18.692375780140793,
+        "added_at": 1772095735,
+        "last_updated": 1772095735,
+        "status": "inactive"
+    },
+    "0x0fd9ed42a94f0784cc531f4b5b2d92afbd9c3373": {
+        "name": "FLOCKKOFF",
+        "win_rate": 80.0,
+        "roi": 82.96668189873401,
+        "added_at": 1772095996,
+        "last_updated": 1772095996,
+        "status": "inactive"
+    },
+    "0x1eb06435d217aafbc511e5e0225b46c6e2dbd25b": {
+        "name": "daydaygreen",
+        "win_rate": 75.0,
+        "roi": 51.68043368659133,
+        "added_at": 1772096281,
+        "last_updated": 1772096281,
+        "status": "inactive"
+    },
+    "0x6e82b93eb57b01a63027bd0c6d2f3f04934a752c": {
+        "name": "0x24357454d8d1a0cc93a6c25fd490467372bc2454",
+        "win_rate": 100.0,
+        "roi": 12.614866620071693,
+        "added_at": 1772096512,
+        "last_updated": 1772096512,
+        "status": "inactive"
+    },
+    "0x852308055de0cd7f31d2ccce9d55116ea2741c9f": {
+        "name": "ruslan2019",
+        "win_rate": 100.0,
+        "roi": 111.059518589784,
+        "added_at": 1772097109,
+        "last_updated": 1772097109,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 281,
+            "win_rate": 100.0,
+            "roi": 111.06,
+            "top_categories": {
+                "Unknown": 265,
+                "Games": 163,
+                "Sports": 163
+            }
+        }
+    },
+    "0x4762c329459b5bbf87e9fc9f65749efc7086ba70": {
+        "name": "ski55",
+        "win_rate": 76.74418604651163,
+        "roi": 36.23696171100881,
+        "added_at": 1772097562,
+        "last_updated": 1772097562,
+        "status": "inactive"
+    },
+    "0x12ec6d71325afac2b4d25b3de94185e2c48d41ae": {
+        "name": "olegio",
+        "win_rate": 100.0,
+        "roi": 131.16042522851728,
+        "added_at": 1772097886,
+        "last_updated": 1772097886,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 398,
+            "win_rate": 100.0,
+            "roi": 131.16,
+            "top_categories": {
+                "Sports": 226,
+                "Games": 226,
+                "Unknown": 172
+            }
+        }
+    },
+    "0x3f2fb96d634db7c62dfa4f59d85f30c28d40be86": {
+        "name": "yTuh7364snfhu",
+        "win_rate": 100.0,
+        "roi": 21.955924693773714,
+        "added_at": 1772098099,
+        "last_updated": 1772098099,
+        "status": "inactive"
+    },
+    "0x6ade597c0e2b43c0bf3542cada8a5e330d73f5b0": {
+        "name": "TheOnlyHuman",
+        "win_rate": 100.0,
+        "roi": 51.310650584291714,
+        "added_at": 1772098142,
+        "last_updated": 1772098142,
+        "status": "inactive"
+    }
+}

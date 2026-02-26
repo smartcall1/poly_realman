@@ -40,7 +40,7 @@ class WhaleCopyBot:
         self.async_session = None
         self.client = PolymarketClient()
 
-        print("=== 🐋 WHALE COPY BOT (PAPER MODE) ===")
+        print("=== WHALE COPY BOT (PAPER MODE) ===")
         print(f"  초기 자본금: ${self.bankroll:.2f}")
         print(f"  가상 슬리피지: {self.slippage_pct * 100}% 적용")
         print("=====================================\n")
@@ -70,7 +70,7 @@ class WhaleCopyBot:
                     # 1. 고래 목록 갱신 (1분마다)
                     active_whales = self.load_whales()
                     if not active_whales:
-                        print(f"[{datetime.now().strftime('%H:%M:%S')}] ⚠️ Active 상태인 고래가 없습니다. whales.json을 확인하세요.")
+                        print(f"[{datetime.now().strftime('%H:%M:%S')}] Active whales not found. Check whales.json.")
                         await asyncio.sleep(30)
                         continue
 
@@ -124,7 +124,7 @@ class WhaleCopyBot:
             # 1. 고래 매니저 실행 (신규 고래 발굴 및 부적격 고래 제거)
             if now - last_manager_run >= MANAGER_INTERVAL:
                 try:
-                    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] ⚙️ [Maintenance] Running Whale Manager (Discovery)...")
+                    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] [Maintenance] Running Whale Manager (Discovery)...")
                     await asyncio.to_thread(run_manager)
                     last_manager_run = time.time()
                 except Exception as e:
@@ -133,7 +133,7 @@ class WhaleCopyBot:
             # 2. 고래 스코어러 실행 (카테고리 픽 분석 및 점수 갱신)
             if now - last_scorer_run >= SCORER_INTERVAL:
                 try:
-                    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] ⚙️ [Maintenance] Running Whale Scorer (Tagging)...")
+                    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] [Maintenance] Running Whale Scorer (Tagging)...")
                     await asyncio.to_thread(scorer.run)
                     last_scorer_run = time.time()
                 except Exception as e:
@@ -157,8 +157,13 @@ class WhaleCopyBot:
                     tx_id = tx.get('id')
                     
                     if tx_id not in self.seen_txs:
-                        api_time_str = tx.get('timestamp').split('.')[0].replace('Z', '')
-                        tx_time = int(datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp())
+                        timestamp_val = tx.get('timestamp')
+                        if isinstance(timestamp_val, str):
+                            api_time_str = timestamp_val.split('.')[0].replace('Z', '')
+                            tx_time = int(datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp())
+                        else:
+                            tx_time = int(timestamp_val) # Unix timestamp integer
+                        
                         now = int(time.time())
                         
                         self.seen_txs.add(tx_id)
@@ -178,8 +183,13 @@ class WhaleCopyBot:
                                             end_date_str = ev_data.get('endDate')
                                             
                                             if end_date_str:
-                                                ed_dt = datetime.strptime(end_date_str.split('.')[0].replace('Z',''), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
-                                                days_left = (ed_dt.timestamp() - now) / 86400
+                                                if isinstance(end_date_str, str):
+                                                    ed_dt = datetime.strptime(end_date_str.split('.')[0].replace('Z',''), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+                                                    ed_timestamp = ed_dt.timestamp()
+                                                else:
+                                                    ed_timestamp = float(end_date_str)
+                                                
+                                                days_left = (ed_timestamp - now) / 86400
                                                 if days_left > 30:
                                                     print(f"🚫 [SKIP] {name} 픽, 기회비용 필터 발동 (종료까지 {days_left:.1f}일 남은 장기 마켓: {slug})")
                                                     continue
@@ -207,7 +217,7 @@ class WhaleCopyBot:
                             
                             if score >= 90:
                                 slippage_modifier = max(slippage_modifier, 0.15) 
-                                print(f"💎 [VIP PASS] 90점 이상 최상급 고래({name}, {score}점) 픽! 슬리피지 15% 개방")
+                                print(f"[VIP PASS] High score whale({name}, {score}pts) pick! Slippage 15% open")
                             elif score >= 80:
                                 slippage_modifier += 0.02 
                                 
@@ -230,12 +240,12 @@ class WhaleCopyBot:
                                 bet_fraction = min(fractional_kelly, 0.15)
                                 bet_size = self.bankroll * bet_fraction
                                 bet_type = "KELLY"
-                                print(f"🧠 [KELLY] EV Positive! 켈리 배팅 비율: {bet_fraction*100:.1f}%")
+                                print(f"[KELLY] EV Positive! Kelly Fraction: {bet_fraction*100:.1f}%")
                             else:
                                 # EV가 마이너스인 쓰레기 자리: 정찰병만 보냄 (잔고의 1% 또는 $20 중 작은 값)
                                 bet_size = min(self.bankroll * 0.01, 20.0)
                                 bet_type = "SCOUT"
-                                print(f"🛡️ [SCOUT] EV Negative (f={kelly_f:.2f}). 정찰병 배팅 투입.")
+                                print(f"[SCOUT] EV Negative (f={kelly_f:.2f}). Scout bet entry.")
                             
                             vwap_price = await asyncio.to_thread(self.client.simulate_market_buy_vwap, token_id, bet_size)
                             
@@ -367,10 +377,10 @@ class WhaleCopyBot:
         }
         
         whale_price = float(tx.get('price', 0))
-        print(f"\n🚨 [COPY TRADE] 🐋 {whale_name} 픽 탑승!")
-        print(f"  마켓: {tx.get('title')} ({tx.get('outcome')})")
-        print(f"  상대가: ${whale_price:.3f} | 실제 체결가: ${executed_price:.3f}")
-        print(f"  배팅금: ${bet_size:.2f} | 남은자본금: ${self.bankroll:.2f}")
+        print(f"\n[COPY TRADE] {whale_name} pick entry!")
+        print(f"  Market: {tx.get('title')} ({tx.get('outcome')})")
+        print(f"  Whale: ${whale_price:.3f} | My Price: ${executed_price:.3f}")
+        print(f"  Bet: ${bet_size:.2f} | Remaining: ${self.bankroll:.2f}")
         
         # 호환성 위해 Trade Log 기록 (strategy 이름으로 분리)
         self._log_trade(tid, "WHL", "YES", tx.get('title'), executed_price, bet_size, "OPEN", tx.get('marketId'))

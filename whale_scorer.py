@@ -152,7 +152,7 @@ class WhaleScorer:
             return None
 
     def run(self):
-        print("=== 🐋 고래 스코어링 시작 ===")
+        print("=== Whale Scoring Started ===")
         db = self.load_db()
         thirty_days_ago = datetime.now(timezone.utc) - timedelta(days=30)
         
@@ -160,18 +160,18 @@ class WhaleScorer:
             if info.get('status') != 'active':
                 continue
                 
-            print(f"🔍 분석 중: {info.get('name', 'Unknown')} ({addr[:8]}...)")
+            print(f"Analyzing: {info.get('name', 'Unknown')} ({addr[:8]}...)")
             stats = self.calculate_score(addr, thirty_days_ago, info)
             
             if stats:
                 db[addr]['score'] = stats['score']
                 db[addr]['metrics'] = stats['metrics']
-                print(f"  👉 최종 점수: {stats['score']}점 (거래:{stats['metrics']['30d_trades']}회, 승률:{stats['metrics']['win_rate']}%, 수익률:{stats['metrics']['roi']}%)")
+                print(f"  -> Final Score: {stats['score']} (Trades:{stats['metrics']['30d_trades']}, WinRate:{stats['metrics']['win_rate']}%, ROI:{stats['metrics']['roi']}%)")
             
             time.sleep(1) # Rate limit
             
         self.save_db(db)
-        print("\n✅ whales.json 에 스코어 업데이트 완료!")
+        print("\n✅ whales.json score update completed!")
 
 if __name__ == "__main__":
     scorer = WhaleScorer()
