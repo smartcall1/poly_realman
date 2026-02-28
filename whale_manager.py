@@ -9,9 +9,9 @@ DATA_API_BASE = "https://data-api.polymarket.com"
 GAMMA_API_BASE = "https://gamma-api.polymarket.com"
 DB_FILE = "whales.json"
 
-# 백테스팅 설정값 (Top 100 깐깐한 고래 감시 기준)
+# 백테스팅 설정값
 SLIPPAGE_PCT = 0.03   # 3% 슬리피지 가정
-MIN_WIN_RATE = 70.0   # 최소 70% 이상의 승률 요구
+MIN_WIN_RATE = 65.0   # 최소 65% 이상의 승률 요구
 MIN_ROI = 0.5         # 최소 0.5% 이상의 '슬리피지 후' 가상 ROI 요구
 MIN_TRADES = 10       # 최소 10건 이상의 거래 내역이 있어야 함
 

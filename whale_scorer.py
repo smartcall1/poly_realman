@@ -58,60 +58,58 @@ class WhaleScorer:
                 
             activities = r.json()
             
-            # 1. 거래 빈도 및 카테고리 승률 분석
+            # 거래 빈도 및 카테고리 분포 분석 (단일 루프로 통합)
             trade_count = 0
-            category_stats = {} # {"Politics": {"wins": 2, "total": 3}, ...}
-            market_tags_cache = {} # 중복 API 호출 방지
-            
-            for t in activities:
-                if t.get('type') == 'TRADE' and t.get('side') == 'BUY':
+            category_stats = {}
+            market_tags_cache = {}  # 중복 API 호출 방지
 
-                    timestamp_val = t.get('timestamp')
-                    if isinstance(timestamp_val, str):
-                        api_time_str = timestamp_val.split('.')[0]
-                        try:
-                            tx_time = datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
-                        except ValueError:
-                            continue
-                    else:
+            for t in activities:
+                if t.get('type') != 'TRADE' or t.get('side') != 'BUY':
+                    continue
+
+                # 타임스탬프 파싱 (정수형/문자열 모두 처리)
+                timestamp_val = t.get('timestamp')
+                try:
+                    if isinstance(timestamp_val, (int, float)):
                         tx_time = datetime.fromtimestamp(int(timestamp_val), timezone.utc)
-                    
-                    if tx_time > thirty_days_ago:
-                        trade_count += 1
-                        
-                # 1.5 카테고리 태깅 정보 수집 (최초 로드 시 최근 100개만 제한하여 API 부하 방지 - 너무 많으면 오래 걸림)
-                if t.get('type') == 'TRADE' and t.get('side') == 'BUY':
-                    slug = t.get('slug')
-                    if not slug: continue
-                    
-                    if slug not in market_tags_cache:
-                        # Gamma API에서 이벤트 태그 조회
-                        gamma_url = f"https://gamma-api.polymarket.com/events?slug={slug}"
-                        try:
-                            gr = self.session.get(gamma_url, timeout=3)
-                            if gr.status_code == 200 and gr.json():
-                                ev = gr.json()[0]
-                                tags = ev.get('tags', [])
-                                market_tags_cache[slug] = [tag.get('label') for tag in tags if tag.get('label')]
-                            else:
-                                market_tags_cache[slug] = []
-                            time.sleep(0.1) # 짧은 Rate Limit 방어
-                        except:
+                    else:
+                        api_time_str = str(timestamp_val).split('.')[0]
+                        tx_time = datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+                except Exception:
+                    continue
+
+                # 30일 이내 거래만 처리 (trade_count 및 카테고리 모두 동일 기준 적용)
+                if tx_time <= thirty_days_ago:
+                    continue
+
+                trade_count += 1
+
+                slug = t.get('slug')
+                if not slug:
+                    continue
+
+                if slug not in market_tags_cache:
+                    gamma_url = f"https://gamma-api.polymarket.com/events?slug={slug}"
+                    try:
+                        gr = self.session.get(gamma_url, timeout=3)
+                        if gr.status_code == 200 and gr.json():
+                            ev = gr.json()[0]
+                            tags = ev.get('tags', [])
+                            market_tags_cache[slug] = [tag.get('label') for tag in tags if tag.get('label')]
+                        else:
                             market_tags_cache[slug] = []
-                    
-                    tags = market_tags_cache.get(slug, [])
-                    if not tags: tags = ["Unknown"]
-                    
-                    # 승패 판별 (이미 정산된 마켓의 경우 price가 아니라 Polymarket Activity API 상에 종종 WIN/LOSS가 남거나 outcome값으로 유추, 
-                    # 여기서는 근사치로 PnL 계산을 하진 않고 단순히 '이 카테고리 거래를 했다' 정도로도 빈도를 측정할 수 있지만, 
-                    # 정확히 하려면 API 한계상 승패까지 다 구해오기 너무 무거우므로, 
-                    # 일단 이 고래가 어느 분야(분모)에 몇 번 베팅했는지 분과비율을 잡겠습니다. 
-                    # => 추후 심화: PnL이 아니라 활동 '비중'과 '전체 승률'을 합산하는 방식.
-                    # V4 1차 목표: 카테고리별 베팅 분포수 파악
-                    for tag in tags:
-                        if tag not in category_stats:
-                            category_stats[tag] = 0
-                        category_stats[tag] += 1
+                        time.sleep(0.1)
+                    except Exception:
+                        market_tags_cache[slug] = []
+
+                tags = market_tags_cache.get(slug, [])
+                if not tags:
+                    tags = ["Unknown"]
+
+                for tag in tags:
+                    if tag not in category_stats:
+                        category_stats[tag] = 0
+                    category_stats[tag] += 1
                         
             # top 카테고리 3개 추출
             sorted_categories = sorted(category_stats.items(), key=lambda x: x[1], reverse=True)[:3]

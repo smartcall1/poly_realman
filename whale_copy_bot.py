@@ -1,3 +1,5 @@
+import sys
+
 import time
 import json
 import os
@@ -17,6 +19,8 @@ class WhaleCopyBot:
         self.seen_txs = set()
         self.positions = {}
         self.pending_orders = [] # 지정가 대기 큐
+        self.startup_time = int(time.time())  # 봇 시작 시각 (백로그 필터용)
+        self.MAX_POSITIONS = 10               # 동시 최대 포지션 수
         
         # 페이퍼 트레이딩 공통 자산
         self.bankroll = config.INITIAL_BANKROLL
@@ -75,7 +79,7 @@ class WhaleCopyBot:
                 # 2. 각 고래의 최신 Activity 조회
                 for whale_addr, info in active_whales.items():
                     score = info.get('score', 50) # 기본 50점으로 간주
-                    self._check_whale_activity(whale_addr, info['name'], score)
+                    self._check_whale_activity(whale_addr, info['name'], score, info)
 
                 # 스마트 진입(대기열) 처리
                 self._process_pending_orders()
@@ -130,119 +134,149 @@ class WhaleCopyBot:
             # 메인 거래 루프에 영향을 주지 않으려 아주 가끔씩만 체크 (1분 간격)
             time.sleep(60)
 
-    def _check_whale_activity(self, addr, name, score):
+    def _check_whale_activity(self, addr, name, score, info=None):
         """특정 고래의 최근 트랜잭션 조회 및 카피"""
+        if info is None:
+            info = {}
         url = f"https://data-api.polymarket.com/activity?user={addr}&limit=10"
         try:
             r = self.session.get(url, timeout=5)
             if r.status_code != 200:
                 return
-                
+
             activities = r.json()
+            now = int(time.time())
+
+            # seen_txs 메모리 한계 방어 (10,000건 초과 시 절반 삭제)
+            if len(self.seen_txs) > 10000:
+                self.seen_txs = set(list(self.seen_txs)[5000:])
+
             for tx in activities:
-                # 거래(TRADE)이면서 매수(BUY) 액션만
-                if tx.get('type') == 'TRADE' and tx.get('side') == 'BUY':
-                    tx_id = tx.get('id')
-                    
-                    if tx_id not in self.seen_txs:
-                        # UTC로 들어오는 timestamps를 제대로 파싱해서 로컬 시간(now)과 비교해야 함 (타임존 버그 픽스)
-                        from datetime import timezone
-                        api_time_str = tx.get('timestamp').split('.')[0]
+                # BUG FIX4: 'id' 필드는 없음. transactionHash 사용
+                tx_id = tx.get('transactionHash') or tx.get('id')
+                if not tx_id or tx_id in self.seen_txs:
+                    continue
+                self.seen_txs.add(tx_id)
+
+                tx_type = tx.get('type')
+                tx_side = tx.get('side')
+
+                # [Mirror Exit] 고래 SELL 감지 → 동반 청산
+                if tx_type == 'TRADE' and tx_side == 'SELL':
+                    cond_id = tx.get('conditionId') or ''
+                    tid = cond_id + str(tx.get('outcomeIndex', 0))
+                    if tid in self.positions:
+                        pos = self.positions.pop(tid)
+                        current_price = pos.get('current_price', pos['entry_price'])
+                        self._execute_early_exit(tid, pos, current_price, "MIRROR_EXIT")
+                        print(f"🔄 [MIRROR EXIT] {name} SELL 감지 → 동반 청산 완료")
+                    continue
+
+                # 매수(BUY)만 이하 처리
+                if tx_type != 'TRADE' or tx_side != 'BUY':
+                    continue
+
+                # [Filter 1] startup_time 백로그 방지 (봇 시작 전 거래 스킵)
+                timestamp_val = tx.get('timestamp')
+                try:
+                    if isinstance(timestamp_val, (int, float)):
+                        tx_time = int(timestamp_val)
+                    else:
+                        api_time_str = str(timestamp_val).split('.')[0]
                         tx_time = int(datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp())
-                        now = int(time.time())
-                        
-                        self.seen_txs.add(tx_id)
-                        
-                        if (now - tx_time) <= 60: 
-                            whale_price = float(tx.get('price', 0))
-                            whale_size = float(tx.get('size', 0)) # 고래가 산 금액 (USDC)
-                            slug = tx.get('slug')
-                            
-                            # V4: 스마트 필터 엔진 (마감일 및 카테고리 체크)
-                            target_market_url = f"https://gamma-api.polymarket.com/events?slug={slug}"
-                            try:
-                                mr_res = self.session.get(target_market_url, timeout=3)
-                                if mr_res.status_code == 200 and mr_res.json():
-                                    ev_data = mr_res.json()[0]
-                                    end_date_str = ev_data.get('endDate')
-                                    
-                                    # 1. 만기일 검증 (30일 초과 장기마켓 차단)
-                                    if end_date_str:
-                                        ed_dt = datetime.strptime(end_date_str.split('.')[0].replace('Z',''), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
-                                        days_left = (ed_dt.timestamp() - now) / 86400
-                                        if days_left > 30:
-                                            print(f"🚫 [SKIP] {name} 픽, 기회비용 필터 발동 (종료까지 {days_left:.1f}일 남은 장기 마켓: {slug})")
-                                            self.seen_txs.add(tx_id)
-                                            continue
-                                            
-                                    # 2. 고래 카테고리 (주종목) 검증
-                                    market_tags = [t.get('label') for t in ev_data.get('tags', []) if t.get('label')]
-                                    whale_top_tags = info.get('metrics', {}).get('top_categories', {})
-                                    
-                                    # 고래가 주종목이 하나도 등록 안 돼 있거나(초기), 교집합 태그가 있는지 확인 
-                                    if whale_top_tags:
-                                        # 시장 태그와 고래의 탑 3 태그 간의 교집합 검색
-                                        matched_tags = set(market_tags).intersection(set(whale_top_tags.keys()))
-                                        
-                                        # 주종목이 아닌 경우 (태그가 전혀 안 겹침)
-                                        if not matched_tags and len(market_tags) > 0:
-                                            print(f"🚫 [SKIP] {name} 픽, 전공 외 픽 필터 발동 (마켓태그: {market_tags}, 고래전공: {list(whale_top_tags.keys())})")
-                                            self.seen_txs.add(tx_id)
-                                            continue
-                            except Exception as e:
-                                pass # API 로드 실패 시 보수적으로 그냥 일단 넘어감 (필터 미적용 패스)
-                               
-                            
-                            # 고래 액수에 따른 다이나믹 슬리피지 (고래가 많이 샀을수록 허용폭을 넓힘)
-                            if whale_size >= 5000:
-                                slippage_modifier = 0.05 # 5,000불 이상 초거대 매수: 5% 슬리피지 허용 (무조건 따라붙기)
-                            elif whale_size >= 1000:
-                                slippage_modifier = 0.03 # 1,000불 이상: 3% 허용
-                            elif whale_size >= 100:
-                                slippage_modifier = 0.01 # 100불 이상: 1% 허용
-                            else:
-                                slippage_modifier = 0.005 # 소액 잡코인: 0.5% (사실상 찍먹)
-                            
-                            # 스코어가 높으면 슬리피지 여유를 1% 추가로 줌
-                            if score >= 80:
-                                slippage_modifier += 0.01 
-                                
-                            target_price = min(0.99, whale_price * (1 + slippage_modifier))
-                            
-                            token_id = tx.get('asset') # 트랜잭션의 token_id
-                            
-                            # 우리가 살 금액 (잔고비례)
-                            base_bet_size = min(self.bankroll * 0.05, 100.0) 
-                            weight = max(0, min(score / 100.0, 1.0))
-                            bet_size = base_bet_size * weight
-                            
-                            # 호가창(Orderbook) 뒤져서 예상 체결가 산출
-                            vwap_price = self.client.simulate_market_buy_vwap(token_id, bet_size)
-                            
-                            if vwap_price is not None and vwap_price <= target_price:
-                                print(f"\n⚡ [FAST EXECUTE] 🐋 {name} 픽, 호가창 포착 즉시 매수!")
-                                print(f"  고래매수가: ${whale_price:.3f} (규모: ${whale_size:.0f}) | VWAP평단가: ${vwap_price:.3f} | 한도: ${target_price:.3f}")
-                                self._execute_copy_trade(tx, name, score, vwap_price)
-                            else:
-                                print(f"\n⏳ [PENDING Queue] 🐋 {name} 픽, 호가창 유동성 부족/가격 이탈 -> 대기열 등록 (1분)")
-                                if vwap_price:
-                                    print(f"  VWAP평단가: ${vwap_price:.3f} > 한도: ${target_price:.3f}")
-                                else:
-                                    print(f"  호가창 분석 실패 또는 잔량 부족")
-                                    
-                                self.pending_orders.append({
-                                    "tx": tx,
-                                    "whale_name": name,
-                                    "score": score,
-                                    "whale_price": whale_price,
-                                    "target_price": target_price,
-                                    "bet_size": bet_size,
-                                    "expires_at": now + 60 # 즉시 체결 못했으면 1분만 기다림 (너무 기다리면 포모)
-                                })
-                
-                # 본 내역은 전부 기록해둠 (중복방지)
-                self.seen_txs.add(tx.get('id'))
-                            
+                except Exception:
+                    continue
+
+                if tx_time < self.startup_time:
+                    continue
+
+                # [Filter 2] 30분(1800초) 이내 거래만 처리
+                if (now - tx_time) > 1800:
+                    continue
+
+                whale_price = float(tx.get('price', 0))
+                whale_size = float(tx.get('size', 0))
+                slug = tx.get('slug')
+
+                # [Filter 3] 정산 직전 마켓 스킵 (가격 >= 0.95)
+                if whale_price >= 0.95:
+                    continue
+
+                # [Filter 4] MAX_POSITIONS 체크
+                if len(self.positions) >= self.MAX_POSITIONS:
+                    print(f"🚫 [SKIP] 최대 포지션 한도 도달 ({self.MAX_POSITIONS}개)")
+                    continue
+
+                # [Filter 5] Gamma API 마켓 상태 확인
+                target_market_url = f"https://gamma-api.polymarket.com/events?slug={slug}"
+                try:
+                    mr_res = self.session.get(target_market_url, timeout=3)
+                    if mr_res.status_code == 200 and mr_res.json():
+                        ev_data = mr_res.json()[0]
+                        end_date_str = ev_data.get('endDate')
+
+                        # 만기일 검증 (30일 초과 장기마켓 차단)
+                        if end_date_str:
+                            ed_dt = datetime.strptime(end_date_str.split('.')[0].replace('Z', ''), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+                            days_left = (ed_dt.timestamp() - now) / 86400
+                            if days_left > 30:
+                                print(f"🚫 [SKIP] {name} 픽, 장기 마켓 ({days_left:.1f}일 남음): {slug}")
+                                continue
+
+                        # 고래 카테고리(주종목) 검증
+                        market_tags = [t.get('label') for t in ev_data.get('tags', []) if t.get('label')]
+                        whale_top_tags = info.get('metrics', {}).get('top_categories', {})
+                        if whale_top_tags and market_tags:
+                            matched_tags = set(market_tags).intersection(set(whale_top_tags.keys()))
+                            if not matched_tags:
+                                print(f"🚫 [SKIP] {name} 전공 외 픽 (마켓: {market_tags}, 전공: {list(whale_top_tags.keys())})")
+                                continue
+                except Exception:
+                    pass  # API 실패 시 필터 미적용(Fail Open)으로 진행
+
+                # 다이나믹 슬리피지
+                if whale_size >= 5000:
+                    slippage_modifier = 0.05
+                elif whale_size >= 1000:
+                    slippage_modifier = 0.03
+                elif whale_size >= 100:
+                    slippage_modifier = 0.01
+                else:
+                    slippage_modifier = 0.005
+
+                if score >= 80:
+                    slippage_modifier += 0.01
+
+                target_price = min(0.99, whale_price * (1 + slippage_modifier))
+                token_id = tx.get('asset')
+
+                base_bet_size = min(self.bankroll * 0.05, 100.0)
+                weight = max(0, min(score / 100.0, 1.0))
+                bet_size = base_bet_size * weight
+
+                vwap_price = self.client.simulate_market_buy_vwap(token_id, bet_size)
+
+                if vwap_price is not None and vwap_price <= target_price:
+                    print(f"\n⚡ [FAST EXECUTE] 🐋 {name} 픽, 즉시 매수!")
+                    print(f"  고래매수가: ${whale_price:.3f} (규모: ${whale_size:.0f}) | VWAP: ${vwap_price:.3f} | 한도: ${target_price:.3f}")
+                    self._execute_copy_trade(tx, name, score, vwap_price)
+                else:
+                    print(f"\n⏳ [PENDING] 🐋 {name} 픽 → 대기열 등록 (1분)")
+                    if vwap_price:
+                        print(f"  VWAP: ${vwap_price:.3f} > 한도: ${target_price:.3f}")
+                    else:
+                        print(f"  호가창 분석 실패 또는 잔량 부족")
+
+                    self.pending_orders.append({
+                        "tx": tx,
+                        "whale_name": name,
+                        "score": score,
+                        "whale_price": whale_price,
+                        "target_price": target_price,
+                        "bet_size": bet_size,
+                        "expires_at": now + 60,
+                    })
+
         except Exception as e:
             pass
 
@@ -307,7 +341,8 @@ class WhaleCopyBot:
         shares = bet_size / executed_price
         
         # 포지션에 기록
-        tid = tx.get('conditionId') + str(tx.get('outcomeIndex')) # Unique Key
+        cond_id = tx.get('conditionId') or ''
+        tid = cond_id + str(tx.get('outcomeIndex', 0))  # Unique Key
         
         if tid in self.positions:
             print(f"🚫 이미 카피 중인 포지션입니다: {tx.get('title')}")
@@ -365,7 +400,10 @@ class WhaleCopyBot:
 
                     # [우선순위 1] 마켓 자연 정산
                     if winner not in ['WAITING', None] or closed:
-                        won = (winner == pos['outcome']) or (winner == 'YES' and str(pos['outcome']).upper() == 'YES')
+                        outcome = str(pos.get('outcome') or '')
+                        outcome_up = outcome.upper()
+                        is_yes = any(k in outcome_up for k in ('YES', 'UP', 'ABOVE', 'HIGH'))
+                        won = (winner == 'YES' and is_yes) or (winner == 'NO' and not is_yes) or (winner == outcome)
                         if won:
                             self._settle_as_win(tid, pos)
                         else:
@@ -450,6 +488,7 @@ class WhaleCopyBot:
             "TRAILING_STOP":  "📉",
             "STOP_LOSS":      "🛑",
             "TIMEOUT":        "⏰",
+            "MIRROR_EXIT":    "🔄",
         }
         emoji = emoji_map.get(reason, "🔔")
         print(f"\n{emoji} [{reason}] {pos['title']}")
@@ -464,7 +503,7 @@ class WhaleCopyBot:
         self.stats['total_pnl'] += profit
         
         print(f"\n✅ [WIN] {pos['title']} 수익: +${profit:.2f}")
-        self._log_trade(tid, "WHL", pos['outcome'], pos['title'], 1.0, payout, "WIN", pos['marketId'], pnl=profit)
+        self._log_trade(tid, "WHL", pos.get('outcome', ''), pos['title'], 1.0, payout, "WIN", pos.get('marketId', ''), pnl=profit)
 
     def _settle_as_loss(self, tid, pos):
         loss = -pos['size_usdc']
@@ -472,7 +511,7 @@ class WhaleCopyBot:
         self.stats['total_pnl'] += loss
         
         print(f"\n❌ [LOSS] {pos['title']} 손실: ${loss:.2f}")
-        self._log_trade(tid, "WHL", pos['outcome'], pos['title'], 0.0, pos['size_usdc'], "LOSS", pos['marketId'], pnl=loss)
+        self._log_trade(tid, "WHL", pos.get('outcome', ''), pos['title'], 0.0, pos['size_usdc'], "LOSS", pos.get('marketId', ''), pnl=loss)
 
     def _log_trade(self, tid, coin, side, question, price, size, action, market_id="", pnl=0.0):
         record = {
