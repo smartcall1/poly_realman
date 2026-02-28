@@ -142,40 +142,82 @@ def run_dashboard():
         print(f"{'TOTAL PROFIT':<10}|{format_currency(total_global_pnl, 8)}|Act:{total_active_bets}|Exp:{total_exposure:>.0f}")
         print("=" * 55)
         
-        # --- Active Whales Section ---
+        # --- Active Whales Count ---
         whales_path = os.path.join(base_dir, 'whales.json')
-        active_whales = []
+        active_whale_count = 0
         try:
             if os.path.exists(whales_path):
                 with open(whales_path, 'r', encoding='utf-8') as f:
                     content = f.read().strip()
                     if content:
                         whales_data = json.loads(content)
-                        for addr, info in whales_data.items():
-                            if info.get('status') == 'active':
-                                active_whales.append({
-                                    'address': addr,
-                                    'name': info.get('name', 'Unknown'),
-                                    'win_rate': info.get('win_rate', 0.0),
-                                    'roi': info.get('roi', 0.0)
-                                })
+                        active_whale_count = sum(
+                            1 for info in whales_data.values()
+                            if info.get('status') == 'active'
+                        )
         except Exception:
             pass
 
-        if active_whales:
-            print(f"\n🐳 [ACTIVE WHALES: {len(active_whales)}]")
-            print("-" * 55)
-            print(f"{'Name':<12}|{'Win%':>5}|{'ROI%':>6}|{'Addr'}")
-            print("-" * 55)
-            sorted_whales = sorted(active_whales, key=lambda x: x['roi'], reverse=True)
-            for w in sorted_whales[:5]:
-                n = w['name'] if len(w['name']) <= 12 else w['name'][:10] + '..'
-                print(f"{n:<12}|{w['win_rate']:>4.0f}%|{w['roi']:>5.1f}%|{w['address'][:4]}..{w['address'][-3:]}")
-            if len(sorted_whales) > 5:
-                print(f"... 외 {len(sorted_whales) - 5}마리의 고래가 더 활동 중입니다.")
-            print("=" * 55)
+        print(f"\n[WHALES] Active: {active_whale_count}")
 
-        print("\n [Tip] Auto-refresh every 2s (Real-time syncing)")
+        # --- Recent Trade History ---
+        # Column widths: TIME:5 | ACTION:11 | MARKET:28 | PNL:8 = 55 chars (matches top section)
+        W = 55
+        SEP = "-" * W
+        history_path = os.path.join(base_dir, 'trade_history.jsonl')
+        recent_trades = []
+        try:
+            if os.path.exists(history_path):
+                with open(history_path, 'r', encoding='utf-8') as f:
+                    lines = [l.strip() for l in f.readlines() if l.strip()]
+                for line in lines[-7:]:  # 최근 7건
+                    t = json.loads(line)
+                    recent_trades.append(t)
+        except Exception:
+            pass
+
+        print(SEP)
+        print(f"{'TIME':<5}|{'ACTION':<11}|{'MARKET':<28}|{'PnL':>8}")
+        print(SEP)
+
+        action_map = {
+            'OPEN':         'ENTRY',
+            'TAKE PROFIT':  'PROFIT',
+            'STOP LOSS':    'STOP LOSS',
+            'MIRROR EXIT':  'MIRROR',
+            'SETTLED WIN':  'WIN',
+            'SETTLED LOSS': 'LOSS',
+        }
+
+        if recent_trades:
+            for t in reversed(recent_trades):  # 최신순
+                action = t.get('action', '?')
+                ts_str = t.get('timestamp', '')
+                try:
+                    ts_dt = datetime.strptime(ts_str[:19], "%Y-%m-%dT%H:%M:%S")
+                    time_str = ts_dt.strftime("%H:%M")
+                except Exception:
+                    time_str = '--:--'
+
+                question = t.get('question', '')
+                if len(question) > 28:
+                    question = question[:26] + '..'
+
+                pnl = t.get('pnl', 0.0)
+                if action == 'OPEN':
+                    pnl_str = '    open'
+                else:
+                    color = "\033[92m" if pnl > 0 else "\033[91m" if pnl < 0 else ""
+                    reset = "\033[0m"
+                    pnl_str = f"{color}{pnl:>+8.2f}{reset}"
+
+                action_str = action_map.get(action, action)[:11]
+                print(f"{time_str:<5}|{action_str:<11}|{question:<28}|{pnl_str}")
+        else:
+            print(f"  (no trades yet)".ljust(W))
+
+        print(SEP)
+        print(f"\n [Tip] Auto-refresh every 2s")
         
         time.sleep(2)
 

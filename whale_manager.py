@@ -2,7 +2,7 @@ import os
 import json
 import time
 import requests
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 # API 엔드포인트 세팅
 DATA_API_BASE = "https://data-api.polymarket.com"
@@ -141,12 +141,57 @@ def fetch_top_leaderboard(session, limit=500):
             
     return whales[:limit]
 
+def check_whale_recency(address, session, hours=48):
+    """고래의 최근 활동 여부를 확인합니다. hours 내에 거래가 있으면 True."""
+    url = f"{DATA_API_BASE}/activity?user={address}&limit=5"
+    try:
+        r = session.get(url, timeout=10)
+        if r.status_code != 200:
+            return False
+        activities = r.json()
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
+        
+        for tx in activities:
+            if tx.get('type') != 'TRADE':
+                continue
+            ts = tx.get('timestamp')
+            if not ts:
+                continue
+            if isinstance(ts, str):
+                try:
+                    tx_time = datetime.strptime(ts.split('.')[0].replace('Z',''), "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+                except:
+                    continue
+            else:
+                tx_time = datetime.fromtimestamp(int(ts), timezone.utc)
+            
+            if tx_time > cutoff:
+                return True
+        return False
+    except:
+        return False
+
 def run_manager():
     print(f"[{datetime.now()}] Starting Whale Manager...")
     session = requests.Session()
     session.headers.update({"User-Agent": "Mozilla/5.0"})
     
     db = load_whales_db()
+    
+    # 0. Recency Check: 48시간 내 활동 없는 고래 자동 퇴출
+    print("\n--- 0. Recency Check (48h Activity Filter) ---")
+    inactive_count = 0
+    for addr, info in list(db.items()):
+        if info.get('status') == 'active':
+            has_recent = check_whale_recency(addr, session, hours=48)
+            if not has_recent:
+                print(f"  💤 {info['name']} - 48시간 내 활동 없음 → inactive 전환")
+                info['status'] = 'inactive'
+                inactive_count += 1
+            else:
+                print(f"  ✅ {info['name']} - 최근 활동 확인됨")
+            time.sleep(0.3)
+    print(f"  → {inactive_count}명 비활동 고래 퇴출 완료")
     
     # 1. Pruning: 기존 DB의 고래들 성적 재평가
     print("\n--- 1. Pruning Existing Whales ---")
