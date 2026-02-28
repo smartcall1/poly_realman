@@ -51,3 +51,7 @@ Thumbs.db
 trade_history.jsonl
 debug_stats.txt
 debug_runner.py
+
+# Bot State Files
+status_WhaleCopy.json
+whales.json

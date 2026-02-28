@@ -324,6 +324,7 @@ class WhaleCopyBot:
             'title': tx.get('title'),
             'side': 'YES', # 여기서 outcome index에 따라 NO일수도 있지만 제목은 정해짐
             'outcome': tx.get('outcome'),
+            'outcomeIndex': int(tx.get('outcomeIndex', 0)),
             'entry_price': executed_price,
             'size_usdc': bet_size,
             'shares': shares,
@@ -331,7 +332,8 @@ class WhaleCopyBot:
             'marketId': tx.get('marketId'), # if exists
             'slug': slug,
             'timestamp': int(time.time()),
-            'current_price': executed_price # 초기 가격
+            'current_price': executed_price,
+            'peak_price': executed_price,       # 트레일링 스탑용 고점 추적
         }
         
         whale_price = float(tx.get('price', 0))
@@ -344,49 +346,115 @@ class WhaleCopyBot:
         self._log_trade(tid, "WHL", "YES", tx.get('title'), executed_price, bet_size, "OPEN", tx.get('marketId'))
 
     def _settle_positions(self):
-        """진행 중인 포지션의 현재가 조회 및 정산 (정산 여부는 Gamma API 활용)"""
+        """진행 중인 포지션의 현재가 조회 및 Hybrid Exit 청산 판단"""
         to_remove = []
-        for tid, pos in self.positions.items():
-            # 30초마다 현재가 업데이트
+        for tid, pos in list(self.positions.items()):
             slug = pos['slug']
             cond_id = pos['conditionId']
-            
+
             url = f"https://gamma-api.polymarket.com/events?slug={slug}"
             try:
                 r = self.session.get(url, timeout=5)
                 events = r.json()
                 for m in events[0].get('markets', []):
-                    if m.get('conditionId') == cond_id:
-                        
-                        # 1. Closed 인가?
-                        closed = m.get('closed', False)
-                        # 2. 결과가 났는가?
-                        winner = self.client.get_market_winner(m.get('id', ''))
-                        
-                        if winner not in ['WAITING', None] or closed:
-                            # 정산
-                            won = (winner == pos['outcome']) or (winner == 'YES' and str(pos['outcome']).upper() == 'YES')
-                            if won:
-                                self._settle_as_win(tid, pos)
-                            else:
-                                self._settle_as_loss(tid, pos)
-                            to_remove.append(tid)
-                            continue
-                            
-                        # 아직 진행중이면 현재가만 갱신
+                    if m.get('conditionId') != cond_id:
+                        continue
+
+                    closed = m.get('closed', False)
+                    winner = self.client.get_market_winner(m.get('id', ''))
+
+                    # [우선순위 1] 마켓 자연 정산
+                    if winner not in ['WAITING', None] or closed:
+                        won = (winner == pos['outcome']) or (winner == 'YES' and str(pos['outcome']).upper() == 'YES')
+                        if won:
+                            self._settle_as_win(tid, pos)
+                        else:
+                            self._settle_as_loss(tid, pos)
+                        to_remove.append(tid)
+                        break
+
+                    # 현재가 파싱
+                    current_price = None
+                    try:
                         prices = m.get('outcomePrices')
-                        try:
-                            if isinstance(prices, str): prices = json.loads(prices)
-                            if prices:
-                                # 보통 outcome이 YES/NO 형태이거나 토큰 리스트의 index 순서와 맞물림
-                                # 좀 더 확실하게 하려면 order_book을 가져와야 함. 여기선 rough하게 0번/1번 파싱.
-                                pass 
-                        except: pass
+                        if isinstance(prices, str):
+                            prices = json.loads(prices)
+                        if isinstance(prices, list):
+                            outcome_idx = pos.get('outcomeIndex', 0)
+                            if len(prices) > outcome_idx:
+                                current_price = float(prices[outcome_idx])
+                                pos['current_price'] = current_price
+                                # 고점 갱신 (트레일링 스탑용)
+                                if current_price > pos.get('peak_price', pos['entry_price']):
+                                    pos['peak_price'] = current_price
+                    except:
+                        pass
+
+                    if current_price is None:
+                        break
+
+                    roi = (current_price - pos['entry_price']) / pos['entry_price']
+                    peak_price = pos.get('peak_price', pos['entry_price'])
+                    peak_roi = (peak_price - pos['entry_price']) / pos['entry_price']
+
+                    # [우선순위 2] Take Profit +30%
+                    if roi >= 0.30:
+                        self._execute_early_exit(tid, pos, current_price, "TAKE_PROFIT")
+                        to_remove.append(tid)
+                        break
+
+                    # [우선순위 3] Trailing Stop (고점 +10% 달성 후 고점 대비 -15% 하락)
+                    if peak_roi >= 0.10 and (current_price - peak_price) / peak_price <= -0.15:
+                        self._execute_early_exit(tid, pos, current_price, "TRAILING_STOP")
+                        to_remove.append(tid)
+                        break
+
+                    # [우선순위 4] Stop Loss -20%
+                    if roi <= -0.20:
+                        self._execute_early_exit(tid, pos, current_price, "STOP_LOSS")
+                        to_remove.append(tid)
+                        break
+
+                    # [우선순위 5] Timeout 3일 (259200초)
+                    held_seconds = int(time.time()) - pos.get('timestamp', int(time.time()))
+                    if held_seconds > 259200:
+                        self._execute_early_exit(tid, pos, current_price, "TIMEOUT")
+                        to_remove.append(tid)
+                        break
+
+                    break  # conditionId 매칭 마켓 처리 완료
+
             except:
                 pass
-                
+
         for tid in to_remove:
             self.positions.pop(tid, None)
+
+    def _execute_early_exit(self, tid, pos, current_price, reason):
+        """TP / SL / Trailing Stop / Timeout 조기 청산"""
+        sell_slippage = 0.02  # 매도 슬리피지 2%
+        effective_sell_price = current_price * (1 - sell_slippage)
+        payout = pos['shares'] * effective_sell_price
+        profit = payout - pos['size_usdc']
+        roi_pct = profit / pos['size_usdc'] * 100
+
+        self.bankroll += payout
+        if profit >= 0:
+            self.stats['wins'] += 1
+        else:
+            self.stats['losses'] += 1
+        self.stats['total_pnl'] += profit
+
+        emoji_map = {
+            "TAKE_PROFIT":    "💰",
+            "TRAILING_STOP":  "📉",
+            "STOP_LOSS":      "🛑",
+            "TIMEOUT":        "⏰",
+        }
+        emoji = emoji_map.get(reason, "🔔")
+        print(f"\n{emoji} [{reason}] {pos['title']}")
+        print(f"  체결가: ${effective_sell_price:.3f} | PnL: ${profit:+.2f} ({roi_pct:+.1f}%)")
+        self._log_trade(tid, "WHL", pos['outcome'], pos['title'], effective_sell_price, payout, reason, pos.get('marketId', ''), pnl=profit)
 
     def _settle_as_win(self, tid, pos):
         payout = pos['shares'] * 1.0 # 1달러 
