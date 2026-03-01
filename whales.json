@@ -1,0 +1,3456 @@
+{
+    "0x03e8a544e97eeff5753bc1e90d46e5ef22af1697": {
+        "name": "weflyhigh",
+        "win_rate": 100.0,
+        "roi": 71.27702664262247,
+        "added_at": 1772276191,
+        "last_updated": 1772276191,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 500,
+            "win_rate": 100.0,
+            "roi": 71.28,
+            "top_categories": {
+                "Sports": 453,
+                "NHL": 453,
+                "Games": 453
+            }
+        }
+    },
+    "0xccb290b1c145d1c95695d3756346bba9f1398586": {
+        "name": "hioa",
+        "win_rate": 100.0,
+        "roi": 83.18373250221201,
+        "added_at": 1772276571,
+        "last_updated": 1772276571,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 485,
+            "win_rate": 100.0,
+            "roi": 83.18,
+            "top_categories": {
+                "Esports": 269,
+                "Games": 269,
+                "Sports": 269
+            }
+        }
+    },
+    "0x4bd74aef0ee5f1ec0718890f55c15f047e28373e": {
+        "name": "tbs8t",
+        "win_rate": 100.0,
+        "roi": 259.5828838116886,
+        "added_at": 1772276684,
+        "last_updated": 1772340497,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 494,
+            "win_rate": 100.0,
+            "roi": 259.58,
+            "top_categories": {
+                "Sports": 494,
+                "NBA": 494,
+                "Games": 494
+            }
+        }
+    },
+    "0x57a8d63731277200ed26cfde9a8a830d94f36933": {
+        "name": "statwC00KS",
+        "win_rate": 88.88888888888889,
+        "roi": 28.892653152903165,
+        "added_at": 1772276715,
+        "last_updated": 1772276715,
+        "status": "inactive",
+        "score": 83.1,
+        "metrics": {
+            "30d_trades": 368,
+            "win_rate": 88.89,
+            "roi": 28.89,
+            "top_categories": {
+                "Sports": 253,
+                "Games": 253,
+                "Basketball": 223
+            }
+        }
+    },
+    "0x6a57d263cd7c8eba88b857edeb7103851f012afa": {
+        "name": "0x6a57D263cD7c8EbA88b857eDEB7103851F012AFa-1771530065496",
+        "win_rate": 81.25,
+        "roi": 44.80116313355143,
+        "added_at": 1772277135,
+        "last_updated": 1772277135,
+        "status": "inactive",
+        "score": 95.8,
+        "metrics": {
+            "30d_trades": 186,
+            "win_rate": 81.25,
+            "roi": 44.8,
+            "top_categories": {
+                "Sports": 169,
+                "Games": 169,
+                "NBA": 167
+            }
+        }
+    },
+    "0x3b5c629f114098b0dee345fb78b7a3a013c7126e": {
+        "name": "SMCAOMCRL",
+        "win_rate": 100.0,
+        "roi": 6.191610606655617,
+        "added_at": 1772341958,
+        "last_updated": 1772341958,
+        "status": "active",
+        "score": 65.0,
+        "metrics": {
+            "30d_trades": 444,
+            "win_rate": 100.0,
+            "roi": 6.19,
+            "top_categories": {
+                "Sports": 387,
+                "Games": 387,
+                "Tennis": 291
+            }
+        }
+    },
+    "0xac75b6e590720a394364f2a1580b68a2fbe51319": {
+        "name": "monkeyfish69",
+        "win_rate": 100.0,
+        "roi": 94.71736832650477,
+        "added_at": 1772277950,
+        "last_updated": 1772277950,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 449,
+            "win_rate": 100.0,
+            "roi": 94.72,
+            "top_categories": {
+                "Games": 320,
+                "Sports": 320,
+                "Tennis": 151
+            }
+        }
+    },
+    "0x1455445e9a775cfa3fe9fc4b02bb4d2f682ae5cd": {
+        "name": "c4c4",
+        "win_rate": 83.33333333333334,
+        "roi": 27.064940185956072,
+        "added_at": 1772277985,
+        "last_updated": 1772277985,
+        "status": "inactive",
+        "score": 81.7,
+        "metrics": {
+            "30d_trades": 500,
+            "win_rate": 83.33,
+            "roi": 27.06,
+            "top_categories": {
+                "Unknown": 427,
+                "Sports": 73,
+                "Games": 73
+            }
+        }
+    },
+    "0xb8e6281d22dc80e08885ebc7d819da9bf8cdd504": {
+        "name": "ball52759",
+        "win_rate": 100.0,
+        "roi": 61.81229773462783,
+        "added_at": 1772278141,
+        "last_updated": 1772340593,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 486,
+            "win_rate": 100.0,
+            "roi": 61.81,
+            "top_categories": {
+                "Sports": 451,
+                "NBA": 451,
+                "Games": 451
+            }
+        }
+    },
+    "0x3d8920c114631fc43ad4fa0d77ac1cc12823b02c": {
+        "name": "yAmutHAa",
+        "win_rate": 100.0,
+        "roi": 77.18199065345532,
+        "added_at": 1772278415,
+        "last_updated": 1772340611,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 497,
+            "win_rate": 100.0,
+            "roi": 77.18,
+            "top_categories": {
+                "Sports": 497,
+                "NBA": 497,
+                "Games": 497
+            }
+        }
+    },
+    "0xc29e1cef4256f423e5a3e713d886bd25f98da2ca": {
+        "name": "shutitfatty",
+        "win_rate": 75.0,
+        "roi": 21.058415667025756,
+        "added_at": 1772278469,
+        "last_updated": 1772278469,
+        "status": "inactive",
+        "score": 70.2,
+        "metrics": {
+            "30d_trades": 477,
+            "win_rate": 75.0,
+            "roi": 21.06,
+            "top_categories": {
+                "Sports": 262,
+                "Unknown": 215,
+                "Boxing": 176
+            }
+        }
+    },
+    "0xedc8b2023897dad9df5b2f47ce79b2cdf1b6cca9": {
+        "name": "XORP",
+        "win_rate": 96.66666666666667,
+        "roi": 73.10493930897222,
+        "added_at": 1772278770,
+        "last_updated": 1772340648,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 327,
+            "win_rate": 96.67,
+            "roi": 73.1,
+            "top_categories": {
+                "Sports": 314,
+                "NBA": 314,
+                "Games": 314
+            }
+        }
+    },
+    "0xaa075924e1dc7cff3b9fab67401126338c4d2125": {
+        "name": "rustin",
+        "win_rate": 100.0,
+        "roi": 79.95552925404961,
+        "added_at": 1772278834,
+        "last_updated": 1772278834,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 499,
+            "win_rate": 100.0,
+            "roi": 79.96,
+            "top_categories": {
+                "Sports": 497,
+                "NHL": 497,
+                "Games": 497
+            }
+        }
+    },
+    "0xf9b5f7293b8258be8b0e1f03717c5d2ad94809ee": {
+        "name": "9sh8f",
+        "win_rate": 100.0,
+        "roi": 50.71136927012015,
+        "added_at": 1772278888,
+        "last_updated": 1772340683,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 493,
+            "win_rate": 100.0,
+            "roi": 50.71,
+            "top_categories": {
+                "Sports": 270,
+                "Games": 270,
+                "Unknown": 223
+            }
+        }
+    },
+    "0x7e6fda10646a4343358c84004859adfea1c0c022": {
+        "name": "98866",
+        "win_rate": 78.94736842105263,
+        "roi": 23.560493985521965,
+        "added_at": 1772278918,
+        "last_updated": 1772340699,
+        "status": "active",
+        "score": 71.4,
+        "metrics": {
+            "30d_trades": 21,
+            "win_rate": 78.95,
+            "roi": 23.56,
+            "top_categories": {
+                "Crypto": 20,
+                "Crypto Prices": 20,
+                "Recurring": 20
+            }
+        }
+    },
+    "0x67bb64fac5252df3f61ee2d91a4b1350e40eb6ef": {
+        "name": "Blueberry1337",
+        "win_rate": 96.29629629629629,
+        "roi": 8.582901485676073,
+        "added_at": 1772278949,
+        "last_updated": 1772340717,
+        "status": "active",
+        "score": 66.9,
+        "metrics": {
+            "30d_trades": 483,
+            "win_rate": 96.3,
+            "roi": 8.58,
+            "top_categories": {
+                "Sports": 483,
+                "NBA": 483,
+                "Games": 483
+            }
+        }
+    },
+    "0x99e42eb9038705165b22f821e27659c1dc41e4c4": {
+        "name": "acorp",
+        "win_rate": 100.0,
+        "roi": 12.38002744972556,
+        "added_at": 1772279027,
+        "last_updated": 1772340735,
+        "status": "active",
+        "score": 69.9,
+        "metrics": {
+            "30d_trades": 421,
+            "win_rate": 100.0,
+            "roi": 12.38,
+            "top_categories": {
+                "Sports": 409,
+                "Games": 409,
+                "Esports": 183
+            }
+        }
+    },
+    "0xa6a856a8c8a7f14fd9be6ae11c367c7cbb755009": {
+        "name": "BetMechanic",
+        "win_rate": 83.78378378378379,
+        "roi": 87.94340375392288,
+        "added_at": 1772279226,
+        "last_updated": 1772279226,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 398,
+            "win_rate": 83.78,
+            "roi": 87.94,
+            "top_categories": {
+                "Sports": 221,
+                "Games": 221,
+                "NBA": 200
+            }
+        }
+    },
+    "0xee17380b79ecdc5f13bd2930388c55b13b03b46e": {
+        "name": "showbizzfor500",
+        "win_rate": 100.0,
+        "roi": 73.37031898411139,
+        "added_at": 1772279268,
+        "last_updated": 1772279268,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 487,
+            "win_rate": 100.0,
+            "roi": 73.37,
+            "top_categories": {
+                "Sports": 379,
+                "Games": 379,
+                "Hockey": 175
+            }
+        }
+    },
+    "0x799c2267096b7523577d1d30564f914e649637f7": {
+        "name": "qwqbw",
+        "win_rate": 100.0,
+        "roi": 91.91567887781157,
+        "added_at": 1772279353,
+        "last_updated": 1772340769,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 34,
+            "win_rate": 100.0,
+            "roi": 91.92,
+            "top_categories": {
+                "Crypto": 21,
+                "Hide From New": 21,
+                "Recurring": 21
+            }
+        }
+    },
+    "0xd56837a9f2ed30eefe0a588dd1467e7f51e3a35a": {
+        "name": "jeffersonlau",
+        "win_rate": 76.92307692307693,
+        "roi": 36.41955427335228,
+        "added_at": 1772279430,
+        "last_updated": 1772340783,
+        "status": "active",
+        "score": 85.0,
+        "metrics": {
+            "30d_trades": 280,
+            "win_rate": 76.92,
+            "roi": 36.42,
+            "top_categories": {
+                "Sports": 245,
+                "Games": 231,
+                "Tennis": 73
+            }
+        }
+    },
+    "0x336151559e8c8b048de5231dc8313e196b314363": {
+        "name": "0x336151559E8C8b048DE5231dC8313E196B31436",
+        "win_rate": 100.0,
+        "roi": 0.9595959595959466,
+        "added_at": 1772279458,
+        "last_updated": 1772340800,
+        "status": "active",
+        "score": 60.8,
+        "metrics": {
+            "30d_trades": 444,
+            "win_rate": 100.0,
+            "roi": 0.96,
+            "top_categories": {
+                "Unknown": 227,
+                "Sports": 211,
+                "Games": 211
+            }
+        }
+    },
+    "0x45bc74efa620b45c02308acaecdff1f7c06f978b": {
+        "name": "0xb3ab5c8YCm9E4cZ96bne91qq99724dbdc6",
+        "win_rate": 100.0,
+        "roi": 198.58505767078964,
+        "added_at": 1772279588,
+        "last_updated": 1772340817,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 494,
+            "win_rate": 100.0,
+            "roi": 198.59,
+            "top_categories": {
+                "Up or Down": 494,
+                "Crypto Prices": 494,
+                "Hide From New": 494
+            }
+        }
+    },
+    "0x801ed774db6a5981945a825074a6b91788f6ad90": {
+        "name": "Darwinsfish",
+        "win_rate": 96.15384615384616,
+        "roi": 34.330528291739284,
+        "added_at": 1772279703,
+        "last_updated": 1772340837,
+        "status": "active",
+        "score": 87.5,
+        "metrics": {
+            "30d_trades": 188,
+            "win_rate": 96.15,
+            "roi": 34.33,
+            "top_categories": {
+                "Sports": 129,
+                "Games": 129,
+                "NFL": 127
+            }
+        }
+    },
+    "0x19f19dd8ee1f7e5f6ec666987e2963a65971a9c6": {
+        "name": "RetamzZ",
+        "win_rate": 100.0,
+        "roi": 11.76882573667622,
+        "added_at": 1772279728,
+        "last_updated": 1772340850,
+        "status": "active",
+        "score": 69.4,
+        "metrics": {
+            "30d_trades": 465,
+            "win_rate": 100.0,
+            "roi": 11.77,
+            "top_categories": {
+                "Up or Down": 465,
+                "Crypto Prices": 465,
+                "Hide From New": 465
+            }
+        }
+    },
+    "0x34f62ce5beaf9b3b325726ec4b6c733df8534535": {
+        "name": "PatienceCapital",
+        "win_rate": 80.0,
+        "roi": 15.795523163374718,
+        "added_at": 1772280025,
+        "last_updated": 1772280025,
+        "status": "inactive",
+        "score": 72.6,
+        "metrics": {
+            "30d_trades": 75,
+            "win_rate": 80.0,
+            "roi": 15.8,
+            "top_categories": {
+                "Unknown": 70,
+                "Sports": 5,
+                "NBA": 5
+            }
+        }
+    },
+    "0x7780e9f103f370a7a0351217501d99da178503ed": {
+        "name": "kindlydelta",
+        "win_rate": 78.26086956521739,
+        "roi": 41.55420443120607,
+        "added_at": 1772280082,
+        "last_updated": 1772280082,
+        "status": "inactive",
+        "score": 90.9,
+        "metrics": {
+            "30d_trades": 494,
+            "win_rate": 78.26,
+            "roi": 41.55,
+            "top_categories": {
+                "Recurring": 494,
+                "Hide From New": 494,
+                "Up or Down": 494
+            }
+        }
+    },
+    "0x4460bf2c0aa59db412a6493c2c08970797b62970": {
+        "name": "Bidou28old",
+        "win_rate": 100.0,
+        "roi": 19.055345350355264,
+        "added_at": 1772280157,
+        "last_updated": 1772340892,
+        "status": "active",
+        "score": 75.2,
+        "metrics": {
+            "30d_trades": 467,
+            "win_rate": 100.0,
+            "roi": 19.06,
+            "top_categories": {
+                "Up or Down": 467,
+                "Crypto Prices": 467,
+                "Hide From New": 467
+            }
+        }
+    },
+    "0xb96903067a7129d14931c5a7e82b1a7c8a3c66a1": {
+        "name": "0xB96903067A7129D14931c5A7E82B1A7c8A3c66a1-1770840142269",
+        "win_rate": 100.0,
+        "roi": 56.59254285092609,
+        "added_at": 1772280211,
+        "last_updated": 1772340901,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 482,
+            "win_rate": 100.0,
+            "roi": 56.59,
+            "top_categories": {
+                "Up or Down": 482,
+                "Crypto Prices": 482,
+                "Hide From New": 482
+            }
+        }
+    },
+    "0x85e5669beee6b80d887493e724987dabc5f56056": {
+        "name": "winner877",
+        "win_rate": 100.0,
+        "roi": 1.010101010101019,
+        "added_at": 1772280287,
+        "last_updated": 1772340913,
+        "status": "active",
+        "score": 60.8,
+        "metrics": {
+            "30d_trades": 464,
+            "win_rate": 100.0,
+            "roi": 1.01,
+            "top_categories": {
+                "Up or Down": 325,
+                "Crypto Prices": 325,
+                "Hide From New": 325
+            }
+        }
+    },
+    "0xf7f0b0b1e9c0fe02ccad926916ee31aef74b912c": {
+        "name": "Rock.San",
+        "win_rate": 100.0,
+        "roi": 0.5617108658639749,
+        "added_at": 1772280317,
+        "last_updated": 1772340924,
+        "status": "active",
+        "score": 60.4,
+        "metrics": {
+            "30d_trades": 334,
+            "win_rate": 100.0,
+            "roi": 0.56,
+            "top_categories": {
+                "Up or Down": 159,
+                "Crypto Prices": 159,
+                "Hide From New": 159
+            }
+        }
+    },
+    "0x2a3ef27f644f70a25bf04fa07a5eee0d1bca8d9a": {
+        "name": "Kopojlb4yxaHoB1",
+        "win_rate": 100.0,
+        "roi": 10.872340026079275,
+        "added_at": 1772280361,
+        "last_updated": 1772340934,
+        "status": "active",
+        "score": 68.7,
+        "metrics": {
+            "30d_trades": 483,
+            "win_rate": 100.0,
+            "roi": 10.87,
+            "top_categories": {
+                "Up or Down": 483,
+                "Crypto Prices": 483,
+                "Hide From New": 483
+            }
+        }
+    },
+    "0xf201a19b43471261a3c1ba9247335d55270e527e": {
+        "name": "0xF201A19b43471261A3c1Ba9247335d55270e527e-1763824114616",
+        "win_rate": 100.0,
+        "roi": 0.9595959595959596,
+        "added_at": 1772280570,
+        "last_updated": 1772280570,
+        "status": "inactive",
+        "score": 60.8,
+        "metrics": {
+            "30d_trades": 412,
+            "win_rate": 100.0,
+            "roi": 0.96,
+            "top_categories": {
+                "Unknown": 382,
+                "Esports": 30,
+                "league of legends": 30
+            }
+        }
+    },
+    "0xeeb684d0364e193fb9b1d0a096c1d44718c3d982": {
+        "name": "Xander-corvus2",
+        "win_rate": 100.0,
+        "roi": 90.49313881234642,
+        "added_at": 1772280875,
+        "last_updated": 1772280875,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 467,
+            "win_rate": 100.0,
+            "roi": 90.49,
+            "top_categories": {
+                "Up or Down": 467,
+                "Crypto Prices": 467,
+                "Hide From New": 467
+            }
+        }
+    },
+    "0xe56db4870eae8f391078e06e96dbcdbccd392b65": {
+        "name": "Luck-Pig",
+        "win_rate": 100.0,
+        "roi": 97.30788756094069,
+        "added_at": 1772280946,
+        "last_updated": 1772340949,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 64,
+            "win_rate": 100.0,
+            "roi": 97.31,
+            "top_categories": {
+                "Unknown": 55,
+                "Sports": 9,
+                "Games": 9
+            }
+        }
+    },
+    "0x8dbf0de58835c4827ba77669b5155980d1a053be": {
+        "name": "0x8Dbf0DE58835C4827Ba77669b5155980d1A053be-1761228441052",
+        "win_rate": 100.0,
+        "roi": 1.636665383102677,
+        "added_at": 1772341464,
+        "last_updated": 1772341464,
+        "status": "active",
+        "score": 61.3,
+        "metrics": {
+            "30d_trades": 314,
+            "win_rate": 100.0,
+            "roi": 1.64,
+            "top_categories": {
+                "Games": 292,
+                "Sports": 292,
+                "Basketball": 194
+            }
+        }
+    },
+    "0xb3dda8a76f79f132b6f1a4b3c89f47474ea4a7e0": {
+        "name": "BK9496",
+        "win_rate": 100.0,
+        "roi": 115.19338935646269,
+        "added_at": 1772281011,
+        "last_updated": 1772340978,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 482,
+            "win_rate": 100.0,
+            "roi": 115.19,
+            "top_categories": {
+                "Unknown": 281,
+                "Esports": 201,
+                "Games": 201
+            }
+        }
+    },
+    "0xc49fe658479db29e1a2fefebf0735f657dca9e05": {
+        "name": "iDropMyHotdog",
+        "win_rate": 100.0,
+        "roi": 48.417858865376935,
+        "added_at": 1772281041,
+        "last_updated": 1772281041,
+        "status": "inactive",
+        "score": 98.7,
+        "metrics": {
+            "30d_trades": 469,
+            "win_rate": 100.0,
+            "roi": 48.42,
+            "top_categories": {
+                "Unknown": 255,
+                "Sports": 214,
+                "Games": 214
+            }
+        }
+    },
+    "0xcc8f0e3bd33b98eb19a0c122397b6ce69cffa7bb": {
+        "name": "ACEE123",
+        "win_rate": 75.0,
+        "roi": 6.951627306516135,
+        "added_at": 1772281092,
+        "last_updated": 1772341009,
+        "status": "active",
+        "score": 58.9,
+        "metrics": {
+            "30d_trades": 388,
+            "win_rate": 75.0,
+            "roi": 6.95,
+            "top_categories": {
+                "Sports": 388,
+                "Games": 388,
+                "Tennis": 200
+            }
+        }
+    },
+    "0xbfbebe724dcf6acade8696f9a3d41baa2be3c93c": {
+        "name": "Megawow",
+        "win_rate": 100.0,
+        "roi": 2302.992628891441,
+        "added_at": 1772281169,
+        "last_updated": 1772341024,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 80,
+            "win_rate": 100.0,
+            "roi": 2302.99,
+            "top_categories": {
+                "Unknown": 74,
+                "Iran": 6,
+                "Geopolitics": 6
+            }
+        }
+    },
+    "0x7bf9355b53cbfb738a984c3822906cd235e9b6d3": {
+        "name": "TheDon",
+        "win_rate": 100.0,
+        "roi": 54.1069505757943,
+        "added_at": 1772281299,
+        "last_updated": 1772341031,
+        "status": "active",
+        "score": 82.0,
+        "metrics": {
+            "30d_trades": 3,
+            "win_rate": 100.0,
+            "roi": 54.11,
+            "top_categories": {
+                "Unknown": 3
+            }
+        }
+    },
+    "0x3c2781460cf28726ed6ff38dc52e3175b0c2555b": {
+        "name": "0x3C2781460CF28726ed6ff38dC52E3175b0c2555B-1770837381456",
+        "win_rate": 100.0,
+        "roi": 288.9028642254584,
+        "added_at": 1772281354,
+        "last_updated": 1772341044,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 486,
+            "win_rate": 100.0,
+            "roi": 288.9,
+            "top_categories": {
+                "Crypto": 486,
+                "Up or Down": 486,
+                "Crypto Prices": 486
+            }
+        }
+    },
+    "0x66e27114127dbe9b40c1f58eedb709892a75bf7f": {
+        "name": "paoloestp",
+        "win_rate": 100.0,
+        "roi": 94.17475728155343,
+        "added_at": 1772281507,
+        "last_updated": 1772341060,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 46,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Crypto": 44,
+                "Crypto Prices": 44,
+                "Recurring": 44
+            }
+        }
+    },
+    "0xaca23974e2b8131efbafaa1fe03ea9595ea0b9a1": {
+        "name": "ellio8989",
+        "win_rate": 100.0,
+        "roi": 80.09685653148473,
+        "added_at": 1772281531,
+        "last_updated": 1772281531,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 446,
+            "win_rate": 100.0,
+            "roi": 80.1,
+            "top_categories": {
+                "Unknown": 376,
+                "Sports": 70,
+                "Games": 70
+            }
+        }
+    },
+    "0x99aef149cda5674657b3cc51b395c50ae5ce045e": {
+        "name": "deandolorat",
+        "win_rate": 86.66666666666667,
+        "roi": 91.20687312851985,
+        "added_at": 1772281715,
+        "last_updated": 1772341090,
+        "status": "active",
+        "score": 90.0,
+        "metrics": {
+            "30d_trades": 15,
+            "win_rate": 86.67,
+            "roi": 91.21,
+            "top_categories": {
+                "Crypto": 15,
+                "Crypto Prices": 15,
+                "Recurring": 15
+            }
+        }
+    },
+    "0x622edc9f6d9aba7a5cb2b066acc7f905821807ab": {
+        "name": "Lion12321",
+        "win_rate": 76.92307692307693,
+        "roi": 48.20791533957277,
+        "added_at": 1772281727,
+        "last_updated": 1772341103,
+        "status": "active",
+        "score": 94.5,
+        "metrics": {
+            "30d_trades": 177,
+            "win_rate": 76.92,
+            "roi": 48.21,
+            "top_categories": {
+                "Sports": 149,
+                "Games": 149,
+                "Basketball": 138
+            }
+        }
+    },
+    "0x16b1f68da281f346fa9ff7a46e9d55826abe968a": {
+        "name": "test124566",
+        "win_rate": 100.0,
+        "roi": 42.7755568253816,
+        "added_at": 1772282020,
+        "last_updated": 1772341116,
+        "status": "active",
+        "score": 94.2,
+        "metrics": {
+            "30d_trades": 490,
+            "win_rate": 100.0,
+            "roi": 42.78,
+            "top_categories": {
+                "Unknown": 481,
+                "Sports": 9,
+                "NFL": 9
+            }
+        }
+    },
+    "0xd189664c5308903476f9f079820431e4fd7d06f4": {
+        "name": "rwo",
+        "win_rate": 100.0,
+        "roi": 1.0101010101010222,
+        "added_at": 1772282061,
+        "last_updated": 1772282061,
+        "status": "inactive",
+        "score": 60.8,
+        "metrics": {
+            "30d_trades": 462,
+            "win_rate": 100.0,
+            "roi": 1.01,
+            "top_categories": {
+                "Up or Down": 411,
+                "Crypto Prices": 411,
+                "Hide From New": 411
+            }
+        }
+    },
+    "0xcbb1a3174d9ac5a0f57f5b86808204b9382e7afb": {
+        "name": "bratanbratishka",
+        "win_rate": 100.0,
+        "roi": 42.4308245096093,
+        "added_at": 1772282099,
+        "last_updated": 1772341135,
+        "status": "active",
+        "score": 93.9,
+        "metrics": {
+            "30d_trades": 475,
+            "win_rate": 100.0,
+            "roi": 42.43,
+            "top_categories": {
+                "Up or Down": 475,
+                "Crypto Prices": 475,
+                "Hide From New": 475
+            }
+        }
+    },
+    "0xe2cf7f3715640bdda625974ab3d3c83495edd1e7": {
+        "name": "HOCHI",
+        "win_rate": 100.0,
+        "roi": 11.429645707425362,
+        "added_at": 1772282160,
+        "last_updated": 1772341153,
+        "status": "active",
+        "score": 69.1,
+        "metrics": {
+            "30d_trades": 421,
+            "win_rate": 100.0,
+            "roi": 11.43,
+            "top_categories": {
+                "Sports": 409,
+                "Games": 409,
+                "NBA": 263
+            }
+        }
+    },
+    "0xbc43a2f0deb85ba4ad316300762972089c911540": {
+        "name": "westminster",
+        "win_rate": 100.0,
+        "roi": 74.15690621402852,
+        "added_at": 1772282235,
+        "last_updated": 1772341161,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 178,
+            "win_rate": 100.0,
+            "roi": 74.16,
+            "top_categories": {
+                "Politics": 104,
+                "Middle East": 104,
+                "Geopolitics": 104
+            }
+        }
+    },
+    "0x2ca792f6c6d58796c5a04b9adc7fb23a18484dcb": {
+        "name": "JDDance",
+        "win_rate": 100.0,
+        "roi": 42.98822624397909,
+        "added_at": 1772282444,
+        "last_updated": 1772341171,
+        "status": "active",
+        "score": 94.4,
+        "metrics": {
+            "30d_trades": 482,
+            "win_rate": 100.0,
+            "roi": 42.99,
+            "top_categories": {
+                "Up or Down": 482,
+                "Crypto Prices": 482,
+                "Hide From New": 482
+            }
+        }
+    },
+    "0x751a2b86cab503496efd325c8344e10159349ea1": {
+        "name": "Sharky6999",
+        "win_rate": 100.0,
+        "roi": 0.9855915484792394,
+        "added_at": 1772282493,
+        "last_updated": 1772341186,
+        "status": "active",
+        "score": 60.8,
+        "metrics": {
+            "30d_trades": 431,
+            "win_rate": 100.0,
+            "roi": 0.99,
+            "top_categories": {
+                "Unknown": 280,
+                "Sports": 79,
+                "Games": 79
+            }
+        }
+    },
+    "0x95481feb1901b5dba3e301450d0e1a90ebfb521f": {
+        "name": "loserWinner1",
+        "win_rate": 77.27272727272727,
+        "roi": 15.382422087075136,
+        "added_at": 1772282518,
+        "last_updated": 1772341200,
+        "status": "active",
+        "score": 68.7,
+        "metrics": {
+            "30d_trades": 467,
+            "win_rate": 77.27,
+            "roi": 15.38,
+            "top_categories": {
+                "Up or Down": 467,
+                "Crypto Prices": 467,
+                "Hide From New": 467
+            }
+        }
+    },
+    "0x58f8f1138be2192696378629fc9aa23c7910dc70": {
+        "name": "bloodmaster",
+        "win_rate": 100.0,
+        "roi": 92.04732595431364,
+        "added_at": 1772282588,
+        "last_updated": 1772282588,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 450,
+            "win_rate": 100.0,
+            "roi": 92.05,
+            "top_categories": {
+                "Esports": 316,
+                "Games": 316,
+                "Sports": 316
+            }
+        }
+    },
+    "0x86279a7e9e5c178aae89b7cc13b287f741ed5382": {
+        "name": "bqbq",
+        "win_rate": 100.0,
+        "roi": 106.46560627969428,
+        "added_at": 1772282667,
+        "last_updated": 1772282667,
+        "status": "inactive",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 357,
+            "win_rate": 100.0,
+            "roi": 106.47,
+            "top_categories": {
+                "Unknown": 350,
+                "Esports": 7,
+                "league of legends": 7
+            }
+        }
+    },
+    "0x74b7937435e1b3c392520e6defbe588bf6d8cdcf": {
+        "name": "lowellqua",
+        "win_rate": 100.0,
+        "roi": 94.17475728155337,
+        "added_at": 1772282744,
+        "last_updated": 1772341246,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 42,
+            "win_rate": 100.0,
+            "roi": 94.17,
+            "top_categories": {
+                "Crypto": 39,
+                "Crypto Prices": 39,
+                "Recurring": 39
+            }
+        }
+    },
+    "0xca886a7ed635c3b770fccfd251c86eec34967caa": {
+        "name": "Mdb2303",
+        "win_rate": 100.0,
+        "roi": 518.1775365560055,
+        "added_at": 1772282872,
+        "last_updated": 1772341265,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 45,
+            "win_rate": 100.0,
+            "roi": 518.18,
+            "top_categories": {
+                "Unknown": 42,
+                "Iran": 3,
+                "Middle East": 3
+            }
+        }
+    },
+    "0x9adff33e757c0987015353863a98d1ecc524f6c0": {
+        "name": "0x9aDFf33E757c0987015353863a98D1eCC524f6c0-1770839520549",
+        "win_rate": 100.0,
+        "roi": 70.48998193800425,
+        "added_at": 1772283131,
+        "last_updated": 1772341277,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 485,
+            "win_rate": 100.0,
+            "roi": 70.49,
+            "top_categories": {
+                "Crypto Prices": 485,
+                "Recurring": 485,
+                "Up or Down": 485
+            }
+        }
+    },
+    "0xfe144d42554dd872c4dedaf1a870247d274b11ee": {
+        "name": "Adept-Closing",
+        "win_rate": 94.11764705882352,
+        "roi": 25.168627553682537,
+        "added_at": 1772283215,
+        "last_updated": 1772341294,
+        "status": "active",
+        "score": 80.1,
+        "metrics": {
+            "30d_trades": 38,
+            "win_rate": 94.12,
+            "roi": 25.17,
+            "top_categories": {
+                "Unknown": 21,
+                "Sports": 17,
+                "Games": 17
+            }
+        }
+    },
+    "0xdbade4c82fb72780a0db9a38f821d8671aba9c95": {
+        "name": "SwissMiss",
+        "win_rate": 100.0,
+        "roi": 177.25381363271887,
+        "added_at": 1772341520,
+        "last_updated": 1772341520,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 403,
+            "win_rate": 100.0,
+            "roi": 177.25,
+            "top_categories": {
+                "Games": 292,
+                "Sports": 292,
+                "UFC": 277
+            }
+        }
+    },
+    "0xd106952ebf30a3125affd8a23b6c1f30c35fc79c": {
+        "name": "Herdonia",
+        "win_rate": 92.3076923076923,
+        "roi": 62.35238417272316,
+        "added_at": 1772341551,
+        "last_updated": 1772341551,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 500,
+            "win_rate": 92.31,
+            "roi": 62.35,
+            "top_categories": {
+                "Sports": 259,
+                "Games": 259,
+                "Unknown": 241
+            }
+        }
+    },
+    "0x8f037a2e4fd49d11267f4ab874ab7ba745ac64d6": {
+        "name": "Anointed-Connect",
+        "win_rate": 100.0,
+        "roi": 42.70657775088843,
+        "added_at": 1772341669,
+        "last_updated": 1772341669,
+        "status": "active",
+        "score": 94.2,
+        "metrics": {
+            "30d_trades": 475,
+            "win_rate": 100.0,
+            "roi": 42.71,
+            "top_categories": {
+                "Unknown": 245,
+                "Sports": 154,
+                "NBA": 154
+            }
+        }
+    },
+    "0xed107a85a4585a381e48c7f7ca4144909e7dd2e5": {
+        "name": "bobe2",
+        "win_rate": 100.0,
+        "roi": 0.7575757575758135,
+        "added_at": 1772341727,
+        "last_updated": 1772341727,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 490,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Geopolitics": 434,
+                "Middle East": 434,
+                "Iran": 434
+            }
+        }
+    },
+    "0x01baeccca6daf3d1ed2b562007f1f9e7ef9cb77a": {
+        "name": "knoxgold",
+        "win_rate": 91.11111111111111,
+        "roi": 118.02395278345436,
+        "added_at": 1772341785,
+        "last_updated": 1772341785,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 480,
+            "win_rate": 91.11,
+            "roi": 118.02,
+            "top_categories": {
+                "UFC": 434,
+                "Games": 434,
+                "Sports": 434
+            }
+        }
+    },
+    "0xc4d1a863e9cc45d02ba22d3a1ae9ba7822018ce8": {
+        "name": "rdba",
+        "win_rate": 100.0,
+        "roi": 0.7006939395093317,
+        "added_at": 1772341868,
+        "last_updated": 1772341868,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 473,
+            "win_rate": 100.0,
+            "roi": 0.7,
+            "top_categories": {
+                "Politics": 472,
+                "Middle East": 472,
+                "Geopolitics": 472
+            }
+        }
+    },
+    "0x6ade597c0e2b43c0bf3542cada8a5e330d73f5b0": {
+        "name": "TheOnlyHuman",
+        "win_rate": 100.0,
+        "roi": 67.01980916124953,
+        "added_at": 1772341897,
+        "last_updated": 1772341897,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 438,
+            "win_rate": 100.0,
+            "roi": 67.02,
+            "top_categories": {
+                "Unknown": 275,
+                "Games": 163,
+                "Sports": 163
+            }
+        }
+    },
+    "0xc6587b11a2209e46dfe3928b31c5514a8e33b784": {
+        "name": "Erasmus.",
+        "win_rate": 100.0,
+        "roi": 1.163457016854695,
+        "added_at": 1772341973,
+        "last_updated": 1772341973,
+        "status": "active",
+        "score": 60.9,
+        "metrics": {
+            "30d_trades": 210,
+            "win_rate": 100.0,
+            "roi": 1.16,
+            "top_categories": {
+                "Geopolitics": 183,
+                "Middle East": 183,
+                "Iran": 183
+            }
+        }
+    },
+    "0xbad457dc633bbb7b6cbe09dd5867a5e8e597acd7": {
+        "name": "Curseaaaaaaaa",
+        "win_rate": 100.0,
+        "roi": 383.7378640776699,
+        "added_at": 1772342071,
+        "last_updated": 1772342071,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 475,
+            "win_rate": 100.0,
+            "roi": 383.74,
+            "top_categories": {
+                "Politics": 285,
+                "Middle East": 285,
+                "Geopolitics": 285
+            }
+        }
+    },
+    "0xadc2efbf97ce7b25f7a638aabdba196c657cd1c9": {
+        "name": "BenzoateOstylezeneBicarbonate",
+        "win_rate": 100.0,
+        "roi": 0.6565656565656012,
+        "added_at": 1772342102,
+        "last_updated": 1772342102,
+        "status": "active",
+        "score": 60.5,
+        "metrics": {
+            "30d_trades": 448,
+            "win_rate": 100.0,
+            "roi": 0.66,
+            "top_categories": {
+                "Unknown": 204,
+                "Politics": 186,
+                "Geopolitics": 186
+            }
+        }
+    },
+    "0x1604b15af9eab550175b268dd574a155c5ebff0e": {
+        "name": "spandexter",
+        "win_rate": 95.74468085106383,
+        "roi": 4.744575955644705,
+        "added_at": 1772342159,
+        "last_updated": 1772342159,
+        "status": "active",
+        "score": 63.8,
+        "metrics": {
+            "30d_trades": 383,
+            "win_rate": 95.74,
+            "roi": 4.74,
+            "top_categories": {
+                "UFC": 216,
+                "Games": 216,
+                "Sports": 216
+            }
+        }
+    },
+    "0xc35049bc7b6bd28a49a40b261466ca91aad63669": {
+        "name": "ScroooogeMcDuck",
+        "win_rate": 75.67567567567568,
+        "roi": 27.680816302081997,
+        "added_at": 1772342187,
+        "last_updated": 1772342187,
+        "status": "active",
+        "score": 76.4,
+        "metrics": {
+            "30d_trades": 461,
+            "win_rate": 75.68,
+            "roi": 27.68,
+            "top_categories": {
+                "Sports": 425,
+                "Games": 425,
+                "NHL": 378
+            }
+        }
+    },
+    "0xc851cd9bee7d262afd78674f861f9f576a12cd2a": {
+        "name": "betwick",
+        "win_rate": 100.0,
+        "roi": 5.867888075066898,
+        "added_at": 1772342215,
+        "last_updated": 1772342215,
+        "status": "active",
+        "score": 64.7,
+        "metrics": {
+            "30d_trades": 414,
+            "win_rate": 100.0,
+            "roi": 5.87,
+            "top_categories": {
+                "Unknown": 304,
+                "Geopolitics": 110,
+                "Politics": 110
+            }
+        }
+    },
+    "0x88fc53e2037ce842c2d332a86ecba8c538ef099d": {
+        "name": "homedaddy",
+        "win_rate": 97.82608695652173,
+        "roi": 33.159400517895364,
+        "added_at": 1772342247,
+        "last_updated": 1772342247,
+        "status": "active",
+        "score": 86.5,
+        "metrics": {
+            "30d_trades": 449,
+            "win_rate": 97.83,
+            "roi": 33.16,
+            "top_categories": {
+                "Sports": 343,
+                "Games": 343,
+                "NBA": 331
+            }
+        }
+    },
+    "0x88c4919de76e526d55a32c1f8afb439dd1f1129a": {
+        "name": "8934394839",
+        "win_rate": 97.87234042553192,
+        "roi": 81.72836309218606,
+        "added_at": 1772342274,
+        "last_updated": 1772342274,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 472,
+            "win_rate": 97.87,
+            "roi": 81.73,
+            "top_categories": {
+                "Unknown": 373,
+                "Geopolitics": 99,
+                "Middle East": 99
+            }
+        }
+    },
+    "0x5bffcf561bcae83af680ad600cb99f1184d6ffbe": {
+        "name": "YatSen",
+        "win_rate": 100.0,
+        "roi": 0.6565656565656646,
+        "added_at": 1772342301,
+        "last_updated": 1772342301,
+        "status": "active",
+        "score": 60.5,
+        "metrics": {
+            "30d_trades": 469,
+            "win_rate": 100.0,
+            "roi": 0.66,
+            "top_categories": {
+                "Unknown": 354,
+                "Parent For Derivative": 115,
+                "Culture": 111
+            }
+        }
+    },
+    "0xd6966eb1ae7b52320ba7ab1016680198c9e08a49": {
+        "name": "EIf",
+        "win_rate": 75.0,
+        "roi": 9.933382630792966,
+        "added_at": 1772342511,
+        "last_updated": 1772342511,
+        "status": "active",
+        "score": 61.3,
+        "metrics": {
+            "30d_trades": 408,
+            "win_rate": 75.0,
+            "roi": 9.93,
+            "top_categories": {
+                "Sports": 292,
+                "Games": 292,
+                "Basketball": 195
+            }
+        }
+    },
+    "0x7f9e2d1df78614564a70becc7fa14aa9a6623a0e": {
+        "name": "nojnn",
+        "win_rate": 100.0,
+        "roi": 37.2939527270247,
+        "added_at": 1772342567,
+        "last_updated": 1772342567,
+        "status": "active",
+        "score": 89.8,
+        "metrics": {
+            "30d_trades": 168,
+            "win_rate": 100.0,
+            "roi": 37.29,
+            "top_categories": {
+                "Unknown": 110,
+                "Geopolitics": 58,
+                "Middle East": 58
+            }
+        }
+    },
+    "0xb6aee7f281e13b23bd959127f6e2b3dccb4e4df8": {
+        "name": "hugesportswhale",
+        "win_rate": 100.0,
+        "roi": 44.234767384544824,
+        "added_at": 1772342601,
+        "last_updated": 1772342601,
+        "status": "active",
+        "score": 95.4,
+        "metrics": {
+            "30d_trades": 476,
+            "win_rate": 100.0,
+            "roi": 44.23,
+            "top_categories": {
+                "Sports": 303,
+                "Games": 303,
+                "NBA": 216
+            }
+        }
+    },
+    "0x37d10ffb61998561c5f9fb941c42c952d8fb4e28": {
+        "name": "flydartball",
+        "win_rate": 100.0,
+        "roi": 48.03730071045537,
+        "added_at": 1772342612,
+        "last_updated": 1772342612,
+        "status": "active",
+        "score": 98.4,
+        "metrics": {
+            "30d_trades": 375,
+            "win_rate": 100.0,
+            "roi": 48.04,
+            "top_categories": {
+                "Geopolitics": 319,
+                "Middle East": 319,
+                "Iran": 319
+            }
+        }
+    },
+    "0x7523cafcee7bcf2db9a79d80e0d79b88a9a54c4c": {
+        "name": "DonaldinhoTrumpito",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757662,
+        "added_at": 1772342663,
+        "last_updated": 1772342663,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 383,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 219,
+                "Geopolitics": 160,
+                "Middle East": 160
+            }
+        }
+    },
+    "0xbc43c8bfbc4d77c2fc9011adad38ba43b88996d3": {
+        "name": "0xBc43c8bfBC4d77c2FC9011adaD38Ba43b88996d3-1765231687816",
+        "win_rate": 100.0,
+        "roi": 51.48321717541114,
+        "added_at": 1772342694,
+        "last_updated": 1772342694,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 281,
+            "win_rate": 100.0,
+            "roi": 51.48,
+            "top_categories": {
+                "Unknown": 205,
+                "Sports": 76,
+                "Games": 76
+            }
+        }
+    },
+    "0x521a8c20563ccc9e1c8ebfe5cfe6c8f9b2f8d12f": {
+        "name": "b4k9xj2wh",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757607,
+        "added_at": 1772342723,
+        "last_updated": 1772342723,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 276,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 147,
+                "Geopolitics": 128,
+                "Middle East": 128
+            }
+        }
+    },
+    "0x5116ee15e86bc8878b90ac8a8514e38511eb58c4": {
+        "name": "ElonSpam",
+        "win_rate": 100.0,
+        "roi": 36.63210292076307,
+        "added_at": 1772342902,
+        "last_updated": 1772342902,
+        "status": "active",
+        "score": 89.3,
+        "metrics": {
+            "30d_trades": 323,
+            "win_rate": 100.0,
+            "roi": 36.63,
+            "top_categories": {
+                "Sports": 304,
+                "Games": 304,
+                "NBA": 205
+            }
+        }
+    },
+    "0xd1acd3925d895de9aec98ff95f3a30c5279d08d5": {
+        "name": "Kickstand7",
+        "win_rate": 100.0,
+        "roi": 0.7498946632648161,
+        "added_at": 1772342957,
+        "last_updated": 1772342957,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 367,
+            "win_rate": 100.0,
+            "roi": 0.75,
+            "top_categories": {
+                "Unknown": 259,
+                "Politics": 108,
+                "Middle East": 94
+            }
+        }
+    },
+    "0x8cc8b11803cfb171acdc433a8e0038e9c32f0fa2": {
+        "name": "Momotarou",
+        "win_rate": 100.0,
+        "roi": 47.49838879004349,
+        "added_at": 1772342986,
+        "last_updated": 1772342986,
+        "status": "active",
+        "score": 98.0,
+        "metrics": {
+            "30d_trades": 69,
+            "win_rate": 100.0,
+            "roi": 47.5,
+            "top_categories": {
+                "Sports": 38,
+                "Games": 38,
+                "Unknown": 31
+            }
+        }
+    },
+    "0x2005d16a84ceefa912d4e380cd32e7ff827875ea": {
+        "name": "RN1",
+        "win_rate": 96.15384615384616,
+        "roi": 19.048549016468396,
+        "added_at": 1772343125,
+        "last_updated": 1772343125,
+        "status": "active",
+        "score": 75.2,
+        "metrics": {
+            "30d_trades": 500,
+            "win_rate": 96.15,
+            "roi": 19.05,
+            "top_categories": {
+                "Unknown": 428,
+                "Games": 72,
+                "Sports": 72
+            }
+        }
+    },
+    "0x163eff4d251df4bfc95c49f4d90cd1bf224edc5b": {
+        "name": "0x163EfF4d251dF4BFC95C49f4D90Cd1bF224eDC5B-1768366778047",
+        "win_rate": 100.0,
+        "roi": 59.95411497820417,
+        "added_at": 1772343155,
+        "last_updated": 1772343155,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 476,
+            "win_rate": 100.0,
+            "roi": 59.95,
+            "top_categories": {
+                "Unknown": 313,
+                "Sports": 163,
+                "Games": 163
+            }
+        }
+    },
+    "0x9c2617462567859fcf5764e03b9a687ebca274bc": {
+        "name": "Spas12",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757659,
+        "added_at": 1772343185,
+        "last_updated": 1772343185,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 256,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Politics": 186,
+                "Geopolitics": 120,
+                "Middle East": 120
+            }
+        }
+    },
+    "0x7744bfd749a70020d16a1fcbac1d064761c9999e": {
+        "name": "chungguskhan",
+        "win_rate": 95.45454545454545,
+        "roi": 1.7463689716443849,
+        "added_at": 1772343281,
+        "last_updated": 1772343281,
+        "status": "active",
+        "score": 61.4,
+        "metrics": {
+            "30d_trades": 127,
+            "win_rate": 95.45,
+            "roi": 1.75,
+            "top_categories": {
+                "Unknown": 62,
+                "Games": 42,
+                "Sports": 42
+            }
+        }
+    },
+    "0x614dc8d3542c12103d2c6a3553fd761e391d1546": {
+        "name": "mr.ozi",
+        "win_rate": 100.0,
+        "roi": 3.1236146402176828,
+        "added_at": 1772343298,
+        "last_updated": 1772343298,
+        "status": "active",
+        "score": 62.5,
+        "metrics": {
+            "30d_trades": 334,
+            "win_rate": 100.0,
+            "roi": 3.12,
+            "top_categories": {
+                "Geopolitics": 193,
+                "Politics": 193,
+                "Middle East": 188
+            }
+        }
+    },
+    "0x3e04fbc51adb75418129f6ce2091ae633070564d": {
+        "name": "roldy",
+        "win_rate": 77.27272727272727,
+        "roi": 30.177941062702295,
+        "added_at": 1772343369,
+        "last_updated": 1772343369,
+        "status": "active",
+        "score": 80.5,
+        "metrics": {
+            "30d_trades": 472,
+            "win_rate": 77.27,
+            "roi": 30.18,
+            "top_categories": {
+                "Sports": 453,
+                "Games": 453,
+                "NHL": 448
+            }
+        }
+    },
+    "0xe25b9180f5687aa85bd94ee309bb72a464320f1b": {
+        "name": "WordleAddict",
+        "win_rate": 100.0,
+        "roi": 90.29653512428523,
+        "added_at": 1772343406,
+        "last_updated": 1772343406,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 206,
+            "win_rate": 100.0,
+            "roi": 90.3,
+            "top_categories": {
+                "Geopolitics": 116,
+                "Middle East": 116,
+                "Iran": 116
+            }
+        }
+    },
+    "0x4851a13a61c99688c68191e8e8a8755ea5b81e94": {
+        "name": "big.bitch",
+        "win_rate": 100.0,
+        "roi": 4.197650638269147,
+        "added_at": 1772343456,
+        "last_updated": 1772343456,
+        "status": "active",
+        "score": 63.4,
+        "metrics": {
+            "30d_trades": 324,
+            "win_rate": 100.0,
+            "roi": 4.2,
+            "top_categories": {
+                "Geopolitics": 155,
+                "Middle East": 155,
+                "Iran": 155
+            }
+        }
+    },
+    "0x7072dd52161bae614bec6905846a53c9a3a53413": {
+        "name": "ForesightOracle",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757462,
+        "added_at": 1772343484,
+        "last_updated": 1772343484,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 498,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 395,
+                "Politics": 103,
+                "Geopolitics": 102
+            }
+        }
+    },
+    "0x7d0a771ddd2c63255013a1efb5f0e42659b38c6c": {
+        "name": "GroyperFinancialServices",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757586,
+        "added_at": 1772343574,
+        "last_updated": 1772343574,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 311,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 170,
+                "Geopolitics": 139,
+                "Middle East": 139
+            }
+        }
+    },
+    "0xb1b963cedb4b64518e5e1ad28438fe4b18886d18": {
+        "name": "shuumai",
+        "win_rate": 89.28571428571429,
+        "roi": 24.98451572755735,
+        "added_at": 1772343629,
+        "last_updated": 1772343629,
+        "status": "active",
+        "score": 80.0,
+        "metrics": {
+            "30d_trades": 36,
+            "win_rate": 89.29,
+            "roi": 24.98,
+            "top_categories": {
+                "Sports": 30,
+                "Games": 30,
+                "NBA": 27
+            }
+        }
+    },
+    "0x7cf93583951552553bc0d243a8582a3410ed2798": {
+        "name": "ChiefJusticeRoberts",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757792,
+        "added_at": 1772343670,
+        "last_updated": 1772343670,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 403,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Geopolitics": 370,
+                "Middle East": 370,
+                "Iran": 370
+            }
+        }
+    },
+    "0x122cdd9db64fd8dc3ebab813218e3effe21f821f": {
+        "name": "okcoolstorybro",
+        "win_rate": 100.0,
+        "roi": 0.7575757575756908,
+        "added_at": 1772343698,
+        "last_updated": 1772343698,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 460,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Politics": 289,
+                "Geopolitics": 289,
+                "Iran": 288
+            }
+        }
+    },
+    "0x43372356634781eea88d61bbdd7824cdce958882": {
+        "name": "Anjun",
+        "win_rate": 100.0,
+        "roi": 0.7328663723465861,
+        "added_at": 1772343726,
+        "last_updated": 1772343726,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 404,
+            "win_rate": 100.0,
+            "roi": 0.73,
+            "top_categories": {
+                "Sports": 205,
+                "Games": 198,
+                "Esports": 193
+            }
+        }
+    },
+    "0x1e1f17412069c0736adfaadf8ee7f46e5612c855": {
+        "name": "Brokie",
+        "win_rate": 100.0,
+        "roi": 1.069516649089798,
+        "added_at": 1772343870,
+        "last_updated": 1772343870,
+        "status": "active",
+        "score": 60.9,
+        "metrics": {
+            "30d_trades": 157,
+            "win_rate": 100.0,
+            "roi": 1.07,
+            "top_categories": {
+                "Politics": 110,
+                "Geopolitics": 102,
+                "World": 102
+            }
+        }
+    },
+    "0x49007e1e636d0e922d0122a02ea743e41d194a72": {
+        "name": "08AF",
+        "win_rate": 100.0,
+        "roi": 2.6528552870365414,
+        "added_at": 1772343955,
+        "last_updated": 1772343955,
+        "status": "active",
+        "score": 62.1,
+        "metrics": {
+            "30d_trades": 452,
+            "win_rate": 100.0,
+            "roi": 2.65,
+            "top_categories": {
+                "Sports": 319,
+                "Games": 319,
+                "NBA": 245
+            }
+        }
+    },
+    "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292": {
+        "name": "Dropper",
+        "win_rate": 96.15384615384616,
+        "roi": 23.255743152974855,
+        "added_at": 1772343983,
+        "last_updated": 1772343983,
+        "status": "active",
+        "score": 78.6,
+        "metrics": {
+            "30d_trades": 451,
+            "win_rate": 96.15,
+            "roi": 23.26,
+            "top_categories": {
+                "Unknown": 425,
+                "Geopolitics": 26,
+                "Middle East": 26
+            }
+        }
+    },
+    "0xdcd669c506a938bae9269a84b8bd2bdb220484cd": {
+        "name": "thegreengem",
+        "win_rate": 100.0,
+        "roi": 1.155326974883257,
+        "added_at": 1772344012,
+        "last_updated": 1772344012,
+        "status": "active",
+        "score": 60.9,
+        "metrics": {
+            "30d_trades": 360,
+            "win_rate": 100.0,
+            "roi": 1.16,
+            "top_categories": {
+                "Unknown": 232,
+                "Politics": 113,
+                "Middle East": 113
+            }
+        }
+    },
+    "0x6d9fc316c3b8377060a44b852ba664adbfd59790": {
+        "name": "MEPP",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757525,
+        "added_at": 1772344101,
+        "last_updated": 1772344101,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 314,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Geopolitics": 161,
+                "Middle East": 160,
+                "Politics": 160
+            }
+        }
+    },
+    "0x31864feb9d25dee93728c6225ba891530967e9ca": {
+        "name": "johnbaster",
+        "win_rate": 100.0,
+        "roi": 7.469836194185212,
+        "added_at": 1772344123,
+        "last_updated": 1772344123,
+        "status": "active",
+        "score": 66.0,
+        "metrics": {
+            "30d_trades": 392,
+            "win_rate": 100.0,
+            "roi": 7.47,
+            "top_categories": {
+                "Unknown": 364,
+                "Esports": 28,
+                "league of legends": 28
+            }
+        }
+    },
+    "0x75253f58071564ba95f36258fcfb1e918552cde1": {
+        "name": "cynical.reason",
+        "win_rate": 100.0,
+        "roi": 4.416441466875776,
+        "added_at": 1772344203,
+        "last_updated": 1772344203,
+        "status": "active",
+        "score": 63.5,
+        "metrics": {
+            "30d_trades": 316,
+            "win_rate": 100.0,
+            "roi": 4.42,
+            "top_categories": {
+                "Middle East": 312,
+                "Iran": 312,
+                "Politics": 311
+            }
+        }
+    },
+    "0x01c78f8873c0c86d6b6b92ff627e3802237ee995": {
+        "name": "Lilybaeum",
+        "win_rate": 100.0,
+        "roi": 70.19576908754142,
+        "added_at": 1772344313,
+        "last_updated": 1772344313,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 500,
+            "win_rate": 100.0,
+            "roi": 70.2,
+            "top_categories": {
+                "Unknown": 381,
+                "Sports": 119,
+                "Games": 119
+            }
+        }
+    },
+    "0x842ac934cfff1467f27c167c42c318001e407422": {
+        "name": "ChompChomp888",
+        "win_rate": 80.0,
+        "roi": 21.436560953443852,
+        "added_at": 1772344340,
+        "last_updated": 1772344340,
+        "status": "active",
+        "score": 77.1,
+        "metrics": {
+            "30d_trades": 461,
+            "win_rate": 80.0,
+            "roi": 21.44,
+            "top_categories": {
+                "Unknown": 333,
+                "Games": 122,
+                "Sports": 122
+            }
+        }
+    },
+    "0x766e6a0a9c36e603dd0e8b35bede1b70fa3562ef": {
+        "name": "TheLastOfMachine",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757752,
+        "added_at": 1772344382,
+        "last_updated": 1772344382,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 326,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 251,
+                "Politics": 59,
+                "Middle East": 59
+            }
+        }
+    },
+    "0x2974bd0059e48f215c391882976e0f1b4c8c9c23": {
+        "name": "65765757",
+        "win_rate": 100.0,
+        "roi": 119.17741133132722,
+        "added_at": 1772344408,
+        "last_updated": 1772344408,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 117,
+            "win_rate": 100.0,
+            "roi": 119.18,
+            "top_categories": {
+                "Unknown": 81,
+                "Geopolitics": 36,
+                "Middle East": 36
+            }
+        }
+    },
+    "0xea7957606f259bcba522a4681494555547a7a9cc": {
+        "name": "starbuck02",
+        "win_rate": 100.0,
+        "roi": 4.305754627787399,
+        "added_at": 1772344437,
+        "last_updated": 1772344437,
+        "status": "active",
+        "score": 63.4,
+        "metrics": {
+            "30d_trades": 478,
+            "win_rate": 100.0,
+            "roi": 4.31,
+            "top_categories": {
+                "Unknown": 382,
+                "Sports": 64,
+                "NFL": 64
+            }
+        }
+    },
+    "0x5ed3561e39d6c9a9622c6f84a782537df7f9b19e": {
+        "name": "Vivaldi007",
+        "win_rate": 91.83673469387756,
+        "roi": 40.81656561616648,
+        "added_at": 1772344465,
+        "last_updated": 1772344465,
+        "status": "active",
+        "score": 92.7,
+        "metrics": {
+            "30d_trades": 470,
+            "win_rate": 91.84,
+            "roi": 40.82,
+            "top_categories": {
+                "Geopolitics": 255,
+                "Middle East": 255,
+                "Iran": 255
+            }
+        }
+    },
+    "0xae825b67fac24b92f328f25b5d2530567605faf0": {
+        "name": "0xAE825B67FAc24B92f328f25b5d2530567605FAF0-1757008313024",
+        "win_rate": 100.0,
+        "roi": 61.73139158576052,
+        "added_at": 1772344493,
+        "last_updated": 1772344493,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 242,
+            "win_rate": 100.0,
+            "roi": 61.73,
+            "top_categories": {
+                "Unknown": 190,
+                "Sports": 52,
+                "Games": 52
+            }
+        }
+    },
+    "0xf54dae096aaf3d18c417ecfb454512191902b546": {
+        "name": "Incrediblez7-Defi",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757214,
+        "added_at": 1772344522,
+        "last_updated": 1772344522,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 165,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Geopolitics": 165,
+                "Middle East": 165,
+                "Iran": 165
+            }
+        }
+    },
+    "0xd748c701ad93cfec32a3420e10f3b08e68612125": {
+        "name": "TealV",
+        "win_rate": 100.0,
+        "roi": 0.8357582754153227,
+        "added_at": 1772344571,
+        "last_updated": 1772344571,
+        "status": "active",
+        "score": 60.7,
+        "metrics": {
+            "30d_trades": 356,
+            "win_rate": 100.0,
+            "roi": 0.84,
+            "top_categories": {
+                "Politics": 197,
+                "Gov Shutdown": 164,
+                "Congress": 164
+            }
+        }
+    },
+    "0xdcfe226446603f6a998e9a4679a837166f1644b5": {
+        "name": "TheGoldenDeer",
+        "win_rate": 100.0,
+        "roi": 44.83408167594136,
+        "added_at": 1772344599,
+        "last_updated": 1772344599,
+        "status": "active",
+        "score": 95.9,
+        "metrics": {
+            "30d_trades": 425,
+            "win_rate": 100.0,
+            "roi": 44.83,
+            "top_categories": {
+                "Unknown": 315,
+                "Sports": 86,
+                "Games": 86
+            }
+        }
+    },
+    "0xbde33ac3839672f1bd3fecfc0271ad95f07c4a49": {
+        "name": "EomJunsik",
+        "win_rate": 100.0,
+        "roi": 5.476994512452476,
+        "added_at": 1772344631,
+        "last_updated": 1772344631,
+        "status": "active",
+        "score": 64.4,
+        "metrics": {
+            "30d_trades": 483,
+            "win_rate": 100.0,
+            "roi": 5.48,
+            "top_categories": {
+                "Sports": 310,
+                "Games": 310,
+                "NBA": 291
+            }
+        }
+    },
+    "0xa4ce6bc630da3c0e57ffbc6a0d2540b2f97602b2": {
+        "name": "jarjarbinks1",
+        "win_rate": 100.0,
+        "roi": 265.9951642867232,
+        "added_at": 1772344642,
+        "last_updated": 1772344642,
+        "status": "active",
+        "score": 88.0,
+        "metrics": {
+            "30d_trades": 12,
+            "win_rate": 100.0,
+            "roi": 266.0,
+            "top_categories": {
+                "Sports": 6,
+                "UFC": 6,
+                "Games": 6
+            }
+        }
+    },
+    "0x31b6c31371ae09113ae9995e3b93d6bdc35c2d92": {
+        "name": "0x31b6c31371AE09113aE9995e3B93d6BDc35c2d92-1725435223904",
+        "win_rate": 100.0,
+        "roi": 165.92039721456558,
+        "added_at": 1772344672,
+        "last_updated": 1772344672,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 78,
+            "win_rate": 100.0,
+            "roi": 165.92,
+            "top_categories": {
+                "Sports": 49,
+                "UFC": 49,
+                "Games": 49
+            }
+        }
+    },
+    "0x34fc33896eb6cbe9effe30995467ff330bbd050c": {
+        "name": "pokemonblue",
+        "win_rate": 100.0,
+        "roi": 61.732772898677915,
+        "added_at": 1772344787,
+        "last_updated": 1772344787,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 491,
+            "win_rate": 100.0,
+            "roi": 61.73,
+            "top_categories": {
+                "Sports": 491,
+                "NBA": 491,
+                "Games": 491
+            }
+        }
+    },
+    "0xb63ac06f20eed05d0a34f61116d0580a0afb4064": {
+        "name": "plzdontdropout",
+        "win_rate": 100.0,
+        "roi": 4.5627371722655425,
+        "added_at": 1772344803,
+        "last_updated": 1772344803,
+        "status": "active",
+        "score": 63.7,
+        "metrics": {
+            "30d_trades": 402,
+            "win_rate": 100.0,
+            "roi": 4.56,
+            "top_categories": {
+                "Unknown": 358,
+                "Politics": 44,
+                "Middle East": 44
+            }
+        }
+    },
+    "0x1716f900cfd60c06cbedfdd9adde75c38b13d2b5": {
+        "name": "GrayKyle",
+        "win_rate": 100.0,
+        "roi": 59.84111069847147,
+        "added_at": 1772344878,
+        "last_updated": 1772344878,
+        "status": "active",
+        "score": 93.3,
+        "metrics": {
+            "30d_trades": 20,
+            "win_rate": 100.0,
+            "roi": 59.84,
+            "top_categories": {
+                "Unknown": 12,
+                "Sports": 8,
+                "NBA": 8
+            }
+        }
+    },
+    "0x8b4bca1d794779e66e023d44391b2a86c5ab541b": {
+        "name": "0x8B4bcA1D794779E66e023D44391B2A86C5ab541B-1769764313952",
+        "win_rate": 100.0,
+        "roi": 1.8872504210892642,
+        "added_at": 1772344929,
+        "last_updated": 1772344929,
+        "status": "active",
+        "score": 61.5,
+        "metrics": {
+            "30d_trades": 335,
+            "win_rate": 100.0,
+            "roi": 1.89,
+            "top_categories": {
+                "Unknown": 198,
+                "Middle East": 126,
+                "Geopolitics": 126
+            }
+        }
+    },
+    "0x9569e042a3e349a8d1797e45406b5288494f27fd": {
+        "name": "Treasured-Spending",
+        "win_rate": 100.0,
+        "roi": 28.31347354693068,
+        "added_at": 1772345038,
+        "last_updated": 1772345038,
+        "status": "active",
+        "score": 82.7,
+        "metrics": {
+            "30d_trades": 355,
+            "win_rate": 100.0,
+            "roi": 28.31,
+            "top_categories": {
+                "Sports": 264,
+                "Games": 264,
+                "NBA": 196
+            }
+        }
+    },
+    "0x8adc5aceb4718b2972e34dfffa45d58b56b5bafc": {
+        "name": "binkybarnes55",
+        "win_rate": 84.61538461538461,
+        "roi": 18.329996816059204,
+        "added_at": 1772345065,
+        "last_updated": 1772345065,
+        "status": "active",
+        "score": 74.7,
+        "metrics": {
+            "30d_trades": 274,
+            "win_rate": 84.62,
+            "roi": 18.33,
+            "top_categories": {
+                "Sports": 215,
+                "Games": 213,
+                "Esports": 134
+            }
+        }
+    },
+    "0xe5241830e8876c115d7dc8311ad9f43d85fdd34f": {
+        "name": "Sportbetting76",
+        "win_rate": 96.7741935483871,
+        "roi": 26.7977679945795,
+        "added_at": 1772345125,
+        "last_updated": 1772345125,
+        "status": "active",
+        "score": 81.4,
+        "metrics": {
+            "30d_trades": 475,
+            "win_rate": 96.77,
+            "roi": 26.8,
+            "top_categories": {
+                "Unknown": 297,
+                "Games": 178,
+                "Sports": 178
+            }
+        }
+    },
+    "0x82a7183f93447d7a8ff5b4bd08eb0d74de266ed8": {
+        "name": "Dripx",
+        "win_rate": 100.0,
+        "roi": 0.9480712857975268,
+        "added_at": 1772345252,
+        "last_updated": 1772345252,
+        "status": "active",
+        "score": 60.8,
+        "metrics": {
+            "30d_trades": 70,
+            "win_rate": 100.0,
+            "roi": 0.95,
+            "top_categories": {
+                "Politics": 48,
+                "Geopolitics": 47,
+                "Middle East": 47
+            }
+        }
+    },
+    "0x57c5de7efafb020e589f80e0da6e16e9b5c907aa": {
+        "name": "poptree",
+        "win_rate": 100.0,
+        "roi": 0.7575757575759268,
+        "added_at": 1772345309,
+        "last_updated": 1772345309,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 286,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 173,
+                "Politics": 113,
+                "Geopolitics": 107
+            }
+        }
+    },
+    "0x47ab026767cc320ac6e62f6ec747d59cf4d795df": {
+        "name": "bosshog",
+        "win_rate": 100.0,
+        "roi": 1.6688062568097188,
+        "added_at": 1772345331,
+        "last_updated": 1772345331,
+        "status": "active",
+        "score": 61.3,
+        "metrics": {
+            "30d_trades": 382,
+            "win_rate": 100.0,
+            "roi": 1.67,
+            "top_categories": {
+                "Politics": 247,
+                "Middle East": 209,
+                "Geopolitics": 209
+            }
+        }
+    },
+    "0x56fcc141d24f3c9c29c72165ee2594cc59df733e": {
+        "name": "cy14",
+        "win_rate": 100.0,
+        "roi": 61.33869159962847,
+        "added_at": 1772345419,
+        "last_updated": 1772345419,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 425,
+            "win_rate": 100.0,
+            "roi": 61.34,
+            "top_categories": {
+                "Sports": 384,
+                "Games": 384,
+                "Basketball": 251
+            }
+        }
+    },
+    "0x8a4c788f043023b8b28a762216d037e9f148532b": {
+        "name": "theo5",
+        "win_rate": 100.0,
+        "roi": 2.069118383397345,
+        "added_at": 1772345447,
+        "last_updated": 1772345447,
+        "status": "active",
+        "score": 61.7,
+        "metrics": {
+            "30d_trades": 474,
+            "win_rate": 100.0,
+            "roi": 2.07,
+            "top_categories": {
+                "Unknown": 343,
+                "Geopolitics": 120,
+                "Middle East": 120
+            }
+        }
+    },
+    "0xf2f6af4f27ec2dcf4072095ab804016e14cd5817": {
+        "name": "gopfan2",
+        "win_rate": 100.0,
+        "roi": 8.814224924084249,
+        "added_at": 1772345497,
+        "last_updated": 1772345497,
+        "status": "active",
+        "score": 67.1,
+        "metrics": {
+            "30d_trades": 323,
+            "win_rate": 100.0,
+            "roi": 8.81,
+            "top_categories": {
+                "Unknown": 272,
+                "Geopolitics": 51,
+                "Middle East": 51
+            }
+        }
+    },
+    "0x593d34a154134f3b1aa83771581cb68f92cf7d5d": {
+        "name": "3.3.3",
+        "win_rate": 100.0,
+        "roi": 4090.6210948106186,
+        "added_at": 1772345562,
+        "last_updated": 1772345562,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 500,
+            "win_rate": 100.0,
+            "roi": 4090.62,
+            "top_categories": {
+                "Unknown": 352,
+                "Geopolitics": 148,
+                "Iran": 148
+            }
+        }
+    },
+    "0x91fd9fb66b4f61d7de7e0d826221c4a0f8e01cde": {
+        "name": "Apple-Time",
+        "win_rate": 100.0,
+        "roi": 169.55231930960136,
+        "added_at": 1772345593,
+        "last_updated": 1772345593,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 451,
+            "win_rate": 100.0,
+            "roi": 169.55,
+            "top_categories": {
+                "Games": 311,
+                "Sports": 311,
+                "Unknown": 140
+            }
+        }
+    },
+    "0xddff18c9e86262e62af046d818dda0c3de6f52d6": {
+        "name": "wkmfa518",
+        "win_rate": 100.0,
+        "roi": 0.9221368968224973,
+        "added_at": 1772345622,
+        "last_updated": 1772345622,
+        "status": "active",
+        "score": 60.7,
+        "metrics": {
+            "30d_trades": 270,
+            "win_rate": 100.0,
+            "roi": 0.92,
+            "top_categories": {
+                "Unknown": 221,
+                "Esports": 38,
+                "league of legends": 38
+            }
+        }
+    },
+    "0x0f042f6b551b9c1a147fade740ba7537ac4773d5": {
+        "name": "piepie",
+        "win_rate": 100.0,
+        "roi": 11.594687691988137,
+        "added_at": 1772345654,
+        "last_updated": 1772345654,
+        "status": "active",
+        "score": 69.3,
+        "metrics": {
+            "30d_trades": 488,
+            "win_rate": 100.0,
+            "roi": 11.59,
+            "top_categories": {
+                "Sports": 488,
+                "NBA": 488,
+                "Basketball": 488
+            }
+        }
+    },
+    "0x3b5d93e768e79c0974ac0f7d210237988120cc80": {
+        "name": "toytrucks",
+        "win_rate": 92.85714285714286,
+        "roi": 3.5557020496656015,
+        "added_at": 1772345681,
+        "last_updated": 1772345681,
+        "status": "active",
+        "score": 62.8,
+        "metrics": {
+            "30d_trades": 482,
+            "win_rate": 92.86,
+            "roi": 3.56,
+            "top_categories": {
+                "Unknown": 449,
+                "Politics": 18,
+                "Geopolitics": 16
+            }
+        }
+    },
+    "0xecaa8806a9a05049d7d5260a33dc924220e377a9": {
+        "name": "Melody626",
+        "win_rate": 100.0,
+        "roi": 6.892560851032134,
+        "added_at": 1772345761,
+        "last_updated": 1772345761,
+        "status": "active",
+        "score": 65.5,
+        "metrics": {
+            "30d_trades": 397,
+            "win_rate": 100.0,
+            "roi": 6.89,
+            "top_categories": {
+                "Unknown": 233,
+                "Geopolitics": 153,
+                "Middle East": 153
+            }
+        }
+    },
+    "0x2d99e29c4f066ba32098c65e4c7454b277d94ca3": {
+        "name": "scout",
+        "win_rate": 100.0,
+        "roi": 14.600756876600729,
+        "added_at": 1772345798,
+        "last_updated": 1772345798,
+        "status": "active",
+        "score": 71.7,
+        "metrics": {
+            "30d_trades": 426,
+            "win_rate": 100.0,
+            "roi": 14.6,
+            "top_categories": {
+                "Unknown": 329,
+                "Politics": 84,
+                "Geopolitics": 54
+            }
+        }
+    },
+    "0x7131cb618fb195c70e8e629c45199096833c29cc": {
+        "name": "0x7131cB618fb195C70E8e629C45199096833C29",
+        "win_rate": 100.0,
+        "roi": 2.537140791908306,
+        "added_at": 1772345827,
+        "last_updated": 1772345827,
+        "status": "active",
+        "score": 62.0,
+        "metrics": {
+            "30d_trades": 332,
+            "win_rate": 100.0,
+            "roi": 2.54,
+            "top_categories": {
+                "Politics": 166,
+                "Unknown": 164,
+                "Geopolitics": 100
+            }
+        }
+    },
+    "0x95074f700f93bdf6e62fc965e0832064c0877b04": {
+        "name": "allah-meda",
+        "win_rate": 100.0,
+        "roi": 0.8953866111852609,
+        "added_at": 1772345855,
+        "last_updated": 1772345855,
+        "status": "active",
+        "score": 60.7,
+        "metrics": {
+            "30d_trades": 265,
+            "win_rate": 100.0,
+            "roi": 0.9,
+            "top_categories": {
+                "Geopolitics": 164,
+                "Politics": 164,
+                "Iran": 163
+            }
+        }
+    },
+    "0x2a019dc0089ea8c6edbbafc8a7cc9ba77b4b6397": {
+        "name": "aviato",
+        "win_rate": 80.0,
+        "roi": 0.5106732482837985,
+        "added_at": 1772345882,
+        "last_updated": 1772345882,
+        "status": "active",
+        "score": 60.4,
+        "metrics": {
+            "30d_trades": 395,
+            "win_rate": 80.0,
+            "roi": 0.51,
+            "top_categories": {
+                "Unknown": 252,
+                "Politics": 129,
+                "Geopolitics": 115
+            }
+        }
+    },
+    "0x94cff0a688ca7b2e5b2602343c49bcd812123db3": {
+        "name": "Official-Market-Maker",
+        "win_rate": 100.0,
+        "roi": 1.0101010101010066,
+        "added_at": 1772345989,
+        "last_updated": 1772345989,
+        "status": "active",
+        "score": 60.8,
+        "metrics": {
+            "30d_trades": 280,
+            "win_rate": 100.0,
+            "roi": 1.01,
+            "top_categories": {
+                "Gov Shutdown": 162,
+                "Politics": 162,
+                "Congress": 162
+            }
+        }
+    },
+    "0xdd225a03cd7ed89e3931906c67c75ab31cf89ef1": {
+        "name": "Euan",
+        "win_rate": 100.0,
+        "roi": 0.7603168049351333,
+        "added_at": 1772346016,
+        "last_updated": 1772346016,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 492,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 467,
+                "Geopolitics": 25,
+                "Middle East": 25
+            }
+        }
+    },
+    "0xc5b5bbd42624a8f0c8dfa90221913007d8c77e80": {
+        "name": "Capman",
+        "win_rate": 81.81818181818183,
+        "roi": 41.823213878096055,
+        "added_at": 1772346054,
+        "last_updated": 1772346054,
+        "status": "active",
+        "score": 93.5,
+        "metrics": {
+            "30d_trades": 362,
+            "win_rate": 81.82,
+            "roi": 41.82,
+            "top_categories": {
+                "Games": 211,
+                "Sports": 211,
+                "Basketball": 172
+            }
+        }
+    },
+    "0xc4ecc62dcba4b855b6e6de09f4eb39385eb62493": {
+        "name": "BrazilianMemer",
+        "win_rate": 100.0,
+        "roi": 18.399242203444263,
+        "added_at": 1772346121,
+        "last_updated": 1772346121,
+        "status": "active",
+        "score": 74.7,
+        "metrics": {
+            "30d_trades": 402,
+            "win_rate": 100.0,
+            "roi": 18.4,
+            "top_categories": {
+                "Gov Shutdown": 351,
+                "Politics": 351,
+                "Congress": 351
+            }
+        }
+    },
+    "0x6fcac84365abab055cf438754ed5a14c78f605bc": {
+        "name": "Thomas58",
+        "win_rate": 100.0,
+        "roi": 237.10485547324453,
+        "added_at": 1772346180,
+        "last_updated": 1772346180,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 47,
+            "win_rate": 100.0,
+            "roi": 237.1,
+            "top_categories": {
+                "Politics": 47,
+                "Middle East": 47,
+                "Geopolitics": 47
+            }
+        }
+    },
+    "0xb3a1aad3d35ab7e87052b2addd5a11b3c7b63529": {
+        "name": "Carrylicious",
+        "win_rate": 100.0,
+        "roi": 27.02430724963526,
+        "added_at": 1772346199,
+        "last_updated": 1772346199,
+        "status": "active",
+        "score": 81.6,
+        "metrics": {
+            "30d_trades": 261,
+            "win_rate": 100.0,
+            "roi": 27.02,
+            "top_categories": {
+                "Unknown": 240,
+                "Games": 21,
+                "Sports": 21
+            }
+        }
+    },
+    "0xc5cd4beec5136f6a7fa2c62b8d8db0f95af1ef89": {
+        "name": "Wonylee8",
+        "win_rate": 100.0,
+        "roi": 59.220452023808335,
+        "added_at": 1772346236,
+        "last_updated": 1772346236,
+        "status": "active",
+        "score": 80.7,
+        "metrics": {
+            "30d_trades": 1,
+            "win_rate": 100.0,
+            "roi": 59.22,
+            "top_categories": {
+                "Sports": 1,
+                "NBA": 1,
+                "Games": 1
+            }
+        }
+    },
+    "0x69aa9fa621403e3a121b29ad77d32ba9eb5e8847": {
+        "name": "tsekinming01",
+        "win_rate": 100.0,
+        "roi": 0.8896514443104164,
+        "added_at": 1772346288,
+        "last_updated": 1772346288,
+        "status": "active",
+        "score": 60.7,
+        "metrics": {
+            "30d_trades": 247,
+            "win_rate": 100.0,
+            "roi": 0.89,
+            "top_categories": {
+                "Unknown": 151,
+                "Geopolitics": 91,
+                "Middle East": 91
+            }
+        }
+    },
+    "0xf99f21209545865c45961f413b93b8a2c46b8742": {
+        "name": "unsx",
+        "win_rate": 86.66666666666667,
+        "roi": 376.2025341445586,
+        "added_at": 1772346313,
+        "last_updated": 1772346313,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 88,
+            "win_rate": 86.67,
+            "roi": 376.2,
+            "top_categories": {
+                "Unknown": 66,
+                "Geopolitics": 22,
+                "Middle East": 22
+            }
+        }
+    },
+    "0xa6f8220dfac596335d6b6719f2a2c7b451cc316d": {
+        "name": "Imbleciar",
+        "win_rate": 100.0,
+        "roi": 2.09135798808091,
+        "added_at": 1772346340,
+        "last_updated": 1772346340,
+        "status": "active",
+        "score": 61.7,
+        "metrics": {
+            "30d_trades": 230,
+            "win_rate": 100.0,
+            "roi": 2.09,
+            "top_categories": {
+                "Geopolitics": 115,
+                "Middle East": 115,
+                "Iran": 115
+            }
+        }
+    },
+    "0x3b4484b6c8cbfdaa383ba337ab3f0d71055e264e": {
+        "name": "0xf1434f7d6de30bfbbdfeadd075a1f40f",
+        "win_rate": 100.0,
+        "roi": 1.2156581544576697,
+        "added_at": 1772346358,
+        "last_updated": 1772346358,
+        "status": "active",
+        "score": 61.0,
+        "metrics": {
+            "30d_trades": 338,
+            "win_rate": 100.0,
+            "roi": 1.22,
+            "top_categories": {
+                "Unknown": 313,
+                "Politics": 23,
+                "Geopolitics": 20
+            }
+        }
+    },
+    "0xca62d607db80661b987badf01abb499eee5afbfa": {
+        "name": "mcduck",
+        "win_rate": 100.0,
+        "roi": 0.9086778204254303,
+        "added_at": 1772346414,
+        "last_updated": 1772346414,
+        "status": "active",
+        "score": 60.7,
+        "metrics": {
+            "30d_trades": 35,
+            "win_rate": 100.0,
+            "roi": 0.91,
+            "top_categories": {
+                "Politics": 28,
+                "Middle East": 28,
+                "Geopolitics": 28
+            }
+        }
+    },
+    "0x7a146c5e70c092d06be27097a5c770b49d0bd748": {
+        "name": "Naichli",
+        "win_rate": 100.0,
+        "roi": 8.531824677215475,
+        "added_at": 1772346471,
+        "last_updated": 1772346471,
+        "status": "active",
+        "score": 66.8,
+        "metrics": {
+            "30d_trades": 376,
+            "win_rate": 100.0,
+            "roi": 8.53,
+            "top_categories": {
+                "Unknown": 232,
+                "Politics": 96,
+                "World": 95
+            }
+        }
+    },
+    "0x9b379ab677fd2c739a50aec7625467358caf3b3e": {
+        "name": "forgottenshore",
+        "win_rate": 95.23809523809523,
+        "roi": 85.39965635699895,
+        "added_at": 1772346501,
+        "last_updated": 1772346501,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 342,
+            "win_rate": 95.24,
+            "roi": 85.4,
+            "top_categories": {
+                "Games": 201,
+                "Sports": 201,
+                "NHL": 148
+            }
+        }
+    },
+    "0x00425c692a667981118f679ef68fdc775257321e": {
+        "name": "99problems123",
+        "win_rate": 100.0,
+        "roi": 4.510761066127475,
+        "added_at": 1772346544,
+        "last_updated": 1772346544,
+        "status": "active",
+        "score": 63.6,
+        "metrics": {
+            "30d_trades": 430,
+            "win_rate": 100.0,
+            "roi": 4.51,
+            "top_categories": {
+                "Unknown": 352,
+                "Geopolitics": 76,
+                "Middle East": 76
+            }
+        }
+    },
+    "0x4da76bbf120899fc10fa6e0aad4bffdd19a7355e": {
+        "name": "degensruletheworld",
+        "win_rate": 100.0,
+        "roi": 3.05160496372551,
+        "added_at": 1772346569,
+        "last_updated": 1772346569,
+        "status": "active",
+        "score": 62.4,
+        "metrics": {
+            "30d_trades": 402,
+            "win_rate": 100.0,
+            "roi": 3.05,
+            "top_categories": {
+                "Unknown": 240,
+                "Geopolitics": 162,
+                "Middle East": 162
+            }
+        }
+    },
+    "0x9e3403fd32c203929bf695d5913a1e2ce98dc876": {
+        "name": "Trumpsons555",
+        "win_rate": 100.0,
+        "roi": 140.13381496836672,
+        "added_at": 1772346601,
+        "last_updated": 1772346601,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 339,
+            "win_rate": 100.0,
+            "roi": 140.13,
+            "top_categories": {
+                "Unknown": 195,
+                "Geopolitics": 142,
+                "Middle East": 142
+            }
+        }
+    },
+    "0x14c32680ffc318892e0d019181e4161aa34cdf68": {
+        "name": "borntoolate.eth",
+        "win_rate": 100.0,
+        "roi": 1.0862893438934813,
+        "added_at": 1772346800,
+        "last_updated": 1772346800,
+        "status": "active",
+        "score": 60.9,
+        "metrics": {
+            "30d_trades": 55,
+            "win_rate": 100.0,
+            "roi": 1.09,
+            "top_categories": {
+                "Geopolitics": 30,
+                "Middle East": 30,
+                "Iran": 30
+            }
+        }
+    },
+    "0xefa3ba00c7495a9b4b2b46aa0d21a8023e8ed08b": {
+        "name": "kankm",
+        "win_rate": 100.0,
+        "roi": 15.522422561257507,
+        "added_at": 1772346830,
+        "last_updated": 1772346830,
+        "status": "active",
+        "score": 72.4,
+        "metrics": {
+            "30d_trades": 453,
+            "win_rate": 100.0,
+            "roi": 15.52,
+            "top_categories": {
+                "UFC": 248,
+                "Games": 248,
+                "Sports": 248
+            }
+        }
+    },
+    "0xbb8e6477bcb4d0a79449507c607d36fd228fb243": {
+        "name": "Generator",
+        "win_rate": 100.0,
+        "roi": 5.416586785522045,
+        "added_at": 1772346850,
+        "last_updated": 1772346850,
+        "status": "active",
+        "score": 64.3,
+        "metrics": {
+            "30d_trades": 285,
+            "win_rate": 100.0,
+            "roi": 5.42,
+            "top_categories": {
+                "Unknown": 253,
+                "Politics": 32,
+                "Geopolitics": 30
+            }
+        }
+    },
+    "0x59a513a782dd4c1a98ef22932c52191129f5afc8": {
+        "name": "dzsibenaja",
+        "win_rate": 100.0,
+        "roi": 0.862770860736727,
+        "added_at": 1772346907,
+        "last_updated": 1772346907,
+        "status": "active",
+        "score": 60.7,
+        "metrics": {
+            "30d_trades": 369,
+            "win_rate": 100.0,
+            "roi": 0.86,
+            "top_categories": {
+                "Politics": 218,
+                "Geopolitics": 157,
+                "Unknown": 151
+            }
+        }
+    },
+    "0xf5e15d3344c35890f1aa716dca88e13eb9065ad0": {
+        "name": "Bacc",
+        "win_rate": 100.0,
+        "roi": 97.1183092561605,
+        "added_at": 1772346938,
+        "last_updated": 1772346938,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 485,
+            "win_rate": 100.0,
+            "roi": 97.12,
+            "top_categories": {
+                "Sports": 457,
+                "Games": 371,
+                "UFC": 287
+            }
+        }
+    },
+    "0x955c9661bf6e010beff0ba896a49f715a8c8990f": {
+        "name": "0x955c9661bf6e010beff0ba896a49f715a8c8990f",
+        "win_rate": 100.0,
+        "roi": 2.862977266771305,
+        "added_at": 1772346966,
+        "last_updated": 1772346966,
+        "status": "active",
+        "score": 62.3,
+        "metrics": {
+            "30d_trades": 198,
+            "win_rate": 100.0,
+            "roi": 2.86,
+            "top_categories": {
+                "Unknown": 134,
+                "Politics": 64,
+                "Geopolitics": 54
+            }
+        }
+    },
+    "0x24c8cf69a0e0a17eee21f69d29752bfa32e823e1": {
+        "name": "debased",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757438,
+        "added_at": 1772346993,
+        "last_updated": 1772346993,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 389,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Politics": 350,
+                "Middle East": 350,
+                "Geopolitics": 350
+            }
+        }
+    },
+    "0x258feba9ec67ffa0e590d332f1788638a7304493": {
+        "name": "0x258feba9EC67FFa0E590D332F1788638a7304493-1771521030323",
+        "win_rate": 81.25,
+        "roi": 71.9669012427636,
+        "added_at": 1772347101,
+        "last_updated": 1772347101,
+        "status": "active",
+        "score": 100.0,
+        "metrics": {
+            "30d_trades": 449,
+            "win_rate": 81.25,
+            "roi": 71.97,
+            "top_categories": {
+                "Up or Down": 335,
+                "Crypto Prices": 335,
+                "Hide From New": 335
+            }
+        }
+    },
+    "0xcf19c420814435ffb1c459588208ed23a7ee6402": {
+        "name": "PantheraUncia",
+        "win_rate": 100.0,
+        "roi": 2.41815592893388,
+        "added_at": 1772347190,
+        "last_updated": 1772347190,
+        "status": "active",
+        "score": 61.9,
+        "metrics": {
+            "30d_trades": 390,
+            "win_rate": 100.0,
+            "roi": 2.42,
+            "top_categories": {
+                "Unknown": 307,
+                "Geopolitics": 83,
+                "Politics": 83
+            }
+        }
+    },
+    "0x24b38390c3bba47ac7e0707d1a531c67f356a5a4": {
+        "name": "frostybuddha",
+        "win_rate": 80.0,
+        "roi": 27.48014346958258,
+        "added_at": 1772347446,
+        "last_updated": 1772347446,
+        "status": "active",
+        "score": 74.7,
+        "metrics": {
+            "30d_trades": 19,
+            "win_rate": 80.0,
+            "roi": 27.48,
+            "top_categories": {
+                "Sports": 10,
+                "NBA": 10,
+                "Games": 10
+            }
+        }
+    },
+    "0x6233907fb2f8856fa6fb7fddcad080a2827b6349": {
+        "name": "4217",
+        "win_rate": 95.65217391304348,
+        "roi": 6.212338588785536,
+        "added_at": 1772347610,
+        "last_updated": 1772347610,
+        "status": "active",
+        "score": 65.0,
+        "metrics": {
+            "30d_trades": 42,
+            "win_rate": 95.65,
+            "roi": 6.21,
+            "top_categories": {
+                "Sports": 35,
+                "Games": 35,
+                "Basketball": 33
+            }
+        }
+    },
+    "0x99518fa0d201e7542ea2b852809da5a5c8d811bd": {
+        "name": "imnice",
+        "win_rate": 100.0,
+        "roi": 2.686556961285972,
+        "added_at": 1772347702,
+        "last_updated": 1772347702,
+        "status": "active",
+        "score": 62.1,
+        "metrics": {
+            "30d_trades": 199,
+            "win_rate": 100.0,
+            "roi": 2.69,
+            "top_categories": {
+                "Politics": 120,
+                "Trump": 107,
+                "Epstein": 92
+            }
+        }
+    },
+    "0x7d2299a379eb0b1c6077c7c419a383da6fb7f0cf": {
+        "name": "Qtyu",
+        "win_rate": 100.0,
+        "roi": 0.7575757575757261,
+        "added_at": 1772347755,
+        "last_updated": 1772347755,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 118,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Unknown": 96,
+                "Geopolitics": 22,
+                "Middle East": 22
+            }
+        }
+    },
+    "0x3d1ecf16942939b3603c2539a406514a40b504d0": {
+        "name": "edenmoon",
+        "win_rate": 100.0,
+        "roi": 2.3431112202249986,
+        "added_at": 1772347848,
+        "last_updated": 1772347848,
+        "status": "active",
+        "score": 42.5,
+        "metrics": {
+            "30d_trades": 1,
+            "win_rate": 100.0,
+            "roi": 2.34,
+            "top_categories": {
+                "Unknown": 1
+            }
+        }
+    },
+    "0xd576b9ee74c58fcb913675fd9c1d14c85312d5e3": {
+        "name": "inrock30",
+        "win_rate": 100.0,
+        "roi": 33.23675860779792,
+        "added_at": 1772347880,
+        "last_updated": 1772347880,
+        "status": "active",
+        "score": 86.6,
+        "metrics": {
+            "30d_trades": 51,
+            "win_rate": 100.0,
+            "roi": 33.24,
+            "top_categories": {
+                "Politics": 47,
+                "Middle East": 47,
+                "Geopolitics": 47
+            }
+        }
+    },
+    "0x7d2f82da7ae8c910bd1e89475be705d313daef1a": {
+        "name": "TheOpportunist",
+        "win_rate": 100.0,
+        "roi": 42.70416904625924,
+        "added_at": 1772347910,
+        "last_updated": 1772347910,
+        "status": "active",
+        "score": 94.2,
+        "metrics": {
+            "30d_trades": 448,
+            "win_rate": 100.0,
+            "roi": 42.7,
+            "top_categories": {
+                "Unknown": 244,
+                "Sports": 200,
+                "Games": 200
+            }
+        }
+    },
+    "0x0b219cf3d297991b58361dbebdbaa91e56b8deb6": {
+        "name": "TerreMoto",
+        "win_rate": 100.0,
+        "roi": 3.7673872343050725,
+        "added_at": 1772347951,
+        "last_updated": 1772347951,
+        "status": "active",
+        "score": 63.0,
+        "metrics": {
+            "30d_trades": 377,
+            "win_rate": 100.0,
+            "roi": 3.77,
+            "top_categories": {
+                "Politics": 221,
+                "World": 218,
+                "Geopolitics": 218
+            }
+        }
+    },
+    "0x8f7a4b414417911e7e9bd738399874792cdbdb40": {
+        "name": "duderr",
+        "win_rate": 100.0,
+        "roi": 0.7575757575756566,
+        "added_at": 1772348021,
+        "last_updated": 1772348021,
+        "status": "active",
+        "score": 60.6,
+        "metrics": {
+            "30d_trades": 362,
+            "win_rate": 100.0,
+            "roi": 0.76,
+            "top_categories": {
+                "Geopolitics": 307,
+                "Middle East": 307,
+                "Iran": 307
+            }
+        }
+    },
+    "0xe598435df0cdf5d22bdd5082d557f75f9180a0a8": {
+        "name": "bamesjond",
+        "win_rate": 100.0,
+        "roi": 1.8266887426063483,
+        "added_at": 1772348149,
+        "last_updated": 1772348149,
+        "status": "active",
+        "score": 61.5,
+        "metrics": {
+            "30d_trades": 333,
+            "win_rate": 100.0,
+            "roi": 1.83,
+            "top_categories": {
+                "Unknown": 260,
+                "Geopolitics": 70,
+                "Politics": 68
+            }
+        }
+    },
+    "0xb4f2310271b208f35b543bde10522db44cf67851": {
+        "name": "Kettle",
+        "win_rate": 100.0,
+        "roi": 1.6208393777505568,
+        "added_at": 1772348156,
+        "last_updated": 1772348156,
+        "status": "active",
+        "score": 61.3,
+        "metrics": {
+            "30d_trades": 49,
+            "win_rate": 100.0,
+            "roi": 1.62,
+            "top_categories": {
+                "Politics": 26,
+                "Geopolitics": 24,
+                "Middle East": 24
+            }
+        }
+    },
+    "0xb03b826a4fc9893b35d3ddf4f11be824525b6ca1": {
+        "name": "vvvvvllllllvvvvv",
+        "win_rate": 100.0,
+        "roi": 0.8827693275017072,
+        "added_at": 1772348235,
+        "last_updated": 1772348235,
+        "status": "active",
+        "score": 60.7,
+        "metrics": {
+            "30d_trades": 326,
+            "win_rate": 100.0,
+            "roi": 0.88,
+            "top_categories": {
+                "Unknown": 182,
+                "Politics": 143,
+                "Tech": 114
+            }
+        }
+    },
+    "0xf9fe29004c5a905c7b78bbb930ac57feea67366b": {
+        "name": "CanadianGoose",
+        "win_rate": 81.57894736842105,
+        "roi": 13.28708119245329,
+        "added_at": 1772348260,
+        "last_updated": 1772348260,
+        "status": "active",
+        "score": 70.6,
+        "metrics": {
+            "30d_trades": 309,
+            "win_rate": 81.58,
+            "roi": 13.29,
+            "top_categories": {
+                "Sports": 286,
+                "Games": 283,
+                "Basketball": 144
+            }
+        }
+    }
+}
