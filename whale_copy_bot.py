@@ -20,7 +20,7 @@ class WhaleCopyBot:
         self.positions = {}
         self.pending_orders = [] # 지정가 대기 큐
         self.startup_time = int(time.time())  # 봇 시작 시각 (백로그 필터용)
-        self.MAX_POSITIONS = 10               # 동시 최대 포지션 수
+        self.MAX_POSITIONS = config.MAX_POSITIONS  # .env에서 설정
         
         # 페이퍼 트레이딩 공통 자산
         self.bankroll = config.INITIAL_BANKROLL
@@ -40,7 +40,11 @@ class WhaleCopyBot:
         # 파일 경로
         self.trade_log_path = os.path.join(os.path.dirname(__file__), "trade_history.jsonl")
         self.status_file_path = os.path.join(os.path.dirname(__file__), "status_WhaleCopy.json")
-        
+        self.state_file_path = os.path.join(os.path.dirname(__file__), "state_WhaleCopy.json")
+
+        # 이전 세션 상태 복구
+        self._load_state()
+
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": "Mozilla/5.0"})
         self.client = PolymarketClient()
@@ -49,19 +53,25 @@ class WhaleCopyBot:
         self.maintenance_thread = threading.Thread(target=self._maintenance_loop, daemon=True)
         self.maintenance_thread.start()
 
+        # 봇 시작 시 status 파일 초기화 (이전 세션 PnL 잔상 제거)
+        self._update_dashboard()
+
         print("=== 🐋 WHALE COPY BOT (PAPER MODE) ===")
         print(f"  초기 자본금: ${self.bankroll:.2f}")
         print(f"  가상 슬리피지: {self.slippage_pct * 100}% 적용")
         print("=====================================\n")
 
     def load_whales(self):
-        """Active 고래 명단 로드"""
+        """Active 고래 명단 로드 (score 순 상위 50개 제한)"""
         if os.path.exists(self.db_file):
             try:
                 with open(self.db_file, "r", encoding="utf-8") as f:
                     db = json.load(f)
-                return {k: v for k, v in db.items() if v.get('status') == 'active'}
-            except:
+                actives = {k: v for k, v in db.items() if v.get('status') == 'active'}
+                sorted_whales = sorted(actives.items(), key=lambda x: x[1].get('score', 0), reverse=True)
+                return dict(sorted_whales[:30])
+            except Exception as e:
+                print(f"[WARN] whales.json 파싱 실패: {e}")
                 return {}
         return {}
 
@@ -161,15 +171,22 @@ class WhaleCopyBot:
                 tx_type = tx.get('type')
                 tx_side = tx.get('side')
 
-                # [Mirror Exit] 고래 SELL 감지 → 동반 청산
+                # [Mirror Exit] 고래 SELL 감지 → 같은 고래가 카피한 포지션만 동반 청산
                 if tx_type == 'TRADE' and tx_side == 'SELL':
                     cond_id = tx.get('conditionId') or ''
-                    tid = cond_id + str(tx.get('outcomeIndex', 0))
-                    if tid in self.positions:
-                        pos = self.positions.pop(tid)
-                        current_price = pos.get('current_price', pos['entry_price'])
-                        self._execute_early_exit(tid, pos, current_price, "MIRROR_EXIT")
-                        print(f"🔄 [MIRROR EXIT] {name} SELL 감지 → 동반 청산 완료")
+                    base_tid = cond_id + str(tx.get('outcomeIndex', 0))
+                    exited = False
+                    for pos_tid in list(self.positions.keys()):
+                        if pos_tid == base_tid or pos_tid.startswith(base_tid + "_"):
+                            pos = self.positions[pos_tid]
+                            if pos.get('whale_name') == name:
+                                self.positions.pop(pos_tid)
+                                current_price = pos.get('current_price', pos['entry_price'])
+                                self._execute_early_exit(pos_tid, pos, current_price, "MIRROR_EXIT")
+                                print(f"🔄 [MIRROR EXIT] {name} SELL 감지 → 동반 청산 완료 ({pos_tid})")
+                                exited = True
+                    if exited:
+                        self._save_state()
                     continue
 
                 # 매수(BUY)만 이하 처리
@@ -181,9 +198,18 @@ class WhaleCopyBot:
                 try:
                     if isinstance(timestamp_val, (int, float)):
                         tx_time = int(timestamp_val)
+                        # 밀리초 단위 감지 (1e12 초 = 서기 33658년 → 불가능, 밀리초임)
+                        if tx_time > 1_000_000_000_000:
+                            tx_time = tx_time // 1000
                     else:
                         api_time_str = str(timestamp_val).split('.')[0]
-                        tx_time = int(datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp())
+                        # 숫자형 문자열인 경우 (e.g. "1740743100")
+                        if api_time_str.isdigit():
+                            tx_time = int(api_time_str)
+                            if tx_time > 1_000_000_000_000:
+                                tx_time = tx_time // 1000
+                        else:
+                            tx_time = int(datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc).timestamp())
                 except Exception:
                     continue
 
@@ -198,14 +224,22 @@ class WhaleCopyBot:
                 whale_size = float(tx.get('size', 0))
                 slug = tx.get('slug')
 
-                # [Filter 3] 정산 직전 마켓 스킵 (가격 >= 0.95)
-                if whale_price >= 0.95:
+                # [Filter 3] 가격 범위 필터 (0.05 미만 = 5% 이하 확률 마켓 거부, 0.95 이상 = 정산 직전 마켓 거부)
+                # 이유: price 0.01 마켓에 진입 시 shares가 폭발적으로 늘어 페이퍼 PnL이 비현실적으로 커짐
+                if whale_price < 0.05 or whale_price >= 0.95:
+                    if whale_price < 0.05:
+                        print(f"🚫 [SKIP] 저확률 마켓 거부 (price={whale_price:.3f} < 0.05): {tx.get('title', '')[:40]}")
                     continue
 
                 # [Filter 4] MAX_POSITIONS 체크
                 if len(self.positions) >= self.MAX_POSITIONS:
                     print(f"🚫 [SKIP] 최대 포지션 한도 도달 ({self.MAX_POSITIONS}개)")
                     continue
+
+                # 동일 마켓 반감기를 위해 conditionId/outcomeIndex 사전 추출
+                # (고래 불문 동일 마켓 기존 포지션 수에 따라 베팅 반감기 적용)
+                _cid = tx.get('conditionId') or ''
+                _oidx = int(tx.get('outcomeIndex', 0))
 
                 # [Filter 5] Gamma API 마켓 상태 확인
                 target_market_url = f"https://gamma-api.polymarket.com/events?slug={slug}"
@@ -231,8 +265,8 @@ class WhaleCopyBot:
                             if not matched_tags:
                                 print(f"🚫 [SKIP] {name} 전공 외 픽 (마켓: {market_tags}, 전공: {list(whale_top_tags.keys())})")
                                 continue
-                except Exception:
-                    pass  # API 실패 시 필터 미적용(Fail Open)으로 진행
+                except Exception as e:
+                    print(f"[WARN] Gamma 마켓 필터 API 실패 ({name}): {e} → Fail Open으로 진행")
 
                 # 다이나믹 슬리피지
                 if whale_size >= 5000:
@@ -254,7 +288,22 @@ class WhaleCopyBot:
                 weight = max(0, min(score / 100.0, 1.0))
                 bet_size = base_bet_size * weight
 
+                # 동일 마켓 기존 포지션 수에 따라 베팅 반감기 적용
+                # (다른 고래가 같은 마켓을 독립적으로 픽할수록 확신도↑, 하지만 추가 리스크↑ → 베팅 절반씩 감소)
+                existing_in_market = sum(
+                    1 for pos in self.positions.values()
+                    if pos.get('conditionId') == _cid and pos.get('outcomeIndex') == _oidx
+                )
+                if existing_in_market > 0:
+                    bet_size = bet_size * (0.5 ** existing_in_market)
+                    print(f"📉 [HALVING] 동일 마켓 기존 포지션 {existing_in_market}개 → 베팅 ${bet_size:.2f} (반감기 적용)")
+
                 vwap_price = self.client.simulate_market_buy_vwap(token_id, bet_size)
+
+                # [Filter 6] VWAP 최소가격 체크 (VWAP < 0.05 → 시장 유동성 극히 낮음, shares 폭등 방지)
+                if vwap_price is not None and vwap_price < 0.05:
+                    print(f"🚫 [SKIP] VWAP 저유동성 거부 (vwap={vwap_price:.3f} < 0.05): {tx.get('title', '')[:40]}")
+                    vwap_price = None  # PENDING 전환 방지
 
                 if vwap_price is not None and vwap_price <= target_price:
                     print(f"\n⚡ [FAST EXECUTE] 🐋 {name} 픽, 즉시 매수!")
@@ -270,6 +319,7 @@ class WhaleCopyBot:
                     self.pending_orders.append({
                         "tx": tx,
                         "whale_name": name,
+                        "whale_addr": addr,
                         "score": score,
                         "whale_price": whale_price,
                         "target_price": target_price,
@@ -278,7 +328,7 @@ class WhaleCopyBot:
                     })
 
         except Exception as e:
-            pass
+            print(f"[WARN] {name} 고래 활동 조회 중 예외 발생: {e}")
 
     def _get_gamma_price(self, slug, conditionId, outcomeIndex):
         url = f"https://gamma-api.polymarket.com/events?slug={slug}"
@@ -294,18 +344,25 @@ class WhaleCopyBot:
                         except: pass
                     if isinstance(prices, list) and len(prices) > outcomeIndex:
                         return float(prices[outcomeIndex])
-        except:
-            pass
+        except Exception as e:
+            print(f"[WARN] _get_gamma_price 실패 ({slug}): {e}")
         return None
 
     def _process_pending_orders(self):
         if not self.pending_orders:
             return
-            
+
         now = int(time.time())
         active_orders = []
-        
+        active_whale_addrs = set(self.load_whales().keys())
+
         for order in self.pending_orders:
+            # 고래가 비활성화된 경우 즉시 취소
+            whale_addr = order.get('whale_addr', '')
+            if whale_addr and whale_addr not in active_whale_addrs:
+                print(f"🚫 [CANCELLED] {order['whale_name']} 비활성화 → 대기 주문 취소 (목표가 ${order['target_price']:.3f})")
+                continue
+
             if now > order['expires_at']:
                 print(f"⏰ [EXPIRED] {order['whale_name']} 픽 체결 실패 (시장가가 목표가 ${order['target_price']:.3f} 이내로 오지 않음)")
                 continue
@@ -317,6 +374,10 @@ class WhaleCopyBot:
             # 큐에서도 호가창 긁어서 (VWAP) 바로 체결각 재기
             vwap_price = self.client.simulate_market_buy_vwap(token_id, bet_size)
             
+            if vwap_price is not None and vwap_price < 0.05:
+                print(f"🚫 [CANCELLED] PENDING VWAP 저유동성 ({vwap_price:.3f} < 0.05) → 주문 취소")
+                continue
+
             if vwap_price is not None and vwap_price <= order['target_price']:
                 print(f"✅ [PENDING Filled] 🐋 {order['whale_name']} 픽 체결! (VWAP: ${vwap_price:.3f} <= ${order['target_price']:.3f})")
                 self._execute_copy_trade(tx, order['whale_name'], order['score'], vwap_price)
@@ -340,18 +401,20 @@ class WhaleCopyBot:
             
         shares = bet_size / executed_price
         
-        # 포지션에 기록
+        # 포지션에 기록 (같은 마켓이라도 다른 고래 시그널이면 중복 진입 허용)
         cond_id = tx.get('conditionId') or ''
-        tid = cond_id + str(tx.get('outcomeIndex', 0))  # Unique Key
-        
-        if tid in self.positions:
-            print(f"🚫 이미 카피 중인 포지션입니다: {tx.get('title')}")
-            return
+        base_tid = cond_id + str(tx.get('outcomeIndex', 0))
+        tid = base_tid
+        counter = 1
+        while tid in self.positions:
+            tid = f"{base_tid}_{counter}"
+            counter += 1
             
         slug = tx.get('slug')
         
-        # 로그 및 State 반영
-        self.bankroll -= bet_size
+        # 로그 및 State 반영 (Taker fee 2% 반영)
+        taker_fee = bet_size * 0.02
+        self.bankroll -= (bet_size + taker_fee)
         self.stats['total_bets'] += 1
         
         self.positions[tid] = {
@@ -365,6 +428,7 @@ class WhaleCopyBot:
             'shares': shares,
             'conditionId': tx.get('conditionId'),
             'marketId': tx.get('marketId'), # if exists
+            'token_id': tx.get('asset'),    # 청산 시 bid 오더북 조회용
             'slug': slug,
             'timestamp': int(time.time()),
             'current_price': executed_price,
@@ -379,6 +443,7 @@ class WhaleCopyBot:
         
         # 호환성 위해 Trade Log 기록 (strategy 이름으로 분리)
         self._log_trade(tid, "WHL", "YES", tx.get('title'), executed_price, bet_size, "OPEN", tx.get('marketId'))
+        self._save_state()  # 포지션 진입 즉시 저장
 
     def _settle_positions(self):
         """진행 중인 포지션의 현재가 조회 및 Hybrid Exit 청산 판단"""
@@ -391,12 +456,22 @@ class WhaleCopyBot:
             try:
                 r = self.session.get(url, timeout=5)
                 events = r.json()
+                if not events:
+                    # slug 없거나 이미 삭제된 이벤트 → 타임아웃 기반 청산 폴백
+                    held_seconds = int(time.time()) - pos.get('timestamp', int(time.time()))
+                    if held_seconds > 259200:
+                        self._execute_early_exit(tid, pos, pos['entry_price'] * 0.5, "TIMEOUT")
+                        to_remove.append(tid)
+                    continue
+                market_found = False
                 for m in events[0].get('markets', []):
                     if m.get('conditionId') != cond_id:
                         continue
+                    market_found = True
 
                     closed = m.get('closed', False)
                     winner = self.client.get_market_winner(m.get('id', ''))
+                    self._log_settle_debug(pos, m, winner, closed)
 
                     # [우선순위 1] 마켓 자연 정산
                     if winner not in ['WAITING', None] or closed:
@@ -425,10 +500,15 @@ class WhaleCopyBot:
                                 # 고점 갱신 (트레일링 스탑용)
                                 if current_price > pos.get('peak_price', pos['entry_price']):
                                     pos['peak_price'] = current_price
-                    except:
-                        pass
+                    except Exception as e:
+                        print(f"[WARN] 현재가 파싱 실패 ({pos.get('title', '')}): {e}")
 
                     if current_price is None:
+                        # current_price 없어도 타임아웃은 실행 (죽은 포지션 강제 청산)
+                        held_seconds = int(time.time()) - pos.get('timestamp', int(time.time()))
+                        if held_seconds > 259200:
+                            self._execute_early_exit(tid, pos, pos['entry_price'] * 0.5, "TIMEOUT")
+                            to_remove.append(tid)
                         break
 
                     roi = (current_price - pos['entry_price']) / pos['entry_price']
@@ -462,17 +542,42 @@ class WhaleCopyBot:
 
                     break  # conditionId 매칭 마켓 처리 완료
 
-            except:
-                pass
+                # conditionId 매칭 마켓이 이벤트에 없는 경우 → 타임아웃 폴백
+                if not market_found:
+                    held_seconds = int(time.time()) - pos.get('timestamp', int(time.time()))
+                    if held_seconds > 259200:
+                        self._execute_early_exit(tid, pos, pos['entry_price'] * 0.5, "TIMEOUT")
+                        to_remove.append(tid)
+
+            except Exception as e:
+                print(f"[WARN] 포지션 정산 처리 실패 ({pos.get('title', tid)}): {e}")
 
         for tid in to_remove:
             self.positions.pop(tid, None)
+        if to_remove:
+            self._save_state()  # 청산 후 즉시 저장
 
     def _execute_early_exit(self, tid, pos, current_price, reason):
         """TP / SL / Trailing Stop / Timeout 조기 청산"""
-        sell_slippage = 0.02  # 매도 슬리피지 2%
-        effective_sell_price = current_price * (1 - sell_slippage)
-        payout = pos['shares'] * effective_sell_price
+        token_id = pos.get('token_id')
+        payout = None
+
+        # 실제 bid 오더북 기반 VWAP 청산 시뮬레이션
+        if token_id:
+            sell_result = self.client.simulate_market_sell_vwap(token_id, pos['shares'])
+            if sell_result is not None:
+                payout, effective_sell_price = sell_result
+                print(f"  [SELL VWAP] bid오더북 기반 체결가: ${effective_sell_price:.4f} (보유 {pos['shares']:.1f}shares → ${payout:.2f})")
+
+        # fallback: 오더북 조회 실패 시 고정 슬리피지 2%
+        if payout is None:
+            effective_sell_price = current_price * 0.98
+            payout = pos['shares'] * effective_sell_price
+
+        # Taker fee 2% 차감 (조기 청산은 시장가 매도)
+        taker_fee = payout * 0.02
+        payout -= taker_fee
+
         profit = payout - pos['size_usdc']
         roi_pct = profit / pos['size_usdc'] * 100
 
@@ -531,6 +636,66 @@ class WhaleCopyBot:
         with open(self.trade_log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
+    def _log_settle_debug(self, pos, market_data, winner, closed):
+        """정산 시도마다 winner/closed/raw 필드를 파일로 기록 (분석용)"""
+        record = {
+            "ts": datetime.now().isoformat()[:19],
+            "title": (pos.get('title') or '')[:50],
+            "winner": winner,
+            "closed": closed,
+            "market_id": market_data.get('id', ''),
+            "conditionId": market_data.get('conditionId', ''),
+            "outcomePrices": market_data.get('outcomePrices'),
+            "winnerOutcome": market_data.get('winnerOutcome'),
+            "resolved": market_data.get('resolved'),
+            "pos_outcome": pos.get('outcome'),
+        }
+        path = os.path.join(os.path.dirname(__file__), "settle_debug.jsonl")
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+    def _save_state(self):
+        """positions, bankroll, stats, seen_txs를 JSON 파일로 영속화"""
+        try:
+            # seen_txs는 최근 2000개만 보존 (메모리 & 파일 크기 제한)
+            recent_txs = list(self.seen_txs)[-2000:]
+            state = {
+                'positions': self.positions,
+                'bankroll': self.bankroll,
+                'peak_bankroll': self.peak_bankroll,
+                'stats': self.stats,
+                'seen_txs': recent_txs,
+            }
+            tmp_path = self.state_file_path + '.tmp'
+            with open(tmp_path, 'w', encoding='utf-8') as f:
+                json.dump(state, f, ensure_ascii=False, indent=2)
+            # 원자적 교체 (Windows에서는 기존 파일 먼저 삭제 필요)
+            if os.path.exists(self.state_file_path):
+                os.remove(self.state_file_path)
+            os.rename(tmp_path, self.state_file_path)
+        except Exception as e:
+            print(f"[WARN] 상태 저장 실패: {e}")
+
+    def _load_state(self):
+        """이전 세션의 상태를 state_WhaleCopy.json에서 복구"""
+        if not os.path.exists(self.state_file_path):
+            return
+        try:
+            with open(self.state_file_path, 'r', encoding='utf-8') as f:
+                state = json.load(f)
+            self.positions = state.get('positions', {})
+            self.bankroll = state.get('bankroll', self.bankroll)
+            self.peak_bankroll = state.get('peak_bankroll', self.peak_bankroll)
+            self.stats = state.get('stats', self.stats)
+            self.seen_txs = set(state.get('seen_txs', []))
+            settled = self.stats['wins'] + self.stats['losses']
+            print(f"[STATE] 이전 세션 복구 완료:")
+            print(f"  포지션: {len(self.positions)}개 | 자본금: ${self.bankroll:.2f}")
+            print(f"  통계: {settled}건 (W{self.stats['wins']}/L{self.stats['losses']}) | PnL: ${self.stats['total_pnl']:+.2f}")
+            print(f"  seen_txs: {len(self.seen_txs)}건 복구")
+        except Exception as e:
+            print(f"[WARN] 상태 복구 실패 (초기값 사용): {e}")
+
     def _update_dashboard(self):
         settled = self.stats['wins'] + self.stats['losses']
         win_rate = (self.stats['wins'] / settled * 100) if settled > 0 else 0.0
@@ -551,6 +716,9 @@ class WhaleCopyBot:
         }
         with open(self.status_file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False)
+
+        # 상태 영속화 (대시보드 업데이트마다 함께 저장)
+        self._save_state()
 
 if __name__ == '__main__':
     bot = WhaleCopyBot()

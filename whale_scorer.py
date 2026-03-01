@@ -71,10 +71,19 @@ class WhaleScorer:
                 timestamp_val = t.get('timestamp')
                 try:
                     if isinstance(timestamp_val, (int, float)):
-                        tx_time = datetime.fromtimestamp(int(timestamp_val), timezone.utc)
+                        ts_int = int(timestamp_val)
+                        if ts_int > 1_000_000_000_000:
+                            ts_int = ts_int // 1000
+                        tx_time = datetime.fromtimestamp(ts_int, timezone.utc)
                     else:
                         api_time_str = str(timestamp_val).split('.')[0]
-                        tx_time = datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+                        if api_time_str.isdigit():
+                            ts_int = int(api_time_str)
+                            if ts_int > 1_000_000_000_000:
+                                ts_int = ts_int // 1000
+                            tx_time = datetime.fromtimestamp(ts_int, timezone.utc)
+                        else:
+                            tx_time = datetime.strptime(api_time_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
                 except Exception:
                     continue
 

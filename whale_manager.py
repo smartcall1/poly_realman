@@ -11,7 +11,7 @@ DB_FILE = "whales.json"
 
 # 백테스팅 설정값
 SLIPPAGE_PCT = 0.03   # 3% 슬리피지 가정
-MIN_WIN_RATE = 65.0   # 최소 65% 이상의 승률 요구
+MIN_WIN_RATE = 75.0   # 최소 75% 이상의 승률 요구
 MIN_ROI = 0.5         # 최소 0.5% 이상의 '슬리피지 후' 가상 ROI 요구
 MIN_TRADES = 10       # 최소 10건 이상의 거래 내역이 있어야 함
 
@@ -176,8 +176,8 @@ def run_manager():
                 info['win_rate'] = win_rate
                 
     # 2. Discovery: 리더보드에서 새로운 고래 발굴
-    print("\n--- 2. Discovering New Whales (Top 500 Pagination) ---")
-    candidates = fetch_top_leaderboard(session, limit=500)
+    print("\n--- 2. Discovering New Whales (Top 300 Pagination) ---")
+    candidates = fetch_top_leaderboard(session, limit=300)
     print(f"✅ Fetched {len(candidates)} candidates from Leaderboard.")
     
     new_found = 0

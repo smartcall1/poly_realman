@@ -23,6 +23,9 @@ class Config:
     # === 기본 운영 설정 ===
     INITIAL_BANKROLL = float(os.getenv("INITIAL_BANKROLL", "4000.0"))  # 시작 뱅크롤
 
+    # === 고래봇 설정 ===
+    MAX_POSITIONS = int(os.getenv("MAX_POSITIONS", "30"))  # 동시 보유 최대 포지션 수
+
     # === 시스템 ===
     PAPER_TRADING = os.getenv("PAPER_TRADING", "True").lower() == "true"
     DEBUG_MODE = os.getenv("DEBUG_MODE", "True").lower() == "true"

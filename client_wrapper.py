@@ -198,6 +198,66 @@ class PolymarketClient:
             print(f"[Error] VWAP calculation failed: {e}")
             return None
 
+    def simulate_market_sell_vwap(self, token_id: str, shares_to_sell: float):
+        """
+        보유한 shares를 시장가로 매도했을 때 실제 수령 USDC와 평균 체결가(VWAP) 반환.
+        bid-side 오더북 기반으로 실제 유동성 반영.
+
+        Returns:
+            (total_usdc_received, vwap_price) 튜플, 또는 None (오더북 조회 실패)
+        """
+        try:
+            orderbook = self.get_order_book(token_id)
+            if not orderbook or 'bids' not in orderbook:
+                return None
+
+            bids = orderbook['bids']
+            if not bids:
+                return None
+
+            # 가격 내림차순 정렬 (비싼 bid부터 체결)
+            bids.sort(key=lambda x: float(x['price']), reverse=True)
+
+            remaining_shares = shares_to_sell
+            total_usdc_received = 0.0
+            total_shares_sold = 0.0
+
+            for bid in bids:
+                price = float(bid['price'])
+                size_shares = float(bid['size'])
+
+                if remaining_shares >= size_shares:
+                    # 이 bid 물량 전부 소화
+                    total_usdc_received += price * size_shares
+                    total_shares_sold += size_shares
+                    remaining_shares -= size_shares
+                else:
+                    # 마지막 bid에서 일부만 체결
+                    total_usdc_received += price * remaining_shares
+                    total_shares_sold += remaining_shares
+                    remaining_shares = 0
+                    break
+
+                if remaining_shares <= 0:
+                    break
+
+            if total_shares_sold <= 0:
+                return None
+
+            # 유동성 부족: 팔 수 없는 shares는 최저 bid 가격으로 강제 체결
+            if remaining_shares > 0.01:
+                lowest_bid_price = float(bids[-1]['price']) if bids else 0.0
+                total_usdc_received += lowest_bid_price * remaining_shares
+                total_shares_sold += remaining_shares
+                print(f"[Warning] bid 유동성 부족 — 잔여 {remaining_shares:.1f}shares를 최저가 ${lowest_bid_price:.4f}에 강제 체결")
+
+            vwap = total_usdc_received / total_shares_sold
+            return (round(total_usdc_received, 4), round(vwap, 4))
+
+        except Exception as e:
+            print(f"[Error] simulate_market_sell_vwap failed: {e}")
+            return None
+
     def get_market_winner(self, market_id: str) -> str:
         """
         Gamma API를 통해 마켓의 승자(Winner) 조회.

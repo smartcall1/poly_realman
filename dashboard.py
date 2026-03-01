@@ -142,35 +142,63 @@ def run_dashboard():
         print(f"{'TOTAL PROFIT':<10}|{format_currency(total_global_pnl, 8)}|Act:{total_active_bets}|Exp:{total_exposure:>.0f}")
         print("=" * 55)
         
-        # --- Active Whales Section ---
+        # --- Active Whales Section (숫자만 표시) ---
         whales_path = os.path.join(base_dir, 'whales.json')
-        active_whales = []
+        active_whale_count = 0
         try:
             if os.path.exists(whales_path):
                 with open(whales_path, 'r', encoding='utf-8') as f:
                     content = f.read().strip()
                     if content:
                         whales_data = json.loads(content)
-                        for addr, info in whales_data.items():
-                            if info.get('status') == 'active':
-                                active_whales.append({
-                                    'address': addr,
-                                    'name': info.get('name', 'Unknown'),
-                                    'win_rate': info.get('win_rate', 0.0),
-                                    'roi': info.get('roi', 0.0)
-                                })
+                        # score 순 상위 30마리만 카운트 (실제 트래킹 수와 동일하게)
+                        actives = sorted(
+                            [(k, v) for k, v in whales_data.items() if v.get('status') == 'active'],
+                            key=lambda x: x[1].get('score', 0), reverse=True
+                        )
+                        active_whale_count = min(len(actives), 30)
         except Exception:
             pass
 
-        if active_whales:
-            print(f"\n🐳 [ACTIVE WHALES: {len(active_whales)}]")
+        print(f"\n🐳 [ACTIVE WHALES: {active_whale_count}]")
+
+        # --- Recent Trades Section ---
+        trade_log_path = os.path.join(base_dir, 'trade_history.jsonl')
+        recent_trades = []
+        try:
+            if os.path.exists(trade_log_path):
+                with open(trade_log_path, 'r', encoding='utf-8') as f:
+                    lines = f.readlines()
+                for line in reversed(lines[-50:]):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        t = json.loads(line)
+                        recent_trades.append(t)
+                        if len(recent_trades) >= 8:
+                            break
+                    except Exception:
+                        continue
+        except Exception:
+            pass
+
+        if recent_trades:
             print("-" * 55)
-            print(f"{'Name':<12}|{'Win%':>5}|{'ROI%':>6}|{'Addr'}")
+            print(f"{'Time':<8}|{'Act':<5}|{'Side':<6}|{'$':>6}|{'PnL':>7}|{'Mkt'}")
             print("-" * 55)
-            for w in sorted(active_whales, key=lambda x: x['roi'], reverse=True):
-                n = w['name'] if len(w['name']) <= 12 else w['name'][:10] + '..'
-                print(f"{n:<12}|{w['win_rate']:>4.0f}%|{w['roi']:>5.1f}%|{w['address'][:4]}..{w['address'][-3:]}")
-            print("=" * 55)
+            for t in recent_trades:
+                ts = t.get('timestamp', '')[11:16]  # HH:MM (ISO 포맷 기준)
+                action = t.get('action', '')[:5]
+                side = t.get('side', '')[:6]
+                size = t.get('size_usdc', 0)
+                pnl = t.get('pnl', 0)
+                question = t.get('question', '')
+                # 마켓 이름 축약: 앞 15자
+                mkt = question[:14] + '..' if len(question) > 14 else question
+                pnl_str = f"+{pnl:.1f}" if pnl > 0 else f"{pnl:.1f}"
+                print(f"{ts:<8}|{action:<5}|{side:<6}|{size:>5.0f}|{pnl_str:>7}|{mkt}")
+        print("=" * 55)
 
         print("\n [Tip] Auto-refresh every 2s (Real-time syncing)")
         
